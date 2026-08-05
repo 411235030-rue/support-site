@@ -229,8 +229,25 @@ button {
 
 .service-row {
     min-height: 150px;
+    position: relative;
     display: grid;
     align-items: center;
+}
+
+.service-row::after {
+    content: "";
+    position: absolute;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    height: 1px;
+    background: var(--deep-brown);
+    transform: translateX(-50%);
+}
+
+.service-row:last-child::after {
+    height: 2px;
 }
 
 .service-row-two {
