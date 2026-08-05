@@ -1,128 +1,71 @@
 @page "/"
 
-<PageTitle>Support Site｜應援網站</PageTitle>
+<PageTitle>Support with Love</PageTitle>
 
-<header class="site-header">
-    <a class="brand" href="#top" aria-label="回到首頁">
+<header class="site-header" id="top">
+    <a class="brand" href="#top">
         <span class="brand-mark">S</span>
-        <span>
-            <strong>Support</strong>
-            <small>with all our love</small>
-        </span>
+        <span>Support<br />with Love</span>
     </a>
 
-    <nav class="main-nav" aria-label="主要導覽">
-        <a href="#story">Story</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#service">Service</a>
+    <nav class="main-nav" aria-label="main navigation">
+        <a href="#top">Lena</a>
+        <a href="#top">Miu</a>
+        <a href="#top">Gumber bear</a>
     </nav>
 
-    <a class="header-cta" href="#service">一起應援</a>
+    <button class="menu-button" type="button" aria-label="menu"></button>
 </header>
 
-<main id="top">
-    <section class="hero section-wrap" id="story">
-        <div class="hero-copy">
-            <p class="eyebrow">A LITTLE PLACE FOR OUR FAVORITE STAR</p>
-            <h1>把喜歡，<br /><em>好好收藏。</em></h1>
-            <p class="hero-description">
-                這裡將放上人物介紹與應援故事。現在先保留一片舒服的空白，
-                等你準備好內容，我們再一起讓它慢慢完整。
-            </p>
-            <div class="hero-actions">
-                <a class="button button-primary" href="#gallery">看看收藏</a>
-                <a class="text-link" href="#service">認識更多 <span aria-hidden="true">↗</span></a>
+<main>
+    <section class="hero section-wrap">
+        <div class="hero-content">
+            <h1>text1</h1>
+            <p>text2</p>
+            <div class="hero-buttons">
+                <button type="button">button1</button>
+                <button type="button">button2</button>
             </div>
         </div>
-
-        <div class="hero-visual" aria-label="主視覺圖片預留區">
-            <span class="sparkle sparkle-one">✦</span>
-            <span class="sparkle sparkle-two">✧</span>
-            <div class="portrait-placeholder">
-                <div class="portrait-head"></div>
-                <div class="portrait-body"></div>
-                <span>MAIN VISUAL</span>
-            </div>
-            <div class="floating-note">
-                <span>01</span>
-                <p>你的主角<br />之後會在這裡</p>
-            </div>
-        </div>
+        <div class="image-box hero-image">圖1</div>
     </section>
 
-    <section class="intro-strip" aria-label="簡短介紹">
-        <div class="section-wrap strip-content">
-            <span class="strip-number">01</span>
-            <p>一個為喜歡而誕生的小小空間</p>
-            <span class="strip-line"></span>
-            <p class="strip-note">Simple · Warm · Yours</p>
-        </div>
+    <section class="gallery section-wrap" aria-label="gallery">
+        <div class="image-box gallery-image image-two">圖2</div>
+        <div class="image-box gallery-image image-three">圖3</div>
+        <div class="image-box gallery-image image-four">圖4</div>
+        <div class="image-box gallery-image image-five">圖5</div>
     </section>
 
-    <section class="gallery-section section-wrap" id="gallery">
-        <div class="section-heading">
-            <div>
-                <p class="eyebrow">OUR FAVORITE MOMENTS</p>
-                <h2>收藏每一個<br /><em>閃閃發亮的時刻</em></h2>
+    <section class="service" id="service">
+        <h2>Service</h2>
+
+        <div class="service-row section-wrap service-row-two">
+            <div class="service-item">
+                <div class="image-box small-image">圖6</div>
+                <p>text3</p>
             </div>
-            <p>照片與內容都可以稍後加入，卡片會自動配合手機與電腦尺寸排列。</p>
+            <div class="service-item">
+                <div class="image-box small-image">圖7</div>
+                <p>text4</p>
+            </div>
         </div>
 
-        <div class="card-grid">
-            @foreach (var card in Cards)
-            {
-                <article class="moment-card">
-                    <div class="card-art card-art-@card.Number">
-                        <span class="card-tag">@card.Tag</span>
-                        <div class="mini-portrait" aria-hidden="true">
-                            <span></span>
-                        </div>
-                    </div>
-                    <div class="card-copy">
-                        <span>@card.Number</span>
-                        <div>
-                            <h3>@card.Title</h3>
-                            <p>@card.Description</p>
-                        </div>
-                    </div>
-                </article>
-            }
+        <div class="service-row section-wrap service-row-one">
+            <div class="service-item">
+                <div class="image-box small-image">圖8</div>
+                <p>text5</p>
+            </div>
         </div>
-    </section>
 
-    <section class="service-section" id="service">
-        <div class="section-wrap">
-            <div class="service-title">
-                <p class="eyebrow">STAY CLOSE, STAY TOGETHER</p>
-                <h2>Service</h2>
+        <div class="service-row section-wrap service-row-two">
+            <div class="service-item">
+                <div class="image-box small-image">圖9</div>
+                <p>text6</p>
             </div>
-
-            <div class="service-grid">
-                <article class="service-item">
-                    <span class="service-icon" aria-hidden="true">♡</span>
-                    <div>
-                        <h3>人物介紹</h3>
-                        <p>放入簡介、代表色與重要資訊。</p>
-                    </div>
-                    <span class="service-arrow" aria-hidden="true">↗</span>
-                </article>
-                <article class="service-item">
-                    <span class="service-icon" aria-hidden="true">✦</span>
-                    <div>
-                        <h3>活動紀錄</h3>
-                        <p>收藏每一次值得記住的活動。</p>
-                    </div>
-                    <span class="service-arrow" aria-hidden="true">↗</span>
-                </article>
-            </div>
-
-            <div class="coming-soon">
-                <span class="coming-number">02</span>
-                <div>
-                    <p class="eyebrow">MORE TO COME</p>
-                    <h2>內容保留中，<em>期待與你一起完成。</em></h2>
-                </div>
-                <a class="button button-light" href="#top">回到上方</a>
+            <div class="service-item">
+                <div class="image-box small-image">圖10</div>
+                <p>text7</p>
             </div>
         </div>
     </section>
@@ -131,20 +74,8 @@
 <footer class="site-footer">
     <div class="footer-brand">
         <span class="brand-mark">S</span>
-        <strong>Support Site</strong>
+        <span>Support site</span>
     </div>
-    <p>Made with love · 內容與連結將於之後加入</p>
-    <a href="#top">TOP ↑</a>
+    <p>Made in Line</p>
+    <a href="#top">Top ↑</a>
 </footer>
-
-@code {
-    private static readonly MomentCard[] Cards =
-    [
-        new("01", "MEMORY", "第一個收藏", "照片與短句預留位置"),
-        new("02", "STORY", "喜歡的故事", "人物故事預留位置"),
-        new("03", "MOMENT", "重要的時刻", "活動紀錄預留位置"),
-        new("04", "SPECIAL", "特別收藏", "自由內容預留位置")
-    ];
-
-    private sealed record MomentCard(string Number, string Tag, string Title, string Description);
-}
