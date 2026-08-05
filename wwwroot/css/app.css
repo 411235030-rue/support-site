@@ -352,7 +352,7 @@ button {
 
 .profile-links > div {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 12px;
 }
 
@@ -362,11 +362,6 @@ button {
     background: var(--white);
     color: var(--deep-brown);
     text-align: center;
-}
-
-.profile-links a:last-child {
-    background: var(--deep-brown);
-    color: var(--pastel-pink);
 }
 
 @media (max-width: 800px) {
@@ -426,6 +421,10 @@ button {
     .profile-links {
         grid-template-columns: 1fr;
         text-align: center;
+    }
+
+    .profile-links > div {
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .site-header {
