@@ -46,20 +46,31 @@
     <section class="service" id="service">
         <h2>Service</h2>
 
-        <div class="service-grid section-wrap">
+        <div class="service-row section-wrap service-row-two">
             <div class="service-item">
+                <img class="small-image" src="images/service-schedule.png" alt="" />
                 <p>@(isEnglish ? "Upcoming Events" : "近期行程")</p>
             </div>
             <div class="service-item">
+                <img class="small-image" src="images/service-materials.png" alt="" />
                 <p>@(isEnglish ? "Materials" : "物料總覽")</p>
             </div>
+        </div>
+
+        <div class="service-row section-wrap service-row-one">
             <div class="service-item">
+                <img class="small-image" src="images/service-interviews.png" alt="" />
                 <p>@(isEnglish ? "Interviews" : "採訪整理")</p>
             </div>
+        </div>
+
+        <div class="service-row section-wrap service-row-two">
             <div class="service-item">
+                <img class="small-image" src="images/service-fanfiction.png" alt="" />
                 <p>@(isEnglish ? "Fanfiction Collection" : "同人文合集")</p>
             </div>
             <div class="service-item">
+                <img class="small-image" src="images/service-live-videos.png" alt="" />
                 <p>@(isEnglish ? "Live Videos" : "直播影片")</p>
             </div>
         </div>
@@ -88,4 +99,5 @@
         isEnglish = !isEnglish;
         Navigation.NavigateTo(isEnglish ? "./?lang=en" : "./", replace: true);
     }
+
 }
