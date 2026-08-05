@@ -108,7 +108,7 @@
                 <div class="year-card-grid">
                     <button type="button" class="year-card year-card-muted" @onclick="() => SelectedMaterialYear = 2025">
                         <span>2025</span>
-                        <small>@(IsEnglish ? "March — December" : "3 月—12 月")</small>
+                        <small>@(IsEnglish ? "February — December" : "2 月—12 月")</small>
                         <i aria-hidden="true">↗</i>
                     </button>
                     <button type="button" class="year-card" @onclick="() => SelectedMaterialYear = 2026">
@@ -191,6 +191,28 @@
                                                         @if (!string.IsNullOrWhiteSpace(MaterialEventNote(item)))
                                                         {
                                                             <small>@MaterialEventNote(item)</small>
+                                                        }
+                                                        @if (item.Links is not null && item.Links.Length > 0)
+                                                        {
+                                                            <span class="material-source-links">
+                                                                <span>@(IsEnglish ? "Fan photos" : "相關飯拍")</span>
+                                                                @foreach (var link in item.Links)
+                                                                {
+                                                                    <a href="@link.Url" target="_blank" rel="noopener noreferrer" @onclick:stopPropagation="true">
+                                                                        @(IsEnglish ? link.LabelEn : link.LabelZh) ↗
+                                                                    </a>
+                                                                }
+                                                            </span>
+                                                        }
+                                                        @if (item.Tags is not null && item.Tags.Length > 0)
+                                                        {
+                                                            <span class="material-tag-links">
+                                                                <span>Tags</span>
+                                                                @foreach (var tag in item.Tags)
+                                                                {
+                                                                    <a href="@XTagHref(tag)" target="_blank" rel="noopener noreferrer" @onclick:stopPropagation="true">@tag</a>
+                                                                }
+                                                            </span>
                                                         }
                                                     </span>
                                                 }
@@ -306,7 +328,7 @@
     private int? SelectedInterviewYear { get; set; }
     private int? SelectedInterviewMonth { get; set; }
     private IEnumerable<int> MaterialMonths => SelectedMaterialYear == 2025
-        ? [3, 4, 5, 6, 8, 9, 10, 11, 12]
+        ? [2, 3, 4, 5, 6, 8, 9, 10, 11, 12]
         : Enumerable.Range(1, 7);
 
     private string[] Weekdays => IsEnglish
@@ -373,9 +395,20 @@
 
     private string MaterialEventTitle(MaterialEvent item) => IsEnglish ? item.TitleEn : item.TitleZh;
     private string MaterialEventNote(MaterialEvent item) => IsEnglish ? item.NoteEn : item.NoteZh;
+    private static string XTagHref(string tag) => $"https://x.com/hashtag/{Uri.EscapeDataString(tag.TrimStart('#'))}";
 
     private static IReadOnlyList<MaterialEvent> MaterialEvents =>
     [
+        new(2025, 2, 5, "MIU", "CHANEL COCO CRUSH 活動", "CHANEL COCO CRUSH Event", "11:30 AM", "Hall of Fame, Siam Paragon", "5 組粉絲飯拍與活動標籤", "Five fan photo posts and event tags", ["public", "notice"],
+            ["#MiuNatshaXChanel", "#CocoCrush", "#หมิวณัชชา", "#MiuNatsha"],
+            [
+                new("飯拍 01", "Fan photos 01", "https://x.com/GasChill/status/1887099402613043434?s=20"),
+                new("飯拍 02", "Fan photos 02", "https://x.com/_No_Name0_0_0/status/1887065933908468129?s=20"),
+                new("飯拍 03", "Fan photos 03", "https://x.com/siiwa313/status/1887032482618540370?s=20"),
+                new("飯拍 04", "Fan photos 04", "https://x.com/SapphicGardenTH/status/1887008021957763261?s=20"),
+                new("飯拍 05", "Fan photos 05", "https://x.com/SapphicGardenTH/status/1887009268756599195?s=20")
+            ]),
+
         new(2025, 3, 13, "LENAMIU", "DERMAFORA 發表活動", "DERMAFORA Launch Event", "09:00 AM", "The Gardens of Dinsor Palace", "可於活動周邊應援，但不可跟隨藝人", "Fans may support around the venue, but may not follow the artists", ["public", "private"]),
         new(2025, 3, 29, "LENAMIU", "Channel 3 55 週年慶典：New Energy", "55th Anniversary Channel 3 Festival: New Energy", "", "Suphachalasai Stadium", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
         new(2025, 3, 30, "LENAMIU", "Mitsu Heavy Duty 活動", "Mitsu Heavy Duty Event", "04:00 PM", "Parc Paragon", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
@@ -492,7 +525,11 @@
         string Venue,
         string NoteZh,
         string NoteEn,
-        string[] Statuses);
+        string[] Statuses,
+        string[]? Tags = null,
+        MaterialLink[]? Links = null);
+
+    private sealed record MaterialLink(string LabelZh, string LabelEn, string Url);
 
     private sealed record InterviewItem(
         int Year,
