@@ -658,7 +658,7 @@ button.year-card:focus-visible {
     background: color-mix(in srgb, var(--pastel-pink) 38%, var(--white));
 }
 
-.month-calendar:last-child {
+.month-calendar-grid.has-odd .month-calendar:last-child {
     grid-column: 1 / -1;
     width: calc(50% - 18px);
     justify-self: center;
@@ -709,6 +709,49 @@ button.year-card:focus-visible {
     min-height: 24px;
     display: grid;
     place-items: center;
+}
+
+.material-poster-grid {
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+}
+
+.material-poster-grid.has-multiple {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.material-poster {
+    width: min(100%, 360px);
+    display: grid;
+    gap: 10px;
+    color: var(--deep-brown);
+    font-family: "Noto Serif TC", serif;
+    font-size: 12px;
+}
+
+.material-poster img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    display: block;
+    border: 0;
+    object-fit: cover;
+    object-position: center 46%;
+    transition: filter 180ms ease, transform 180ms ease;
+}
+
+.material-poster span {
+    width: fit-content;
+    border-bottom: 1px solid currentColor;
+}
+
+.material-poster:hover img,
+.material-poster:focus-visible img {
+    filter: saturate(.9) brightness(.96);
+    transform: translateY(-3px);
 }
 
 .small-image {
@@ -1073,9 +1116,13 @@ button.year-card:focus-visible {
         grid-template-columns: 1fr;
     }
 
-    .month-calendar:last-child {
+    .month-calendar-grid.has-odd .month-calendar:last-child {
         grid-column: auto;
         width: 100%;
+    }
+
+    .material-poster-grid.has-multiple {
+        grid-template-columns: 1fr;
     }
 }
 

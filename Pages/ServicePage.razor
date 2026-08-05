@@ -106,9 +106,11 @@
                 </div>
 
                 <div class="year-card-grid">
-                    <article class="year-card year-card-muted">
+                    <button type="button" class="year-card year-card-muted" @onclick="() => SelectedMaterialYear = 2025">
                         <span>2025</span>
-                    </article>
+                        <small>@(IsEnglish ? "August · December" : "8 月・12 月")</small>
+                        <i aria-hidden="true">↗</i>
+                    </button>
                     <button type="button" class="year-card" @onclick="() => SelectedMaterialYear = 2026">
                         <span>2026</span>
                         <small>@(IsEnglish ? "January — July" : "1 月—7 月")</small>
@@ -124,15 +126,17 @@
                     </button>
                     <div>
                         <p>@(IsEnglish ? "Materials archive" : "物料總覽")</p>
-                        <h1 id="materials-title">2026</h1>
+                        <h1 id="materials-title">@SelectedMaterialYear</h1>
                     </div>
                 </div>
 
-                <div class="month-calendar-grid">
+                <div class="month-calendar-grid @(MaterialMonths.Count() % 2 == 1 ? "has-odd" : string.Empty)">
                     @foreach (var month in MaterialMonths)
                     {
-                        var daysInMonth = DateTime.DaysInMonth(2026, month);
-                        var firstWeekday = (int)new DateTime(2026, month, 1).DayOfWeek;
+                        var year = SelectedMaterialYear!.Value;
+                        var daysInMonth = DateTime.DaysInMonth(year, month);
+                        var firstWeekday = (int)new DateTime(year, month, 1).DayOfWeek;
+                        var posters = MonthMaterials(year, month);
                         <article class="month-calendar">
                             <header>
                                 <span>@month.ToString("00")</span>
@@ -154,6 +158,18 @@
                                     <span>@day</span>
                                 }
                             </div>
+                            @if (posters.Count > 0)
+                            {
+                                <div class="material-poster-grid @(posters.Count > 1 ? "has-multiple" : string.Empty)">
+                                    @foreach (var poster in posters)
+                                    {
+                                        <a class="material-poster" href="@poster.Path" target="_blank" rel="noopener noreferrer">
+                                            <img src="@poster.Path" alt="@poster.Alt" loading="lazy" />
+                                            <span>@(IsEnglish ? "View full image ↗" : "查看完整圖片 ↗")</span>
+                                        </a>
+                                    }
+                                </div>
+                            }
                         </article>
                     }
                 </div>
@@ -186,7 +202,9 @@
 
     private int? ActiveDay { get; set; }
     private int? SelectedMaterialYear { get; set; }
-    private static IEnumerable<int> MaterialMonths => Enumerable.Range(1, 7);
+    private IEnumerable<int> MaterialMonths => SelectedMaterialYear == 2025
+        ? [8, 12]
+        : Enumerable.Range(1, 7);
 
     private string[] Weekdays => IsEnglish
         ? ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -222,8 +240,26 @@
         : $"8 月 {day} 日，{EventTitle(item)}";
 
     private string MonthName(int month) => IsEnglish
-        ? new DateTime(2026, month, 1).ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture)
+        ? new DateTime(SelectedMaterialYear ?? 2026, month, 1).ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture)
         : $"{month} 月";
+
+    private IReadOnlyList<MaterialPoster> MonthMaterials(int year, int month) => MaterialPosters
+        .Where(item => item.Year == year && item.Month == month)
+        .ToList();
+
+    private static IReadOnlyList<MaterialPoster> MaterialPosters =>
+    [
+        new(2025, 8, "images/materials/2025-08.jpeg", "LenaMiu 2025 年 8 月行程圖"),
+        new(2025, 12, "images/materials/2025-12.jpeg", "LenaMiu 2025 年 12 月行程圖"),
+        new(2026, 1, "images/materials/2026-01.jpeg", "LenaMiu 2026 年 1 月行程圖"),
+        new(2026, 2, "images/materials/2026-02-a.jpeg", "LenaMiu 2026 年 2 月行程圖之一"),
+        new(2026, 2, "images/materials/2026-02-b.jpeg", "LenaMiu 2026 年 2 月行程圖之二"),
+        new(2026, 3, "images/materials/2026-03.jpeg", "LenaMiu 2026 年 3 月行程圖"),
+        new(2026, 4, "images/materials/2026-04.jpeg", "LenaMiu 2026 年 4 月行程圖"),
+        new(2026, 5, "images/materials/2026-05.jpeg", "LenaMiu 2026 年 5 月行程圖"),
+        new(2026, 6, "images/materials/2026-06.jpeg", "LenaMiu 2026 年 6 月行程圖"),
+        new(2026, 7, "images/materials/2026-07.jpeg", "LenaMiu 2026 年 7 月行程圖")
+    ];
 
     private static string Map(string query) => $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(query)}";
 
@@ -237,4 +273,6 @@
         string MapUrl,
         bool IsPrivate,
         string[] Statuses);
+
+    private sealed record MaterialPoster(int Year, int Month, string Path, string Alt);
 }
