@@ -192,7 +192,7 @@ button {
     margin: 0;
     padding: 44px 24px 28px;
     border-bottom: 2px solid var(--deep-brown);
-    background: var(--pastel-pink);
+    background: transparent;
     text-align: center;
     font-size: 52px;
     font-weight: 400;
@@ -231,7 +231,7 @@ button {
     width: 70px;
     height: 70px;
     border-radius: 10px;
-    background: var(--pastel-pink);
+    background: transparent;
     font-size: 17px;
 }
 
