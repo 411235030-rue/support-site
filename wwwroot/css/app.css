@@ -214,21 +214,21 @@ button {
 }
 
 .service {
-    padding-top: 12px;
+    padding-top: 28px;
 }
 
 .service h2 {
     margin: 0;
-    padding: 18px 24px 22px;
+    padding: 20px 24px 38px;
     border-bottom: 0;
     background: transparent;
     text-align: center;
-    font-size: 80px;
+    font-size: 68px;
     font-weight: 400;
 }
 
 .service-row {
-    min-height: 150px;
+    min-height: 260px;
     position: relative;
     display: grid;
     align-items: center;
@@ -252,7 +252,7 @@ button {
 
 .service-row-two {
     grid-template-columns: 1fr 1fr;
-    gap: 120px;
+    gap: 48px;
 }
 
 .service-row-one {
@@ -262,20 +262,24 @@ button {
 
 .service-item {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 26px;
-    text-align: center;
+    gap: clamp(28px, 3vw, 46px);
+    text-align: left;
 }
 
 .service-item p {
     margin: 0;
-    font-size: 26px;
+    max-width: 250px;
+    font-size: clamp(30px, 3vw, 43px);
+    line-height: 1.05;
 }
 
 .small-image {
-    width: 112px;
-    height: 112px;
+    width: clamp(160px, 14vw, 210px);
+    height: clamp(120px, 10vw, 150px);
+    flex: 0 0 auto;
     display: block;
     border: 0;
     border-radius: 0;
