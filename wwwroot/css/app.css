@@ -132,13 +132,10 @@ button {
 }
 
 .hero-content > p {
-    width: min(100%, 330px);
+    max-width: 490px;
     margin: 0 0 24px;
-    padding: 12px 18px;
-    border: 2px solid var(--deep-brown);
-    border-radius: 8px;
-    background: var(--brown);
-    font-size: 22px;
+    font-size: 18px;
+    line-height: 1.8;
 }
 
 .hero-buttons {
