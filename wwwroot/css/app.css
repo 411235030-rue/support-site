@@ -18,7 +18,7 @@ body {
     margin: 0;
     background: var(--white);
     color: var(--deep-brown);
-    font-family: Arial, "Noto Sans TC", sans-serif;
+    font-family: "Nunito", "Noto Sans TC", sans-serif;
 }
 
 a {
