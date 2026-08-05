@@ -144,13 +144,13 @@ button {
 }
 
 .hero {
-    min-height: 500px;
+    min-height: 640px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 440px);
     align-items: center;
-    gap: 100px;
-    padding-top: 50px;
-    padding-bottom: 64px;
+    gap: clamp(64px, 8vw, 130px);
+    padding-top: 68px;
+    padding-bottom: 80px;
 }
 
 .hero-content h1 {
@@ -175,12 +175,23 @@ button {
 }
 
 .hero-image {
-    width: min(100%, 390px);
-    aspect-ratio: 1.12;
+    width: min(100%, 420px);
+    aspect-ratio: 4 / 5;
+    margin: 0;
     justify-self: center;
-    border-radius: 48% 48% 8px 8px;
-    background: var(--pastel-pink);
-    font-size: 34px;
+    overflow: hidden;
+    border: 1px solid var(--deep-brown);
+    border-radius: 28px;
+    background: #1c1b20;
+    box-shadow: 18px 18px 0 var(--pastel-pink);
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
 }
 
 .gallery {
@@ -1555,10 +1566,14 @@ button.year-card:focus-visible {
     .hero {
         grid-template-columns: 1fr;
         gap: 50px;
+        padding-top: 56px;
+        padding-bottom: 76px;
     }
 
     .hero-image {
-        justify-self: stretch;
+        width: min(calc(100% - 18px), 400px);
+        justify-self: center;
+        box-shadow: 12px 12px 0 var(--pastel-pink);
     }
 
     .gallery {
