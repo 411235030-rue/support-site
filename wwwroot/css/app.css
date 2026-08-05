@@ -268,14 +268,39 @@ button {
     align-items: center;
     justify-content: center;
     gap: clamp(28px, 3vw, 46px);
+    color: var(--deep-brown);
+    text-decoration: none;
     text-align: left;
 }
 
 .service-item p {
     margin: 0;
+    position: relative;
     max-width: 250px;
     font-size: clamp(27px, 2.3vw, 32px);
     line-height: 1.15;
+}
+
+.service-item p::after {
+    content: "";
+    position: absolute;
+    right: 50%;
+    bottom: -8px;
+    left: 50%;
+    height: 1px;
+    background: var(--deep-brown);
+    transition: right 180ms ease, left 180ms ease;
+}
+
+.service-item:hover p::after,
+.service-item:focus-visible p::after {
+    right: 0;
+    left: 0;
+}
+
+.service-page {
+    min-height: calc(100vh - 92px);
+    background: var(--white);
 }
 
 .small-image {

@@ -1,0 +1,44 @@
+@page "/service/{Slug}"
+@inject NavigationManager Navigation
+
+<PageTitle>@PageName</PageTitle>
+
+<header class="site-header" id="top">
+    <a class="brand" href="@HomeHref">
+        <span class="brand-mark">S</span>
+        <span>Support<br />with Love</span>
+    </a>
+
+    <nav class="main-nav" aria-label="main navigation">
+        <a href="@LenaHref">Lena</a>
+        <a href="@MiuHref">Miu</a>
+        <a href="@GumberBearHref">Gumber bear</a>
+    </nav>
+
+    <a class="menu-button home-button" href="@HomeHref">@(IsEnglish ? "Home" : "回首頁")</a>
+</header>
+
+<main class="service-page"></main>
+
+@code {
+    [Parameter]
+    public string Slug { get; set; } = string.Empty;
+
+    private bool IsEnglish => Navigation.ToAbsoluteUri(Navigation.Uri).Query.Contains("lang=en", StringComparison.OrdinalIgnoreCase);
+    private string HomeHref => IsEnglish ? $"{Navigation.BaseUri}?lang=en" : Navigation.BaseUri;
+    private string LenaHref => ProfileHref("lena");
+    private string MiuHref => ProfileHref("miu");
+    private string GumberBearHref => ProfileHref("gumber-bear");
+
+    private string ProfileHref(string page) => IsEnglish ? $"{Navigation.BaseUri}{page}?lang=en" : $"{Navigation.BaseUri}{page}";
+
+    private string PageName => Slug switch
+    {
+        "schedule" => IsEnglish ? "Upcoming Events" : "近期行程",
+        "materials" => IsEnglish ? "Materials" : "物料總覽",
+        "interviews" => IsEnglish ? "Interviews" : "採訪整理",
+        "fanfiction" => IsEnglish ? "Fanfiction Collection" : "同人文合集",
+        "live-videos" => IsEnglish ? "Live Videos" : "直播影片",
+        _ => "LenaMiu 應援網站"
+    };
+}
