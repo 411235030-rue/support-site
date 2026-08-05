@@ -321,9 +321,10 @@ button {
     display: grid;
     width: min(1120px, 100%);
     margin: 0 auto;
-    grid-template-columns: minmax(250px, 330px) 1fr;
+    grid-template-columns: minmax(250px, 330px) minmax(420px, 560px);
+    justify-content: space-between;
     align-items: center;
-    gap: clamp(48px, 10vw, 170px);
+    gap: clamp(48px, 8vw, 120px);
 }
 
 .profile-image {
@@ -345,21 +346,22 @@ button {
 
 .profile-copy {
     color: var(--white);
-    text-align: center;
+    text-align: left;
 }
 
 .profile-copy h1 {
-    margin-bottom: 20px;
-    font-size: clamp(60px, 8vw, 100px);
+    margin-bottom: 24px;
+    font-size: clamp(58px, 6vw, 84px);
     font-weight: 500;
-    line-height: .95;
+    line-height: 1;
+    white-space: nowrap;
 }
 
 .profile-copy p {
-    max-width: 390px;
-    margin-inline: auto;
+    max-width: 540px;
     font-size: 19px;
-    line-height: 1.7;
+    line-height: 1.85;
+    letter-spacing: .02em;
 }
 
 .profile-links {
@@ -430,6 +432,29 @@ button {
     .service-row-two {
         gap: 30px;
     }
+
+    .profile-inner {
+        grid-template-columns: 1fr;
+        gap: 38px;
+    }
+
+    .profile-image {
+        width: min(100%, 360px);
+        justify-self: center;
+    }
+
+    .profile-copy {
+        text-align: center;
+    }
+
+    .profile-copy h1 {
+        white-space: normal;
+    }
+
+    .profile-copy p {
+        margin-inline: auto;
+        text-align: left;
+    }
 }
 
 @media (max-width: 540px) {
@@ -454,8 +479,13 @@ button {
         text-align: center;
     }
 
+    .profile-copy h1 {
+        white-space: normal;
+    }
+
     .profile-copy p {
         margin-inline: auto;
+        text-align: left;
     }
 
     .profile-links {
