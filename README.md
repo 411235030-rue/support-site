@@ -28,3 +28,5 @@ dotnet run
 - 首頁內容：`Pages/Home.razor`
 - 顏色與版面：`wwwroot/css/app.css`
 - 網站標題與描述：`wwwroot/index.html`
+
+目前為首頁版型第一版，內容可再逐步替換。
