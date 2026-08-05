@@ -127,6 +127,14 @@ button {
     background: var(--brown);
 }
 
+.language-button {
+    color: var(--deep-brown);
+    font-family: "Cormorant Garamond", "Noto Serif TC", serif;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
 .home-button {
     display: flex;
     align-items: center;
@@ -321,10 +329,10 @@ button {
     display: grid;
     width: min(1120px, 100%);
     margin: 0 auto;
-    grid-template-columns: minmax(250px, 330px) minmax(420px, 560px);
+    grid-template-columns: minmax(250px, 330px) minmax(560px, 680px);
     justify-content: space-between;
     align-items: center;
-    gap: clamp(48px, 8vw, 120px);
+    gap: clamp(40px, 6vw, 90px);
 }
 
 .profile-image {
@@ -375,10 +383,11 @@ button {
 }
 
 .profile-copy p {
-    max-width: 540px;
-    font-size: 19px;
+    max-width: 680px;
+    font-size: 17px;
     line-height: 1.85;
     letter-spacing: .02em;
+    white-space: nowrap;
 }
 
 .profile-links {
@@ -471,6 +480,7 @@ button {
     .profile-copy p {
         margin-inline: auto;
         text-align: left;
+        white-space: normal;
     }
 }
 

@@ -14,14 +14,23 @@
         <a href="gumber-bear">Gumber bear</a>
     </nav>
 
-    <button class="menu-button" type="button" aria-label="menu"></button>
+    <button class="menu-button language-button" type="button" @onclick="ToggleLanguage" aria-label="@(isEnglish ? "切換為中文" : "Switch to English")">
+        @(isEnglish ? "中文" : "EN")
+    </button>
 </header>
 
 <main>
     <section class="hero section-wrap">
         <div class="hero-content">
             <h1>LenaMiu</h1>
-            <p>LenaMiu 是泰國第3電視台旗下的超人氣女演員雙人組合，由 Lena Lalina（Lalina Schuett / Lalina Lena）與 Miu Natsha（Natsha Taechamongkalapiwat）組成。兩人因合作演出泰國百GL劇集《my safe zone》（AlinJane）而備受矚目。</p>
+            @if (isEnglish)
+            {
+                <p>LenaMiu is a popular actress duo under Thailand's Channel 3, consisting of Lena Lalina (Lalina Schuett / Lalina Lena) and Miu Natsha (Natsha Taechamongkalapiwat). The pair gained widespread attention through their performance in the Thai GL series <em>My Safe Zone</em> as Alin and Jane.</p>
+            }
+            else
+            {
+                <p>LenaMiu 是泰國第3電視台旗下的超人氣女演員雙人組合，由 Lena Lalina（Lalina Schuett / Lalina Lena）與 Miu Natsha（Natsha Taechamongkalapiwat）組成。兩人因合作演出泰國百GL劇集《my safe zone》（AlinJane）而備受矚目。</p>
+            }
         </div>
         <div class="image-box hero-image">圖1</div>
     </section>
@@ -75,3 +84,12 @@
     <p>Made in Line</p>
     <a href="#top">Top ↑</a>
 </footer>
+
+@code {
+    private bool isEnglish;
+
+    private void ToggleLanguage()
+    {
+        isEnglish = !isEnglish;
+    }
+}
