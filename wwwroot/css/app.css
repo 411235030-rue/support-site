@@ -127,7 +127,7 @@ button {
 .hero-content h1 {
     margin: 0 0 20px;
     font-family: "Cormorant Garamond", serif;
-    font-size: 64px;
+    font-size: 88px;
     font-weight: 400;
 }
 
@@ -136,18 +136,6 @@ button {
     margin: 0 0 24px;
     font-size: 18px;
     line-height: 1.8;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 28px;
-}
-
-.hero-buttons button {
-    padding: 9px 16px;
-    border: 2px solid var(--deep-brown);
-    border-radius: 4px;
-    background: var(--pastel-pink);
 }
 
 .image-box {
@@ -319,11 +307,7 @@ button {
     }
 
     .hero-content h1 {
-        font-size: 36px;
-    }
-
-    .hero-buttons {
-        gap: 12px;
+        font-size: 64px;
     }
 
     .gallery {
