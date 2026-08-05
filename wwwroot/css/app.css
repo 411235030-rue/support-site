@@ -1328,6 +1328,12 @@ button.year-card:focus-visible {
     border-bottom: 1px solid var(--deep-brown);
 }
 
+.interview-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 28px;
+}
+
 @media (max-width: 800px) {
     .site-header {
         grid-template-columns: 1fr auto;
