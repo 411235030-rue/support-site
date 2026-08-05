@@ -108,7 +108,7 @@
                 <div class="year-card-grid">
                     <button type="button" class="year-card year-card-muted" @onclick="() => SelectedMaterialYear = 2025">
                         <span>2025</span>
-                        <small>@(IsEnglish ? "August · December" : "8 月・12 月")</small>
+                        <small>@(IsEnglish ? "March — December" : "3 月—12 月")</small>
                         <i aria-hidden="true">↗</i>
                     </button>
                     <button type="button" class="year-card" @onclick="() => SelectedMaterialYear = 2026">
@@ -233,7 +233,7 @@
     private int? SelectedMaterialYear { get; set; }
     private string? ActiveMaterialDay { get; set; }
     private IEnumerable<int> MaterialMonths => SelectedMaterialYear == 2025
-        ? [8, 12]
+        ? [3, 4, 5, 6, 8, 9, 10, 11, 12]
         : Enumerable.Range(1, 7);
 
     private string[] Weekdays => IsEnglish
@@ -284,12 +284,40 @@
 
     private static IReadOnlyList<MaterialEvent> MaterialEvents =>
     [
+        new(2025, 3, 13, "LENAMIU", "DERMAFORA 發表活動", "DERMAFORA Launch Event", "09:00 AM", "The Gardens of Dinsor Palace", "可於活動周邊應援，但不可跟隨藝人", "Fans may support around the venue, but may not follow the artists", ["public", "private"]),
+        new(2025, 3, 29, "LENAMIU", "Channel 3 55 週年慶典：New Energy", "55th Anniversary Channel 3 Festival: New Energy", "", "Suphachalasai Stadium", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 3, 30, "LENAMIU", "Mitsu Heavy Duty 活動", "Mitsu Heavy Duty Event", "04:00 PM", "Parc Paragon", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+
+        new(2025, 4, 12, "LENAMIU", "ICONSIAM Thaiconic Songkran Celebration 2025", "ICONSIAM Thaiconic Songkran Celebration 2025", "04:00 PM", "River Park, G Floor, ICONSIAM", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+
+        new(2025, 5, 13, "LENAMIU", "La Mer The Renewal Oil 活動", "La Mer The Renewal Oil Event", "02:00 PM", "Hall of Fame, M Floor, Siam Paragon", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+
+        new(2025, 6, 7, "LENAMIU", "Thai Pride Mergeride", "Thai Pride Mergeride", "06:45 PM", "ICONSIAM River Park", "活動後另有聚會", "A gathering will take place after the event", ["private"]),
+
         new(2025, 8, 2, "LENA", "Vaseline Pro Derma 活動", "Vaseline Pro Derma Event", "01:00 PM", "Gaysorn Platform", "", "", ["public"]),
         new(2025, 8, 15, "MIU", "PLEATS PLEASE ISSEY MIYAKE 快閃店開幕", "PLEATS PLEASE ISSEY MIYAKE Pop-up Opening", "01:00 PM", "Siam Discovery", "", "", ["public"]),
         new(2025, 8, 19, "LENAMIU", "Lifestyle Asia Thailand Awards 2025", "Lifestyle Asia Thailand Awards 2025", "06:00 PM", "515 Victory", "活動後不聚會、不收禮物", "No gathering or gifts after the event", ["notice"]),
         new(2025, 8, 26, "LENA", "Central Beauty Awards", "Central Beauty Awards", "05:00 PM", "Central Chidlom", "活動後不聚會、不收禮物", "No gathering or gifts after the event", ["notice"]),
         new(2025, 8, 27, "MIU", "BLEU DE CHANEL", "BLEU DE CHANEL", "07:00 PM", "One City Centre", "活動後不聚會、不收禮物", "No gathering or gifts after the event", ["notice"]),
         new(2025, 8, 30, "LENAMIU", "Girls Cup Presented by มาม่า", "Girls Cup Presented by มาม่า", "02:00 PM", "Island Hall, 3rd Floor, Fashion Island", "", "", []),
+
+        new(2025, 9, 10, "MIU", "Sandro FW25 Collection 發表活動", "Sandro FW25 Collection Launch Event", "03:00 PM", "ATT19", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 9, 29, "LENAMIU", "Bangkok International Film Festival 2025 開幕典禮", "Bangkok International Film Festival 2025 Opening Ceremony", "05:00 PM", "7th Floor, ICONSIAM", "晚上 8 時另有聚會", "Gathering at 8 PM", ["public"]),
+
+        new(2025, 10, 9, "LENAMIU", "TODAY SHOW 節目錄製", "TODAY SHOW Recording", "11:00 AM", "Studio", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 10, 10, "LENAMIU", "Valentino Beauty", "Valentino Beauty", "05:00 PM", "Erawan Room", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 10, 15, "MIU", "Mouawad Boutique 開幕", "Mouawad Boutique Opening", "04:00 PM", "The Emporium", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 10, 17, "LENAMIU", "《Only You》宣傳活動", "Promote Only You The Series", "08:00 AM", "Maleenont Tower", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 10, 18, "LENAMIU", "Bangkok International Fashion Week 2025：ASAVA", "Bangkok International Fashion Week 2025: ASAVA", "05:00 PM", "Siam Paragon", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 10, 21, "LENAMIU", "《My Safe Zone》開鏡儀式", "My Safe Zone Worship Ceremony", "", "Maleenont Tower", "詳情待公布", "Details to be confirmed", ["public"]),
+        new(2025, 10, 24, "LENAMIU", "《My Safe Zone》宣傳活動", "Promote My Safe Zone", "08:00 AM", "Maleenont Tower", "", "", ["public"]),
+        new(2025, 10, 24, "LENAMIU", "《My Safe Zone》第一集首映", "My Safe Zone Episode 1 Premiere", "", "SF Cinema, CentralWorld", "詳情待公布", "Details to be confirmed", ["public"]),
+
+        new(2025, 11, 14, "MIU", "《My Safe Zone》宣傳活動", "Promote My Safe Zone The Series", "", "", "詳情以公告為準", "See announcement for details", []),
+        new(2025, 11, 20, "LENAMIU", "Channel 3 2026 新年祝福錄製", "Channel 3 New Year 2026 Recording", "04:00 PM", "Maleenont Tower", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 11, 21, "LENAMIU", "《My Safe Zone》宣傳：The Mixology of Beauty by LAKA", "Promote My Safe Zone: The Mixology of Beauty by LAKA", "04:00 PM", "Siam BTS Skywalk, Siam Square", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 11, 28, "LENAMIU", "《My Safe Zone》宣傳活動", "Promote My Safe Zone The Series", "", "", "詳情以公告為準", "See announcement for details", []),
+        new(2025, 11, 28, "MIU", "Ralph Lauren Store 活動", "Ralph Lauren Store Event", "06:00 PM", "Ralph Lauren, Central Embassy", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
 
         new(2025, 12, 1, "MIU", "LV Siam Paragon 店舖開幕", "LV Siam Paragon Store Opening", "10:00 AM", "LV Siam Paragon Store", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
         new(2025, 12, 1, "LENA", "Rally Movement 直播", "Rally Movement Live", "08:00 PM", "Online", "", "", ["private"]),
