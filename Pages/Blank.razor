@@ -1,1 +1,78 @@
 @page "/gumber-bear"
+@inject NavigationManager Navigation
+
+<PageTitle>@(IsEnglish ? "Gumber Bears Fan Clubs" : "Gumber Bears 粉絲站")</PageTitle>
+
+<header class="site-header" id="top">
+    <a class="brand" href="@HomeHref">
+        <span class="brand-mark">S</span>
+        <span>Support<br />with Love</span>
+    </a>
+
+    <nav class="main-nav" aria-label="main navigation">
+        <a href="@LenaHref">Lena</a>
+        <a href="@MiuHref">Miu</a>
+        <a href="@GumberBearHref">Gumber bear</a>
+    </nav>
+
+    <a class="menu-button home-button" href="@HomeHref">@(IsEnglish ? "Home" : "回首頁")</a>
+</header>
+
+<main class="fanclub-page">
+    <section class="fanclub-intro section-wrap">
+        <h1>Gumber Bears fan clubs</h1>
+    </section>
+
+    <section class="fanclub-grid section-wrap" aria-label="Fan Clubs">
+        <article class="fanclub-card">
+            <div class="fanclub-avatar">CH3</div>
+            <div class="fanclub-copy"><span>@(IsEnglish ? "Official" : "官方")</span><h2>LenaMiu CH3 Official</h2><p>@@LenaMiu_CH3</p><a href="https://x.com/LenaMiu_CH3" target="_blank" rel="noopener noreferrer">@(IsEnglish ? "Visit X" : "前往 X")</a></div>
+        </article>
+        <article class="fanclub-card">
+            <div class="fanclub-avatar">TH</div>
+            <div class="fanclub-copy"><span>@(IsEnglish ? "Thailand" : "泰國")</span><h2>LenaMiu TH Fanbase</h2><p>@@LenaMiuTH</p><a href="https://x.com/LenaMiuTH" target="_blank" rel="noopener noreferrer">@(IsEnglish ? "Visit X" : "前往 X")</a></div>
+        </article>
+        <article class="fanclub-card">
+            <div class="fanclub-avatar">TW</div>
+            <div class="fanclub-copy"><span>@(IsEnglish ? "Taiwan" : "台灣")</span><h2>LenaMiu Taiwan Official FanClub</h2><p>@@LenaMiuTWFC</p><a href="https://x.com/LenaMiuTWFC" target="_blank" rel="noopener noreferrer">@(IsEnglish ? "Visit X" : "前往 X")</a></div>
+        </article>
+        <article class="fanclub-card">
+            <div class="fanclub-avatar">SG</div>
+            <div class="fanclub-copy"><span>@(IsEnglish ? "Singapore" : "新加坡")</span><h2>LenaMiu SG Official</h2><p>@@LenaMiuSG</p><a href="https://x.com/LenaMiuSG" target="_blank" rel="noopener noreferrer">@(IsEnglish ? "Visit X" : "前往 X")</a></div>
+        </article>
+        <article class="fanclub-card">
+            <div class="fanclub-avatar">PH</div>
+            <div class="fanclub-copy"><span>@(IsEnglish ? "Philippines" : "菲律賓")</span><h2>LenaMiu PH Official</h2><p>@@LenaMiu25_phofc</p><a href="https://x.com/LenaMiu25_phofc" target="_blank" rel="noopener noreferrer">@(IsEnglish ? "Visit X" : "前往 X")</a></div>
+        </article>
+        <article class="fanclub-card">
+            <div class="fanclub-avatar">BR</div>
+            <div class="fanclub-copy"><span>@(IsEnglish ? "Brazil" : "巴西")</span><h2>LenaMiu Brasil Official</h2><p>@@LenamiuBr</p><a href="https://x.com/LenamiuBr" target="_blank" rel="noopener noreferrer">@(IsEnglish ? "Visit X" : "前往 X")</a></div>
+        </article>
+        <article class="fanclub-card">
+            <div class="fanclub-avatar">KR</div>
+            <div class="fanclub-copy"><span>@(IsEnglish ? "Korea" : "韓國")</span><h2>LenaMiu KR Official</h2><p>@@LenaMiu_kr</p><a href="https://x.com/LenaMiu_kr" target="_blank" rel="noopener noreferrer">@(IsEnglish ? "Visit X" : "前往 X")</a></div>
+        </article>
+        <article class="fanclub-card">
+            <div class="fanclub-avatar">EU</div>
+            <div class="fanclub-copy"><span>@(IsEnglish ? "Europe" : "歐洲")</span><h2>LenaMiu Europe</h2><p>@@LenaMiuHomeEU</p><a href="https://x.com/LenaMiuHomeEU" target="_blank" rel="noopener noreferrer">@(IsEnglish ? "Visit X" : "前往 X")</a></div>
+        </article>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-brand">
+        <span class="brand-mark">S</span>
+        <span>Support site</span>
+    </div>
+    <p>Made in Line</p>
+    <a href="#top">Top ↑</a>
+</footer>
+
+@code {
+    private bool IsEnglish => Navigation.ToAbsoluteUri(Navigation.Uri).Query.Contains("lang=en", StringComparison.OrdinalIgnoreCase);
+    private string HomeHref => IsEnglish ? $"{Navigation.BaseUri}?lang=en" : Navigation.BaseUri;
+    private string LenaHref => PageHref("lena");
+    private string MiuHref => PageHref("miu");
+    private string GumberBearHref => PageHref("gumber-bear");
+    private string PageHref(string page) => IsEnglish ? $"{Navigation.BaseUri}{page}?lang=en" : $"{Navigation.BaseUri}{page}";
+}

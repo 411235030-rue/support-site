@@ -481,6 +481,118 @@ button {
     font-size: 14px;
 }
 
+.fanclub-page {
+    min-height: calc(100vh - 202px);
+    padding: 80px 0 110px;
+    background: var(--white);
+}
+
+.fanclub-intro {
+    max-width: 760px;
+    margin-bottom: 76px;
+    text-align: center;
+}
+
+.fanclub-kicker {
+    margin: 0 0 10px;
+    color: var(--brown);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+
+.fanclub-intro h1 {
+    margin: 0 0 20px;
+    color: var(--deep-brown);
+    font-size: clamp(48px, 6vw, 76px);
+    font-weight: 500;
+    line-height: 1;
+}
+
+.fanclub-intro > p:last-child {
+    max-width: 620px;
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.fanclub-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(54px, 8vw, 110px);
+    row-gap: 64px;
+}
+
+.fanclub-card {
+    min-height: 150px;
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr);
+    align-items: center;
+    gap: 28px;
+    color: var(--deep-brown);
+}
+
+.fanclub-avatar {
+    width: 132px;
+    height: 132px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, #fff7f9 0 18%, var(--pastel-pink) 19% 56%, #d7b7aa 57% 100%);
+    color: var(--deep-brown);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: .04em;
+}
+
+.fanclub-card:nth-child(4n + 2) .fanclub-avatar,
+.fanclub-card:nth-child(4n + 3) .fanclub-avatar {
+    background: radial-gradient(circle at 68% 30%, #fff7f9 0 18%, #eadbd4 19% 58%, var(--brown) 59% 100%);
+}
+
+.fanclub-copy > span {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--brown);
+    font-size: 14px;
+    letter-spacing: .08em;
+}
+
+.fanclub-card h2 {
+    margin: 0 0 6px;
+    font-size: clamp(25px, 2.5vw, 34px);
+    font-weight: 500;
+    line-height: 1.05;
+}
+
+.fanclub-card p {
+    margin: 0 0 13px;
+    font-size: 15px;
+}
+
+.fanclub-copy > a {
+    width: fit-content;
+    min-width: 76px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 13px;
+    border-radius: 999px;
+    background: var(--deep-brown);
+    color: var(--white);
+    font-size: 13px;
+    transition: background 160ms ease, color 160ms ease;
+}
+
+.fanclub-copy > a:hover,
+.fanclub-copy > a:focus-visible {
+    background: var(--pastel-pink);
+    color: var(--deep-brown);
+}
+
 @media (max-width: 800px) {
     .site-header {
         grid-template-columns: 1fr auto;
@@ -530,6 +642,10 @@ button {
         margin-inline: auto;
         text-align: left;
         white-space: normal;
+    }
+
+    .fanclub-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -646,5 +762,26 @@ button {
 
     .profile-links > div {
         grid-template-columns: 1fr;
+    }
+
+    .fanclub-page {
+        padding: 54px 0 72px;
+    }
+
+    .fanclub-intro {
+        margin-bottom: 42px;
+    }
+
+    .fanclub-card {
+        min-height: 160px;
+        grid-template-columns: 104px minmax(0, 1fr);
+        gap: 20px;
+        padding: 0;
+    }
+
+    .fanclub-avatar {
+        width: 104px;
+        height: 104px;
+        font-size: 22px;
     }
 }
