@@ -1,0 +1,16 @@
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>找不到頁面</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <section class="not-found">
+                <p class="eyebrow">404</p>
+                <h1>這一頁還在準備中</h1>
+                <a class="button button-primary" href="./">回到首頁</a>
+            </section>
+        </LayoutView>
+    </NotFound>
+</Router>
