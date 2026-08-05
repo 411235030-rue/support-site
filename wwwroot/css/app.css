@@ -18,7 +18,7 @@ body {
     margin: 0;
     background: var(--white);
     color: var(--deep-brown);
-    font-family: "Cormorant Garamond", "Noto Serif TC", serif;
+    font-family: "Nunito", "Noto Sans TC", sans-serif;
 }
 
 a {
@@ -78,6 +78,7 @@ button {
 .main-nav {
     display: flex;
     gap: 42px;
+    font-family: "Cormorant Garamond", serif;
     font-size: 20px;
     font-weight: 500;
 }
@@ -133,6 +134,7 @@ button {
     border: 2px solid var(--deep-brown);
     border-radius: 22px;
     background: var(--pastel-pink);
+    font-family: "Cormorant Garamond", serif;
     font-size: 44px;
     font-weight: 400;
 }
