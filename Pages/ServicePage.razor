@@ -205,6 +205,88 @@
             }
         </section>
     }
+    else if (Slug == "interviews")
+    {
+        <section class="materials-section interviews-section" aria-labelledby="interviews-title">
+            @if (SelectedInterviewYear is null)
+            {
+                <div class="materials-heading">
+                    <p>@(IsEnglish ? "Archive" : "年份整理")</p>
+                    <h1 id="interviews-title">@(IsEnglish ? "Interviews" : "採訪整理")</h1>
+                </div>
+                <div class="year-card-grid">
+                    @foreach (var year in InterviewYears)
+                    {
+                        <button type="button" class="year-card @(year == 2025 ? "year-card-muted" : string.Empty)" @onclick="() => OpenInterviewYear(year)">
+                            <span>@year</span>
+                            <small>@InterviewYearRange(year)</small>
+                            <i aria-hidden="true">↗</i>
+                        </button>
+                    }
+                </div>
+            }
+            else if (SelectedInterviewMonth is null)
+            {
+                <div class="materials-calendar-heading">
+                    <button type="button" class="materials-back" @onclick="CloseInterviewYear">← @(IsEnglish ? "Years" : "返回年份")</button>
+                    <div>
+                        <p>@(IsEnglish ? "Interview archive" : "採訪整理")</p>
+                        <h1 id="interviews-title">@SelectedInterviewYear</h1>
+                    </div>
+                </div>
+                <div class="interview-month-grid">
+                    @foreach (var month in InterviewMonths)
+                    {
+                        var count = Interviews.Count(item => item.Year == SelectedInterviewYear && item.Month == month);
+                        <button type="button" class="interview-month-card" @onclick="() => OpenInterviewMonth(month)">
+                            <span>@month.ToString("00")</span>
+                            <div><strong>@InterviewMonthName(month)</strong><small>@(IsEnglish ? $"{count} interviews" : $"{count} 篇採訪")</small></div>
+                            <i aria-hidden="true">↗</i>
+                        </button>
+                    }
+                </div>
+            }
+            else if (SelectedInterview is null)
+            {
+                <div class="materials-calendar-heading interview-list-heading">
+                    <button type="button" class="materials-back" @onclick="CloseInterviewMonth">← @(IsEnglish ? "Months" : "返回月份")</button>
+                    <div>
+                        <p>@SelectedInterviewYear</p>
+                        <h1 id="interviews-title">@InterviewMonthName(SelectedInterviewMonth.Value)</h1>
+                    </div>
+                </div>
+                <div class="interview-list">
+                    @foreach (var item in InterviewsForMonth)
+                    {
+                        <button type="button" class="interview-row" @onclick="() => SelectedInterview = item">
+                            <span class="interview-date"><b>@item.Day.ToString("00")</b><small>@InterviewMonthShort(item.Month)</small></span>
+                            <span class="interview-row-copy">
+                                <small>@InterviewType(item) · @item.Person</small>
+                                <strong>@InterviewTitle(item)</strong>
+                                <em>@item.Source</em>
+                            </span>
+                            <i aria-hidden="true">↗</i>
+                        </button>
+                    }
+                </div>
+            }
+            else
+            {
+                var item = SelectedInterview!;
+                <article class="interview-detail">
+                    <button type="button" class="materials-back" @onclick="() => SelectedInterview = null">← @(IsEnglish ? "Interviews" : "返回採訪列表")</button>
+                    <div class="interview-detail-date"><b>@item.Day.ToString("00")</b><span>@InterviewMonthName(item.Month)<br />@item.Year</span></div>
+                    <p>@InterviewType(item) · @item.Person</p>
+                    <h1 id="interviews-title">@InterviewTitle(item)</h1>
+                    <div class="interview-detail-rule"></div>
+                    <p class="interview-summary">@InterviewSummary(item)</p>
+                    <a class="interview-source" href="@item.Url" target="_blank" rel="noopener noreferrer">
+                        @(IsEnglish ? $"Read or watch on {item.Source} ↗" : $"前往 {item.Source} 閱讀／觀看 ↗")
+                    </a>
+                </article>
+            }
+        </section>
+    }
 </main>
 
 @code {
@@ -232,6 +314,9 @@
     private int? ActiveDay { get; set; }
     private int? SelectedMaterialYear { get; set; }
     private string? ActiveMaterialDay { get; set; }
+    private int? SelectedInterviewYear { get; set; }
+    private int? SelectedInterviewMonth { get; set; }
+    private InterviewItem? SelectedInterview { get; set; }
     private IEnumerable<int> MaterialMonths => SelectedMaterialYear == 2025
         ? [3, 4, 5, 6, 8, 9, 10, 11, 12]
         : Enumerable.Range(1, 7);
@@ -278,6 +363,26 @@
         .ToList();
 
     private void ToggleMaterialDay(string dayKey) => ActiveMaterialDay = ActiveMaterialDay == dayKey ? null : dayKey;
+
+    private int[] InterviewYears => [2025, 2026];
+    private IEnumerable<int> InterviewMonths => Interviews.Where(item => item.Year == SelectedInterviewYear).Select(item => item.Month).Distinct().Order();
+    private IEnumerable<InterviewItem> InterviewsForMonth => Interviews.Where(item => item.Year == SelectedInterviewYear && item.Month == SelectedInterviewMonth).OrderBy(item => item.Day);
+    private string InterviewYearRange(int year) => year == 2025
+        ? (IsEnglish ? "August — November" : "8 月—11 月")
+        : (IsEnglish ? "May" : "5 月");
+    private string InterviewMonthName(int month) => IsEnglish
+        ? new DateTime(2026, month, 1).ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture)
+        : $"{month} 月";
+    private string InterviewMonthShort(int month) => IsEnglish
+        ? new DateTime(2026, month, 1).ToString("MMM", System.Globalization.CultureInfo.InvariantCulture).ToUpperInvariant()
+        : $"{month} 月";
+    private string InterviewTitle(InterviewItem item) => IsEnglish ? item.TitleEn : item.TitleZh;
+    private string InterviewType(InterviewItem item) => IsEnglish ? item.TypeEn : item.TypeZh;
+    private string InterviewSummary(InterviewItem item) => IsEnglish ? item.SummaryEn : item.SummaryZh;
+    private void OpenInterviewYear(int year) { SelectedInterviewYear = year; SelectedInterviewMonth = null; SelectedInterview = null; }
+    private void CloseInterviewYear() { SelectedInterviewYear = null; SelectedInterviewMonth = null; SelectedInterview = null; }
+    private void OpenInterviewMonth(int month) { SelectedInterviewMonth = month; SelectedInterview = null; }
+    private void CloseInterviewMonth() { SelectedInterviewMonth = null; SelectedInterview = null; }
 
     private string MaterialEventTitle(MaterialEvent item) => IsEnglish ? item.TitleEn : item.TitleZh;
     private string MaterialEventNote(MaterialEvent item) => IsEnglish ? item.NoteEn : item.NoteZh;
@@ -364,6 +469,15 @@
         new(2026, 7, 23, "LENA", "《Her in Frame》媒體專訪", "Her in Frame Media Exclusive Interview", "", "", "私人活動", "Private event", ["private"])
     ];
 
+    private static IReadOnlyList<InterviewItem> Interviews =>
+    [
+        new(2025, 8, 1, "LENAMIU", "跨出舒適圈，開啟 Girls’ Love 新角色", "Stepping Beyond the Comfort Zone", "MINT Magazine Thailand", "文字・雜誌", "Article · Magazine", "Lena 與 Miu 分享踏入 Girls’ Love 作品的契機、對角色的理解，以及兩人建立合作默契的過程。", "Lena and Miu discuss stepping into Girls’ Love, understanding their roles, and building their on-screen partnership.", "https://www.mintmagth.com/people/interview-girls-love-lena-miu-mint-vol29-fendi"),
+        new(2025, 11, 11, "LENAMIU", "《My Safe Zone》宣傳訪談", "My Safe Zone Interview", "YouTube / ENG SUB", "影音・英字", "Video · English subtitles", "兩人以輕鬆問答分享合作中的相處方式、角色關係，以及宣傳期間的有趣片段。", "A relaxed conversation about their working relationship, their characters, and memorable moments from the promotional period.", "https://www.youtube.com/watch?v=IILmacEhgzU"),
+        new(2025, 11, 16, "LENAMIU", "尋找 Miu 成為搭檔的故事", "How Lena Found Miu as Her Partner", "YouTube / ENG SUB", "影音・英字", "Video · English subtitles", "Lena 分享找到 Miu 成為合作搭檔的過程，也談到兩人初次認識及逐漸建立信任的故事。", "Lena shares how Miu became her partner, from their first meeting to the trust they gradually built together.", "https://www.youtube.com/watch?v=pGdZwQsjGFQ"),
+        new(2025, 11, 19, "LENAMIU", "LenaMiu 特別訪談", "LenaMiu Special Interview", "YouTube", "影音", "Video", "透過專訪問答認識兩人的合作默契、彼此印象，以及面對近期工作的心情。", "A special Q&A about their chemistry, impressions of one another, and thoughts on their recent work.", "https://www.youtube.com/watch?v=ms73nsj90qg"),
+        new(2026, 5, 28, "LENAMIU", "Lena 與 Miu 談雙人默契與演員之路", "Lena and Miu on Their Chemistry and Acting", "Sweety High", "文字・英文", "Article · English", "英文專訪從表演經歷談到兩人的相處與默契，也分享她們如何在工作中支持彼此。", "An English-language interview about their acting journeys, their chemistry, and how they support one another through their work.", "https://www.sweetyhigh.com/read/thai-actresses-lena-and-miu-my-safe-zone-interview-052826")
+    ];
+
     private static string Map(string query) => $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(query)}";
 
     private sealed record ScheduleEvent(
@@ -389,4 +503,18 @@
         string NoteZh,
         string NoteEn,
         string[] Statuses);
+
+    private sealed record InterviewItem(
+        int Year,
+        int Month,
+        int Day,
+        string Person,
+        string TitleZh,
+        string TitleEn,
+        string Source,
+        string TypeZh,
+        string TypeEn,
+        string SummaryZh,
+        string SummaryEn,
+        string Url);
 }
