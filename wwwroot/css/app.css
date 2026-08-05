@@ -219,16 +219,16 @@ button {
 
 .service h2 {
     margin: 0;
-    padding: 20px 24px 38px;
+    padding: 24px 24px 68px;
     border-bottom: 0;
     background: transparent;
     text-align: center;
-    font-size: 68px;
+    font-size: 80px;
     font-weight: 400;
 }
 
 .service-row {
-    min-height: 260px;
+    min-height: 290px;
     position: relative;
     display: grid;
     align-items: center;
@@ -272,13 +272,13 @@ button {
 .service-item p {
     margin: 0;
     max-width: 250px;
-    font-size: clamp(30px, 3vw, 43px);
-    line-height: 1.05;
+    font-size: clamp(27px, 2.3vw, 32px);
+    line-height: 1.15;
 }
 
 .small-image {
-    width: clamp(160px, 14vw, 210px);
-    height: clamp(120px, 10vw, 150px);
+    width: clamp(155px, 13vw, 190px);
+    height: clamp(116px, 9.5vw, 140px);
     flex: 0 0 auto;
     display: block;
     border: 0;
