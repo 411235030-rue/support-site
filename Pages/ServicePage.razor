@@ -263,7 +263,7 @@
                             <span class="interview-row-copy">
                                 <small>@InterviewType(item) · @item.Person</small>
                                 <strong>@InterviewTitle(item)</strong>
-                                <em>@item.Source</em>
+                                <em>@InterviewSources(item)</em>
                             </span>
                             <i aria-hidden="true">↗</i>
                         </button>
@@ -280,9 +280,12 @@
                     <h1 id="interviews-title">@InterviewTitle(item)</h1>
                     <div class="interview-detail-rule"></div>
                     <p class="interview-summary">@InterviewSummary(item)</p>
-                    <a class="interview-source" href="@item.Url" target="_blank" rel="noopener noreferrer">
-                        @(IsEnglish ? $"Read or watch on {item.Source} ↗" : $"前往 {item.Source} 閱讀／觀看 ↗")
-                    </a>
+                    <div class="interview-sources">
+                        @foreach (var link in item.Links)
+                        {
+                            <a class="interview-source" href="@link.Url" target="_blank" rel="noopener noreferrer">@link.Platform ↗</a>
+                        }
+                    </div>
                 </article>
             }
         </section>
@@ -379,6 +382,7 @@
     private string InterviewTitle(InterviewItem item) => IsEnglish ? item.TitleEn : item.TitleZh;
     private string InterviewType(InterviewItem item) => IsEnglish ? item.TypeEn : item.TypeZh;
     private string InterviewSummary(InterviewItem item) => IsEnglish ? item.SummaryEn : item.SummaryZh;
+    private static string InterviewSources(InterviewItem item) => string.Join(" · ", item.Links.Select(link => link.Platform));
     private void OpenInterviewYear(int year) { SelectedInterviewYear = year; SelectedInterviewMonth = null; SelectedInterview = null; }
     private void CloseInterviewYear() { SelectedInterviewYear = null; SelectedInterviewMonth = null; SelectedInterview = null; }
     private void OpenInterviewMonth(int month) { SelectedInterviewMonth = month; SelectedInterview = null; }
@@ -471,11 +475,14 @@
 
     private static IReadOnlyList<InterviewItem> Interviews =>
     [
-        new(2025, 8, 1, "LENAMIU", "跨出舒適圈，開啟 Girls’ Love 新角色", "Stepping Beyond the Comfort Zone", "MINT Magazine Thailand", "文字・雜誌", "Article · Magazine", "Lena 與 Miu 分享踏入 Girls’ Love 作品的契機、對角色的理解，以及兩人建立合作默契的過程。", "Lena and Miu discuss stepping into Girls’ Love, understanding their roles, and building their on-screen partnership.", "https://www.mintmagth.com/people/interview-girls-love-lena-miu-mint-vol29-fendi"),
-        new(2025, 11, 11, "LENAMIU", "《My Safe Zone》宣傳訪談", "My Safe Zone Interview", "YouTube / ENG SUB", "影音・英字", "Video · English subtitles", "兩人以輕鬆問答分享合作中的相處方式、角色關係，以及宣傳期間的有趣片段。", "A relaxed conversation about their working relationship, their characters, and memorable moments from the promotional period.", "https://www.youtube.com/watch?v=IILmacEhgzU"),
-        new(2025, 11, 16, "LENAMIU", "尋找 Miu 成為搭檔的故事", "How Lena Found Miu as Her Partner", "YouTube / ENG SUB", "影音・英字", "Video · English subtitles", "Lena 分享找到 Miu 成為合作搭檔的過程，也談到兩人初次認識及逐漸建立信任的故事。", "Lena shares how Miu became her partner, from their first meeting to the trust they gradually built together.", "https://www.youtube.com/watch?v=pGdZwQsjGFQ"),
-        new(2025, 11, 19, "LENAMIU", "LenaMiu 特別訪談", "LenaMiu Special Interview", "YouTube", "影音", "Video", "透過專訪問答認識兩人的合作默契、彼此印象，以及面對近期工作的心情。", "A special Q&A about their chemistry, impressions of one another, and thoughts on their recent work.", "https://www.youtube.com/watch?v=ms73nsj90qg"),
-        new(2026, 5, 28, "LENAMIU", "Lena 與 Miu 談雙人默契與演員之路", "Lena and Miu on Their Chemistry and Acting", "Sweety High", "文字・英文", "Article · English", "英文專訪從表演經歷談到兩人的相處與默契，也分享她們如何在工作中支持彼此。", "An English-language interview about their acting journeys, their chemistry, and how they support one another through their work.", "https://www.sweetyhigh.com/read/thai-actresses-lena-and-miu-my-safe-zone-interview-052826")
+        new(2025, 8, 1, "LENAMIU", "跨出舒適圈，開啟 Girls’ Love 新角色", "Stepping Beyond the Comfort Zone", "文字・雜誌", "Article · Magazine", "Lena 與 Miu 分享踏入 Girls’ Love 作品的契機、對角色的理解，以及兩人建立合作默契的過程。", "Lena and Miu discuss stepping into Girls’ Love, understanding their roles, and building their on-screen partnership.", [new("MINT Magazine", "https://www.mintmagth.com/people/interview-girls-love-lena-miu-mint-vol29-fendi")]),
+        new(2025, 11, 11, "LENAMIU", "《My Safe Zone》宣傳訪談", "My Safe Zone Interview", "影音・英字", "Video · English subtitles", "兩人以輕鬆問答分享合作中的相處方式、角色關係，以及宣傳期間的有趣片段。", "A relaxed conversation about their working relationship, their characters, and memorable moments from the promotional period.", [new("YouTube", "https://www.youtube.com/watch?v=IILmacEhgzU")]),
+        new(2025, 11, 16, "LENAMIU", "尋找 Miu 成為搭檔的故事", "How Lena Found Miu as Her Partner", "影音・英字", "Video · English subtitles", "Lena 分享找到 Miu 成為合作搭檔的過程，也談到兩人初次認識及逐漸建立信任的故事。", "Lena shares how Miu became her partner, from their first meeting to the trust they gradually built together.", [new("YouTube", "https://www.youtube.com/watch?v=pGdZwQsjGFQ")]),
+        new(2025, 11, 19, "LENAMIU", "LenaMiu 特別訪談", "LenaMiu Special Interview", "影音", "Video", "透過專訪問答認識兩人的合作默契、彼此印象，以及面對近期工作的心情。", "A special Q&A about their chemistry, impressions of one another, and thoughts on their recent work.", [new("YouTube", "https://www.youtube.com/watch?v=ms73nsj90qg")]),
+        new(2026, 5, 28, "LENAMIU", "Lena 與 Miu 談雙人默契與演員之路", "Lena and Miu on Their Chemistry and Acting", "文字・英文", "Article · English", "英文專訪從表演經歷談到兩人的相處與默契，也分享她們如何在工作中支持彼此。", "An English-language interview about their acting journeys, their chemistry, and how they support one another through their work.", [new("Sweety High", "https://www.sweetyhigh.com/read/thai-actresses-lena-and-miu-my-safe-zone-interview-052826")]),
+        new(2026, 7, 14, "LENAMIU", "LenaMiu 快問快答", "Rapid Fire Questions with LenaMiu", "短影音・快問快答", "Short video · Rapid fire", "以快問快答認識兩人的直覺選擇與互動反應，內容短而集中。", "A quick rapid-fire interview highlighting their instinctive choices and natural chemistry.", [new("Instagram", "https://www.instagram.com/reel/DYyTl4JDPfL/")]),
+        new(2026, 7, 16, "LENA", "《Her in Frame》媒體專訪", "Her in Frame Media Exclusive Interview", "媒體專訪", "Media interview", "Lena 為首部電影《Her in Frame》接受媒體訪問，分享拍攝準備與面對新角色的心情。", "Lena discusses preparing for her first film, Her in Frame, and taking on a new role.", [new("Instagram", "https://www.instagram.com/p/DbHz2A-z9aK/")]),
+        new(2026, 7, 18, "LENAMIU", "Our Journey to Aura 現場問答", "Our Journey to Aura Event Q&A", "活動問答・短影音", "Event Q&A · Short video", "兩人在活動現場回答角色與個性相關問題，呈現輕鬆自然的即時互動。", "A short event Q&A about their personalities and characters, featuring their relaxed on-stage interaction.", [new("Instagram", "https://www.instagram.com/reel/Da7h8Ohxa7b/")])
     ];
 
     private static string Map(string query) => $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(query)}";
@@ -511,10 +518,11 @@
         string Person,
         string TitleZh,
         string TitleEn,
-        string Source,
         string TypeZh,
         string TypeEn,
         string SummaryZh,
         string SummaryEn,
-        string Url);
+        InterviewLink[] Links);
+
+    private sealed record InterviewLink(string Platform, string Url);
 }
