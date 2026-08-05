@@ -18,7 +18,84 @@
     <a class="menu-button home-button" href="@HomeHref">@(IsEnglish ? "Home" : "回首頁")</a>
 </header>
 
-<main class="service-page"></main>
+<main class="service-page">
+    @if (Slug == "schedule")
+    {
+        <section class="schedule-section" aria-labelledby="schedule-title">
+            <div class="schedule-heading">
+                <p>@(IsEnglish ? "Upcoming events" : "近期行程")</p>
+                <h1 id="schedule-title">@(IsEnglish ? "August 2026" : "2026 年 8 月")</h1>
+                <div class="schedule-legend" aria-label="活動標示說明">
+                    <span><i class="status-dot public"></i>@(IsEnglish ? "Public event" : "公開活動")</span>
+                    <span><i class="status-dot private"></i>@(IsEnglish ? "Private event" : "私人活動")</span>
+                    <span><i class="status-dot notice"></i>@(IsEnglish ? "No gathering or gifts" : "活動後不聚會、不收禮物")</span>
+                </div>
+            </div>
+
+            <div class="calendar" aria-label="2026 年 8 月行程月曆">
+                <div class="calendar-weekdays" aria-hidden="true">
+                    @foreach (var weekday in Weekdays)
+                    {
+                        <span>@weekday</span>
+                    }
+                </div>
+                <div class="calendar-grid">
+                    @for (var blank = 0; blank < 6; blank++)
+                    {
+                        <div class="calendar-day calendar-empty" aria-hidden="true"></div>
+                    }
+                    @for (var day = 1; day <= 31; day++)
+                    {
+                        var currentDay = day;
+                        var dayEvent = Events.FirstOrDefault(item => item.Day == currentDay);
+                        <button type="button"
+                                class="calendar-day @(dayEvent is null ? string.Empty : "has-event") @(ActiveDay == currentDay ? "is-active" : string.Empty)"
+                                aria-label="@DayLabel(currentDay, dayEvent)"
+                                aria-expanded="@(dayEvent is not null && ActiveDay == currentDay)"
+                                @onclick="() => ToggleDay(currentDay, dayEvent)">
+                            <span class="calendar-date">@currentDay</span>
+                            @if (dayEvent is not null)
+                            {
+                                <span class="calendar-event-name">@EventTitle(dayEvent)</span>
+                                <span class="calendar-dots" aria-hidden="true">
+                                    @foreach (var status in dayEvent.Statuses)
+                                    {
+                                        <i class="status-dot @status"></i>
+                                    }
+                                </span>
+                                <span class="event-popover" role="status">
+                                    <strong>@EventTitle(dayEvent)</strong>
+                                    <span class="event-person">@dayEvent.Person</span>
+                                    @if (!string.IsNullOrWhiteSpace(dayEvent.Time))
+                                    {
+                                        <span>@(IsEnglish ? "Time" : "時間")｜@dayEvent.Time</span>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(dayEvent.Venue))
+                                    {
+                                        <span>@(IsEnglish ? "Venue" : "地點")｜@dayEvent.Venue</span>
+                                        <a href="@dayEvent.MapUrl" target="_blank" rel="noopener noreferrer" @onclick:stopPropagation="true">
+                                            @(IsEnglish ? "Open in Google Maps ↗" : "在 Google Maps 查看 ↗")
+                                        </a>
+                                    }
+                                    @if (dayEvent.IsPrivate)
+                                    {
+                                        <em>@(IsEnglish ? "Private event" : "此為私人活動")</em>
+                                    }
+                                </span>
+                            }
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <p class="schedule-note">
+                @(IsEnglish
+                    ? "Other dates in August are reserved for filming. The schedule may be adjusted as necessary."
+                    : "8 月其餘日期預留作戲劇拍攝；行程可能依實際情況調整。")
+            </p>
+        </section>
+    }
+</main>
 
 @code {
     [Parameter]
@@ -41,4 +118,48 @@
         "live-videos" => IsEnglish ? "Live Videos" : "直播影片",
         _ => "LenaMiu 應援網站"
     };
+
+    private int? ActiveDay { get; set; }
+
+    private string[] Weekdays => IsEnglish
+        ? ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        : ["日", "一", "二", "三", "四", "五", "六"];
+
+    private IReadOnlyList<ScheduleEvent> Events =>
+    [
+        new(1, "LENAMIU", "Girls Cup Presented by มาม่า", "Girls Cup Presented by มาม่า", "02:00 PM", "BITEC Live", Map("BITEC Live Bangkok"), true, ["private"]),
+        new(7, "MIU", "Vaseline Pro Derma Glycoxome 快閃實驗室", "Vaseline Pro Derma Glycoxome Pop-Up Lab", "07:00 PM", "Sphere Gallery 1, M Floor, Emsphere", Map("Sphere Gallery 1 Emsphere Bangkok"), false, ["public", "notice"]),
+        new(8, "LENAMIU", "Weibo Gala 2026（微博文化交流之夜）", "Weibo Gala 2026 (Weibo Cultural Communication Night)", "", "", "", true, ["private"]),
+        new(13, "LENAMIU", "LEGACY", "LEGACY", "05:00 PM", "Charoen Nakhon Hall & Thara Hall, M Level, ICONSIAM", Map("Charoen Nakhon Hall ICONSIAM Bangkok"), false, ["public", "notice"]),
+        new(20, "LENA", "《Her in Frame》電影特別放映", "Her in Frame Special Screening", "01:00 PM", "5th Floor, Paragon Cineplex, Siam Paragon", Map("Paragon Cineplex Siam Paragon Bangkok"), false, ["public", "notice"]),
+        new(22, "LENAMIU", "LENAMIU 首次新加坡粉絲見面會", "LENAMIU 1st Fan Meeting in Singapore", "", "Singapore", Map("Singapore"), true, ["private"]),
+        new(28, "LENAMIU", "Aura No.10 十週年活動", "Aura No.10 10th Anniversary Event", "", "Central Post Office Bang Rak", Map("Central Post Office Bang Rak Bangkok"), true, ["private"])
+    ];
+
+    private void ToggleDay(int day, ScheduleEvent? dayEvent)
+    {
+        if (dayEvent is not null)
+        {
+            ActiveDay = ActiveDay == day ? null : day;
+        }
+    }
+
+    private string EventTitle(ScheduleEvent item) => IsEnglish ? item.TitleEn : item.TitleZh;
+
+    private string DayLabel(int day, ScheduleEvent? item) => item is null
+        ? $"8 月 {day} 日"
+        : $"8 月 {day} 日，{EventTitle(item)}";
+
+    private static string Map(string query) => $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(query)}";
+
+    private sealed record ScheduleEvent(
+        int Day,
+        string Person,
+        string TitleZh,
+        string TitleEn,
+        string Time,
+        string Venue,
+        string MapUrl,
+        bool IsPrivate,
+        string[] Statuses);
 }
