@@ -114,6 +114,14 @@ button {
     background: var(--brown);
 }
 
+.home-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Noto Serif TC", serif;
+    font-size: 15px;
+}
+
 .hero {
     min-height: 500px;
     display: grid;
