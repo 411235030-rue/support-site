@@ -432,11 +432,12 @@ button {
 }
 
 .profile-copy p {
-    max-width: 680px;
+    max-width: min(680px, 100%);
     font-size: 17px;
     line-height: 1.85;
     letter-spacing: .02em;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .profile-links {
