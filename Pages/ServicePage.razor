@@ -136,7 +136,6 @@
                         var year = SelectedMaterialYear!.Value;
                         var daysInMonth = DateTime.DaysInMonth(year, month);
                         var firstWeekday = (int)new DateTime(year, month, 1).DayOfWeek;
-                        var posters = MonthMaterials(year, month);
                         <article class="month-calendar">
                             <header>
                                 <span>@month.ToString("00")</span>
@@ -155,21 +154,51 @@
                                 }
                                 @for (var day = 1; day <= daysInMonth; day++)
                                 {
-                                    <span>@day</span>
+                                    var currentDay = day;
+                                    var dayEvents = MaterialEventsForDay(year, month, currentDay);
+                                    if (dayEvents.Count == 0)
+                                    {
+                                        <span>@currentDay</span>
+                                    }
+                                    else
+                                    {
+                                        var dayKey = $"{year}-{month}-{currentDay}";
+                                        <button type="button"
+                                                class="material-day has-material-event @(ActiveMaterialDay == dayKey ? "is-active" : string.Empty)"
+                                                aria-expanded="@(ActiveMaterialDay == dayKey)"
+                                                @onclick="() => ToggleMaterialDay(dayKey)">
+                                            <b>@currentDay</b>
+                                            <span class="material-day-dots" aria-hidden="true">
+                                                @foreach (var status in dayEvents.SelectMany(item => item.Statuses).Distinct())
+                                                {
+                                                    <i class="status-dot @status"></i>
+                                                }
+                                            </span>
+                                            <span class="material-popover" role="status">
+                                                @foreach (var item in dayEvents)
+                                                {
+                                                    <span class="material-event-detail">
+                                                        <strong>@MaterialEventTitle(item)</strong>
+                                                        <em>@item.Person</em>
+                                                        @if (!string.IsNullOrWhiteSpace(item.Time))
+                                                        {
+                                                            <span>@(IsEnglish ? "Time" : "時間")｜@item.Time</span>
+                                                        }
+                                                        @if (!string.IsNullOrWhiteSpace(item.Venue))
+                                                        {
+                                                            <span>@(IsEnglish ? "Venue" : "地點")｜@item.Venue</span>
+                                                        }
+                                                        @if (!string.IsNullOrWhiteSpace(MaterialEventNote(item)))
+                                                        {
+                                                            <small>@MaterialEventNote(item)</small>
+                                                        }
+                                                    </span>
+                                                }
+                                            </span>
+                                        </button>
+                                    }
                                 }
                             </div>
-                            @if (posters.Count > 0)
-                            {
-                                <div class="material-poster-grid @(posters.Count > 1 ? "has-multiple" : string.Empty)">
-                                    @foreach (var poster in posters)
-                                    {
-                                        <a class="material-poster" href="@poster.Path" target="_blank" rel="noopener noreferrer">
-                                            <img src="@poster.Path" alt="@poster.Alt" loading="lazy" />
-                                            <span>@(IsEnglish ? "View full image ↗" : "查看完整圖片 ↗")</span>
-                                        </a>
-                                    }
-                                </div>
-                            }
                         </article>
                     }
                 </div>
@@ -202,6 +231,7 @@
 
     private int? ActiveDay { get; set; }
     private int? SelectedMaterialYear { get; set; }
+    private string? ActiveMaterialDay { get; set; }
     private IEnumerable<int> MaterialMonths => SelectedMaterialYear == 2025
         ? [8, 12]
         : Enumerable.Range(1, 7);
@@ -243,21 +273,67 @@
         ? new DateTime(SelectedMaterialYear ?? 2026, month, 1).ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture)
         : $"{month} 月";
 
-    private IReadOnlyList<MaterialPoster> MonthMaterials(int year, int month) => MaterialPosters
-        .Where(item => item.Year == year && item.Month == month)
+    private IReadOnlyList<MaterialEvent> MaterialEventsForDay(int year, int month, int day) => MaterialEvents
+        .Where(item => item.Year == year && item.Month == month && item.Day == day)
         .ToList();
 
-    private static IReadOnlyList<MaterialPoster> MaterialPosters =>
+    private void ToggleMaterialDay(string dayKey) => ActiveMaterialDay = ActiveMaterialDay == dayKey ? null : dayKey;
+
+    private string MaterialEventTitle(MaterialEvent item) => IsEnglish ? item.TitleEn : item.TitleZh;
+    private string MaterialEventNote(MaterialEvent item) => IsEnglish ? item.NoteEn : item.NoteZh;
+
+    private static IReadOnlyList<MaterialEvent> MaterialEvents =>
     [
-        new(2025, 8, "images/materials/2025-08.jpeg", "LenaMiu 2025 年 8 月行程圖"),
-        new(2025, 12, "images/materials/2025-12.jpeg", "LenaMiu 2025 年 12 月行程圖"),
-        new(2026, 1, "images/materials/2026-01.jpeg", "LenaMiu 2026 年 1 月行程圖"),
-        new(2026, 2, "images/materials/2026-02-b.jpeg", "LenaMiu 2026 年 2 月行程圖"),
-        new(2026, 3, "images/materials/2026-03.jpeg", "LenaMiu 2026 年 3 月行程圖"),
-        new(2026, 4, "images/materials/2026-04.jpeg", "LenaMiu 2026 年 4 月行程圖"),
-        new(2026, 5, "images/materials/2026-05.jpeg", "LenaMiu 2026 年 5 月行程圖"),
-        new(2026, 6, "images/materials/2026-06.jpeg", "LenaMiu 2026 年 6 月行程圖"),
-        new(2026, 7, "images/materials/2026-07.jpeg", "LenaMiu 2026 年 7 月行程圖")
+        new(2025, 8, 2, "LENA", "Vaseline Pro Derma 活動", "Vaseline Pro Derma Event", "01:00 PM", "Gaysorn Platform", "", "", ["public"]),
+        new(2025, 8, 15, "MIU", "PLEATS PLEASE ISSEY MIYAKE 快閃店開幕", "PLEATS PLEASE ISSEY MIYAKE Pop-up Opening", "01:00 PM", "Siam Discovery", "", "", ["public"]),
+        new(2025, 8, 19, "LENAMIU", "Lifestyle Asia Thailand Awards 2025", "Lifestyle Asia Thailand Awards 2025", "06:00 PM", "515 Victory", "活動後不聚會、不收禮物", "No gathering or gifts after the event", ["notice"]),
+        new(2025, 8, 26, "LENA", "Central Beauty Awards", "Central Beauty Awards", "05:00 PM", "Central Chidlom", "活動後不聚會、不收禮物", "No gathering or gifts after the event", ["notice"]),
+        new(2025, 8, 27, "MIU", "BLEU DE CHANEL", "BLEU DE CHANEL", "07:00 PM", "One City Centre", "活動後不聚會、不收禮物", "No gathering or gifts after the event", ["notice"]),
+        new(2025, 8, 30, "LENAMIU", "Girls Cup Presented by มาม่า", "Girls Cup Presented by มาม่า", "02:00 PM", "Island Hall, 3rd Floor, Fashion Island", "", "", []),
+
+        new(2025, 12, 1, "MIU", "LV Siam Paragon 店舖開幕", "LV Siam Paragon Store Opening", "10:00 AM", "LV Siam Paragon Store", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 12, 1, "LENA", "Rally Movement 直播", "Rally Movement Live", "08:00 PM", "Online", "", "", ["private"]),
+        new(2025, 12, 2, "MIU", "WACAY Fashion Show", "WACAY Fashion Show", "03:00 PM", "Central Embassy Cinema Theater", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2025, 12, 12, "LENAMIU", "活動待公布", "Event TBC", "", "", "詳情待公布", "Details to be confirmed", []),
+        new(2025, 12, 24, "LENAMIU", "Dreamy Santy Night Party", "Dreamy Santy Night Party", "04:00 PM", "", "私人活動", "Private event", ["private"]),
+
+        new(2026, 1, 14, "LENAMIU", "詩琳通公主殿下生日暨泰國兒童節慶典", "Princess Maha Chakri Sirindhorn Birthday & National Children's Day Celebration", "04:00 PM", "Icon Art & Culture Space, 8th Floor, ICONSIAM", "限符合資格者參加；活動後 6 時於 ICONSIAM Park 2 樓有聚會", "Restricted participation; gathering at 6 PM, ICONSIAM Park, 2nd Floor", ["private"]),
+
+        new(2026, 2, 1, "LENAMIU", "Born to Shine 粉絲見面會", "Born to Shine Fan Meeting", "03:00 PM", "Phenix Grand Ballroom, 5th Floor", "私人活動", "Private event", ["private"]),
+        new(2026, 2, 3, "LENAMIU", "CHANEL Coco Crush 快閃活動", "CHANEL Coco Crush Pop-up Event", "03:00 PM", "Siam Paragon", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+        new(2026, 2, 14, "LENAMIU", "BEAUTRIUM House of Perfume", "BEAUTRIUM House of Perfume", "12:30 PM", "BEAUTRIUM Siam Square Flagship Store", "不收禮物", "Not accepting gifts", ["public", "notice"]),
+        new(2026, 2, 25, "LENAMIU", "活動待公布", "Event TBC", "", "", "詳情待公布", "Details to be confirmed", []),
+
+        new(2026, 3, 21, "LENAMIU", "首次澳門粉絲見面會", "1st Fan Meeting in Macau", "04:00 PM", "Macau Tower", "私人活動", "Private event", ["private"]),
+        new(2026, 3, 27, "MIU", "私人活動", "Private Event", "", "", "", "", ["private"]),
+        new(2026, 3, 28, "LENAMIU", "Vaseline Live Exclusive", "Vaseline Live Exclusive", "12:00 PM", "Online", "私人活動", "Private event", ["private"]),
+        new(2026, 3, 29, "LENAMIU", "Vaseline Gluta-Hya 活動", "Vaseline Gluta-Hya Event", "03:00 PM", "G Floor, Gaysorn Amarin Forum", "", "", ["public"]),
+        new(2026, 3, 31, "MIU", "Maison keeps", "Maison keeps", "02:00 PM", "Chanintr Pop-up Market", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+
+        new(2026, 4, 4, "LENAMIU", "CH3 56 週年紀念活動", "CH3 56th Anniversary Event", "", "Supachalasai National Stadium", "", "", ["public"]),
+        new(2026, 4, 8, "LENAMIU", "Vaseline VDO Call", "Vaseline VDO Call", "", "Online", "私人活動", "Private event", ["private"]),
+        new(2026, 4, 9, "LENAMIU", "A Fair by A Supachai", "A Fair by A Supachai", "", "", "詳情以公告為準", "See announcement for details", ["public"]),
+        new(2026, 4, 18, "LENAMIU", "重慶首次簽售會", "First Fansign in Chongqing", "", "Chongqing, China", "私人活動", "Private event", ["private"]),
+        new(2026, 4, 29, "LENAMIU", "CHANEL CRUISE", "CHANEL CRUISE", "", "", "詳情待公布", "Details to be confirmed", []),
+
+        new(2026, 5, 2, "LENAMIU", "May in Love with LenaMiu", "May in Love with LenaMiu", "07:00 PM", "Chapter Market", "私人活動", "Private event", ["private"]),
+        new(2026, 5, 5, "MIU", "Jasmina × Scintilla Gioielli × Yvon Sugunnasil", "Jasmina × Scintilla Gioielli × Yvon Sugunnasil", "06:30 PM", "", "私人活動", "Private event", ["private"]),
+        new(2026, 5, 8, "LENAMIU", "Always Close, Then Closer 官方寫真簽售會", "Always Close, Then Closer Official Photobook Fansign", "02:00 PM", "Maleenont Tower", "", "", ["public"]),
+        new(2026, 5, 14, "MIU", "TRÈS CHÉRIE, POEM × CHERRY KHEMPUSORN", "TRÈS CHÉRIE, POEM × CHERRY KHEMPUSORN", "07:00 PM", "", "私人活動；活動後不聚會", "Private event; no gathering after the event", ["private", "notice"]),
+        new(2026, 5, 23, "LENAMIU", "馬尼拉粉絲見面會（5 月 23—24 日）", "Fan Meeting in Manila (May 23–24)", "", "Philippines", "私人活動", "Private event", ["private"]),
+        new(2026, 5, 24, "LENAMIU", "馬尼拉粉絲見面會（5 月 23—24 日）", "Fan Meeting in Manila (May 23–24)", "", "Philippines", "私人活動", "Private event", ["private"]),
+        new(2026, 5, 28, "LENAMIU", "Central Grand Grand Sale", "Central Grand Grand Sale", "02:00 PM", "1st Floor, Eden Zone, centralWorld", "", "", []),
+        new(2026, 5, 31, "LENAMIU", "Confidence at First Sight × LenaMiu", "Confidence at First Sight × LenaMiu", "04:00 PM", "Central Westgate", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
+
+        new(2026, 6, 20, "LENAMIU", "Midsummer Dream 廣東簽售會", "Midsummer Dream Fansign in Guangdong", "", "Guangdong, China", "私人活動", "Private event", ["private"]),
+        new(2026, 6, 30, "LENA", "Suntory Live", "Suntory Live", "07:00 PM", "Shopee Live", "私人活動", "Private event", ["private"]),
+
+        new(2026, 7, 3, "LENA", "Tory Burch ICONSIAM 精品店開幕", "Tory Burch ICONSIAM Boutique Grand Opening", "02:15 PM", "1st Floor, ICONSIAM", "私人活動", "Private event", ["private"]),
+        new(2026, 7, 9, "MIU", "Bobbi Brown Vitamin Enriched Face Base", "Bobbi Brown Vitamin Enriched Face Base", "06:30 PM", "Hall of Fame, M Floor, Siam Paragon", "不收禮物", "Not accepting gifts", ["public", "notice"]),
+        new(2026, 7, 15, "LENAMIU", "Wear Your Safe Zone", "Wear Your Safe Zone", "04:00 PM", "", "私人活動", "Private event", ["private"]),
+        new(2026, 7, 16, "LENA", "《Her in Frame》媒體專訪", "Her in Frame Media Exclusive Interview", "", "", "私人活動", "Private event", ["private"]),
+        new(2026, 7, 18, "LENAMIU", "Our Journey to Aura", "Our Journey to Aura", "03:00 PM", "Parade Square, G Floor, One Bangkok", "不收禮物", "Not accepting gifts", ["public", "notice"]),
+        new(2026, 7, 23, "LENA", "《Her in Frame》媒體專訪", "Her in Frame Media Exclusive Interview", "", "", "私人活動", "Private event", ["private"])
     ];
 
     private static string Map(string query) => $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(query)}";
@@ -273,5 +349,16 @@
         bool IsPrivate,
         string[] Statuses);
 
-    private sealed record MaterialPoster(int Year, int Month, string Path, string Alt);
+    private sealed record MaterialEvent(
+        int Year,
+        int Month,
+        int Day,
+        string Person,
+        string TitleZh,
+        string TitleEn,
+        string Time,
+        string Venue,
+        string NoteZh,
+        string NoteEn,
+        string[] Statuses);
 }

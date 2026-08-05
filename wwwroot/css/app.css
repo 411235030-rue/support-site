@@ -711,47 +711,142 @@ button.year-card:focus-visible {
     place-items: center;
 }
 
-.material-poster-grid {
+.mini-days > .material-day {
+    position: relative;
+    min-width: 0;
+    min-height: 36px;
     display: grid;
-    justify-items: center;
-    gap: 18px;
-    margin-top: 28px;
-    padding-top: 28px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--pastel-pink);
+    color: var(--deep-brown);
+    font-family: "Noto Serif TC", serif;
+    cursor: pointer;
+}
+
+.material-day b {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.material-day-dots {
+    position: absolute;
+    top: -3px;
+    right: -1px;
+    display: flex;
+    gap: 2px;
+}
+
+.material-day-dots .status-dot {
+    width: 6px;
+    height: 6px;
+}
+
+.material-popover {
+    position: absolute;
+    z-index: 20;
+    left: 50%;
+    bottom: calc(100% + 9px);
+    width: min(290px, calc(100vw - 34px));
+    display: grid;
+    gap: 12px;
+    padding: 18px;
+    border: 1px solid var(--deep-brown);
+    background: var(--white);
+    box-shadow: 0 16px 34px rgba(62, 29, 10, .16);
+    text-align: left;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 8px);
+    transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.material-popover::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-right: 1px solid var(--deep-brown);
+    border-bottom: 1px solid var(--deep-brown);
+    background: var(--white);
+    transform: translate(-50%, -5px) rotate(45deg);
+}
+
+.material-event-detail {
+    display: grid;
+    gap: 5px;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.material-event-detail + .material-event-detail {
+    padding-top: 12px;
     border-top: 1px solid var(--line);
 }
 
-.material-poster-grid.has-multiple {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+.material-event-detail strong {
+    font-size: 15px;
+    line-height: 1.35;
 }
 
-.material-poster {
-    width: min(100%, 360px);
-    display: grid;
-    gap: 10px;
-    color: var(--deep-brown);
-    font-family: "Noto Serif TC", serif;
-    font-size: 12px;
+.material-event-detail em {
+    color: var(--brown);
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: .06em;
 }
 
-.material-poster img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    display: block;
-    border: 0;
-    object-fit: cover;
-    object-position: center 46%;
-    transition: filter 180ms ease, transform 180ms ease;
+.material-event-detail small {
+    color: #9d3131;
+    font-size: 11px;
 }
 
-.material-poster span {
-    width: fit-content;
-    border-bottom: 1px solid currentColor;
+.material-day:hover,
+.material-day:focus-visible,
+.material-day.is-active {
+    z-index: 10;
+    outline: 1px solid var(--deep-brown);
 }
 
-.material-poster:hover img,
-.material-poster:focus-visible img {
-    filter: saturate(.9) brightness(.96);
-    transform: translateY(-3px);
+.material-day:hover .material-popover,
+.material-day:focus-visible .material-popover,
+.material-day.is-active .material-popover {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+}
+
+.mini-days > .material-day:nth-child(7n + 1) .material-popover {
+    left: 0;
+    transform: translate(0, 8px);
+}
+
+.mini-days > .material-day:nth-child(7n) .material-popover {
+    right: 0;
+    left: auto;
+    transform: translate(0, 8px);
+}
+
+.mini-days > .material-day:nth-child(7n + 1) .material-popover::after {
+    left: 18px;
+}
+
+.mini-days > .material-day:nth-child(7n) .material-popover::after {
+    right: 13px;
+    left: auto;
+}
+
+.mini-days > .material-day:nth-child(7n + 1):hover .material-popover,
+.mini-days > .material-day:nth-child(7n + 1):focus-visible .material-popover,
+.mini-days > .material-day:nth-child(7n + 1).is-active .material-popover,
+.mini-days > .material-day:nth-child(7n):hover .material-popover,
+.mini-days > .material-day:nth-child(7n):focus-visible .material-popover,
+.mini-days > .material-day:nth-child(7n).is-active .material-popover {
+    transform: translate(0, 0);
 }
 
 .small-image {
@@ -1121,9 +1216,6 @@ button.year-card:focus-visible {
         width: 100%;
     }
 
-    .material-poster-grid.has-multiple {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 540px) {
