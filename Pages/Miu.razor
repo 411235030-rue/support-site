@@ -1,20 +1,21 @@
 @page "/miu"
+@inject NavigationManager Navigation
 
 <PageTitle>Miu</PageTitle>
 
 <header class="site-header" id="top">
-    <a class="brand" href="./">
+    <a class="brand" href="@(IsEnglish ? "./?lang=en" : "./")">
         <span class="brand-mark">S</span>
         <span>Support<br />with Love</span>
     </a>
 
     <nav class="main-nav" aria-label="main navigation">
-        <a href="lena">Lena</a>
-        <a href="miu">Miu</a>
-        <a href="gumber-bear">Gumber bear</a>
+        <a href="@(IsEnglish ? "lena?lang=en" : "lena")">Lena</a>
+        <a href="@(IsEnglish ? "miu?lang=en" : "miu")">Miu</a>
+        <a href="@(IsEnglish ? "gumber-bear?lang=en" : "gumber-bear")">Gumber bear</a>
     </nav>
 
-    <a class="menu-button home-button" href="./">回首頁</a>
+    <a class="menu-button home-button" href="@(IsEnglish ? "./?lang=en" : "./")">@(IsEnglish ? "Home" : "回首頁")</a>
 </header>
 
 <main class="profile-page">
@@ -28,7 +29,14 @@
             </figure>
             <div class="profile-copy">
                 <h1>Miu Natsha</h1>
-                <p>Miu Natsha 是出生於曼谷的泰國演員與模特兒，曾赴倫敦藝術大學學習。<br />她於 2024 年展開戲劇演出，以清新自然的氣質、真誠活潑的個性與獨特時尚品味受到關注。</p>
+                @if (IsEnglish)
+                {
+                    <p>Miu Natsha is a Thai actress and model born in Bangkok who has studied at University of the Arts London.<br />She began acting in 2024 and is known for her fresh presence, lively personality and distinctive fashion sense.</p>
+                }
+                else
+                {
+                    <p>Miu Natsha 是出生於曼谷的泰國演員與模特兒，曾赴倫敦藝術大學學習。<br />她於 2024 年展開戲劇演出，以清新自然的氣質、真誠活潑的個性與獨特時尚品味受到關注。</p>
+                }
             </div>
         </div>
     </section>
@@ -44,3 +52,7 @@
         </div>
     </section>
 </main>
+
+@code {
+    private bool IsEnglish => Navigation.ToAbsoluteUri(Navigation.Uri).Query.Contains("lang=en", StringComparison.OrdinalIgnoreCase);
+}

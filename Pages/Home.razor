@@ -1,4 +1,5 @@
 @page "/"
+@inject NavigationManager Navigation
 
 <PageTitle>Support with Love</PageTitle>
 
@@ -9,9 +10,9 @@
     </a>
 
     <nav class="main-nav" aria-label="main navigation">
-        <a href="lena">Lena</a>
-        <a href="miu">Miu</a>
-        <a href="gumber-bear">Gumber bear</a>
+        <a href="@(isEnglish ? "lena?lang=en" : "lena")">Lena</a>
+        <a href="@(isEnglish ? "miu?lang=en" : "miu")">Miu</a>
+        <a href="@(isEnglish ? "gumber-bear?lang=en" : "gumber-bear")">Gumber bear</a>
     </nav>
 
     <button class="menu-button language-button" type="button" @onclick="ToggleLanguage" aria-label="@(isEnglish ? "切換為中文" : "Switch to English")">
@@ -88,8 +89,14 @@
 @code {
     private bool isEnglish;
 
+    protected override void OnInitialized()
+    {
+        isEnglish = Navigation.ToAbsoluteUri(Navigation.Uri).Query.Contains("lang=en", StringComparison.OrdinalIgnoreCase);
+    }
+
     private void ToggleLanguage()
     {
         isEnglish = !isEnglish;
+        Navigation.NavigateTo(isEnglish ? "./?lang=en" : "./", replace: true);
     }
 }
