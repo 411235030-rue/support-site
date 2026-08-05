@@ -115,7 +115,7 @@
                         @foreach (var item in SelectedMaterialEvents)
                         {
                             <article class="material-detail-event">
-                                <div class="material-detail-intro material-activity-card">
+                                <div class="material-detail-intro">
                                     <p>@item.Person</p>
                                     <h2>@MaterialEventTitle(item)</h2>
                                     <dl>
@@ -239,6 +239,23 @@
                                                 @foreach (var status in dayEvents.SelectMany(item => item.Statuses).Distinct())
                                                 {
                                                     <i class="status-dot @status"></i>
+                                                }
+                                            </span>
+                                            <span class="material-popover material-summary-popover" aria-hidden="true">
+                                                @foreach (var item in dayEvents)
+                                                {
+                                                    <span class="material-event-detail">
+                                                        <strong>@MaterialEventTitle(item)</strong>
+                                                        <em>@item.Person</em>
+                                                        @if (!string.IsNullOrWhiteSpace(item.Time))
+                                                        {
+                                                            <span>@(IsEnglish ? "Time" : "時間")｜@item.Time</span>
+                                                        }
+                                                        @if (!string.IsNullOrWhiteSpace(item.Venue))
+                                                        {
+                                                            <span>@(IsEnglish ? "Venue" : "地點")｜@item.Venue</span>
+                                                        }
+                                                    </span>
                                                 }
                                             </span>
                                         </button>
@@ -437,6 +454,10 @@
                 new("飯拍 04", "Fan photos 04", "https://x.com/SapphicGardenTH/status/1887008021957763261?s=20"),
                 new("飯拍 05", "Fan photos 05", "https://x.com/SapphicGardenTH/status/1887009268756599195?s=20")
             ]),
+        new(2025, 2, 6, "LENA", "GOOD DAY SHOW 節目錄製", "GOOD DAY SHOW Recording", "", "", "私人錄製活動", "Private recording", ["private"]),
+        new(2025, 2, 15, "LENAMIU", "第 75 屆法政—朱拉傳統足球賽", "75th Thammasat–Chula Traditional Football Match", "12:00 PM", "National Stadium (Suphachalasai)", "可於活動周邊應援；活動後不聚會", "Fans may support around the venue; no gathering after the event", ["public", "notice"]),
+        new(2025, 2, 18, "MIU", "MIKIMOTO 盛大開幕活動", "Celebrate the Grand Opening of MIKIMOTO", "01:00 PM", "M Floor, Siam Paragon", "可於活動周邊應援；活動後不聚會", "Fans may support around the venue; no gathering after the event", ["public", "notice"]),
+        new(2025, 2, 27, "LENA", "金天鵝獎頒獎典禮", "Kinnaree Thong Awards Ceremony", "06:00 PM", "Infinicity Hall, 5th Floor, Siam Paragon", "可於活動周邊應援；活動後不聚會", "Fans may support around the venue; no gathering after the event", ["public", "notice"]),
 
         new(2025, 3, 13, "LENAMIU", "DERMAFORA 發表活動", "DERMAFORA Launch Event", "09:00 AM", "The Gardens of Dinsor Palace", "可於活動周邊應援，但不可跟隨藝人", "Fans may support around the venue, but may not follow the artists", ["public", "private"]),
         new(2025, 3, 29, "LENAMIU", "Channel 3 55 週年慶典：New Energy", "55th Anniversary Channel 3 Festival: New Energy", "", "Suphachalasai Stadium", "活動後不聚會", "No gathering after the event", ["public", "notice"]),
