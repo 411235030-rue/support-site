@@ -302,7 +302,7 @@ button {
 .profile-wave {
     position: absolute;
     right: 0;
-    bottom: 0;
+    bottom: -2px;
     left: 0;
     width: 100%;
     height: 210px;
@@ -402,11 +402,6 @@ button {
     color: var(--deep-brown);
     text-align: center;
     font-size: 14px;
-}
-
-.profile-links a:last-child {
-    background: var(--brown);
-    color: var(--white);
 }
 
 @media (max-width: 800px) {
