@@ -215,11 +215,12 @@ button {
 
 .service {
     padding-top: 28px;
+    padding-bottom: 90px;
 }
 
 .service h2 {
     margin: 0;
-    padding: 24px 24px 68px;
+    padding: 30px 24px 100px;
     border-bottom: 0;
     background: transparent;
     text-align: center;
@@ -247,6 +248,7 @@ button {
 }
 
 .service-row:last-child::after {
+    bottom: -90px;
     height: 2px;
 }
 
