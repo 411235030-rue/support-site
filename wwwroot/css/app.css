@@ -645,6 +645,159 @@ button.year-card:focus-visible {
     cursor: pointer;
 }
 
+.material-detail-page {
+    width: min(1040px, 100%);
+    margin-inline: auto;
+}
+
+.material-detail-back {
+    position: static;
+    margin-bottom: 52px;
+}
+
+.material-detail-heading {
+    padding-bottom: 50px;
+    border-bottom: 1px solid var(--deep-brown);
+    text-align: center;
+}
+
+.material-detail-heading p {
+    margin: 0 0 7px;
+    color: var(--brown);
+    font-family: "Noto Serif TC", serif;
+    font-size: 14px;
+    letter-spacing: .12em;
+}
+
+.material-detail-heading h1 {
+    margin: 0;
+    font-family: "Cormorant Garamond", "Noto Serif TC", serif;
+    font-size: clamp(56px, 8vw, 92px);
+    font-weight: 400;
+    line-height: 1;
+}
+
+.material-detail-event {
+    padding: 64px 0 16px;
+}
+
+.material-detail-event + .material-detail-event {
+    margin-top: 64px;
+    border-top: 1px solid var(--deep-brown);
+}
+
+.material-detail-intro {
+    max-width: 820px;
+    margin-bottom: 58px;
+}
+
+.material-detail-intro > p {
+    margin: 0 0 8px;
+    color: var(--brown);
+    font-family: "Noto Serif TC", serif;
+    font-size: 15px;
+    letter-spacing: .1em;
+}
+
+.material-detail-intro h2 {
+    margin: 0;
+    font-family: "Cormorant Garamond", "Noto Serif TC", serif;
+    font-size: clamp(38px, 5vw, 62px);
+    font-weight: 400;
+    line-height: 1.12;
+}
+
+.material-detail-intro dl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 48px;
+    margin: 26px 0 0;
+    font-family: "Noto Serif TC", serif;
+}
+
+.material-detail-intro dl > div {
+    display: flex;
+    gap: 12px;
+}
+
+.material-detail-intro dt {
+    color: var(--brown);
+}
+
+.material-detail-intro dd {
+    margin: 0;
+}
+
+.material-detail-intro small {
+    display: block;
+    margin-top: 18px;
+    color: #9d3131;
+    font-family: "Noto Serif TC", serif;
+    font-size: 13px;
+}
+
+.material-detail-links,
+.material-detail-tags {
+    margin-top: 48px;
+}
+
+.material-detail-links h3,
+.material-detail-tags h3 {
+    margin: 0 0 22px;
+    color: var(--brown);
+    font-family: "Cormorant Garamond", "Noto Serif TC", serif;
+    font-size: 25px;
+    font-weight: 500;
+    letter-spacing: .05em;
+}
+
+.material-detail-links > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 56px;
+}
+
+.material-detail-links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 2px;
+    border-top: 1px solid var(--line);
+    color: var(--deep-brown);
+    font-family: "Noto Serif TC", serif;
+    text-decoration: none;
+}
+
+.material-detail-links a:nth-last-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+}
+
+.material-detail-links a:hover span,
+.material-detail-links a:focus-visible span,
+.material-detail-tags a:hover,
+.material-detail-tags a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.material-detail-links i {
+    font-family: "Cormorant Garamond", serif;
+    font-style: normal;
+}
+
+.material-detail-tags > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 30px;
+}
+
+.material-detail-tags a {
+    color: var(--deep-brown);
+    font-family: "Noto Serif TC", serif;
+    text-decoration: none;
+}
+
 .month-calendar-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -836,47 +989,9 @@ button.year-card:focus-visible {
 }
 
 .material-day:hover,
-.material-day:focus-visible,
-.material-day.is-active {
+.material-day:focus-visible {
     z-index: 10;
     outline: 1px solid var(--deep-brown);
-}
-
-.material-day:hover .material-popover,
-.material-day:focus-visible .material-popover,
-.material-day.is-active .material-popover {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translate(-50%, 0);
-}
-
-.mini-days > .material-day:nth-child(7n + 1) .material-popover {
-    left: 0;
-    transform: translate(0, 8px);
-}
-
-.mini-days > .material-day:nth-child(7n) .material-popover {
-    right: 0;
-    left: auto;
-    transform: translate(0, 8px);
-}
-
-.mini-days > .material-day:nth-child(7n + 1) .material-popover::after {
-    left: 18px;
-}
-
-.mini-days > .material-day:nth-child(7n) .material-popover::after {
-    right: 13px;
-    left: auto;
-}
-
-.mini-days > .material-day:nth-child(7n + 1):hover .material-popover,
-.mini-days > .material-day:nth-child(7n + 1):focus-visible .material-popover,
-.mini-days > .material-day:nth-child(7n + 1).is-active .material-popover,
-.mini-days > .material-day:nth-child(7n):hover .material-popover,
-.mini-days > .material-day:nth-child(7n):focus-visible .material-popover,
-.mini-days > .material-day:nth-child(7n).is-active .material-popover {
-    transform: translate(0, 0);
 }
 
 .small-image {
@@ -1517,6 +1632,47 @@ button.year-card:focus-visible {
 
     .materials-back {
         position: static;
+    }
+
+    .material-detail-back {
+        margin-bottom: 38px;
+    }
+
+    .material-detail-heading {
+        padding-bottom: 34px;
+    }
+
+    .material-detail-heading h1 {
+        font-size: 46px;
+    }
+
+    .material-detail-event {
+        padding-top: 46px;
+    }
+
+    .material-detail-intro {
+        margin-bottom: 42px;
+    }
+
+    .material-detail-intro h2 {
+        font-size: 33px;
+    }
+
+    .material-detail-intro dl {
+        display: grid;
+        gap: 8px;
+    }
+
+    .material-detail-links > div {
+        grid-template-columns: 1fr;
+    }
+
+    .material-detail-links a:nth-last-child(-n + 2) {
+        border-bottom: 0;
+    }
+
+    .material-detail-links a:last-child {
+        border-bottom: 1px solid var(--line);
     }
 
     .month-calendar {
