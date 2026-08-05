@@ -1264,7 +1264,13 @@ button.year-card:focus-visible {
     font-size: 15px;
 }
 
-.fanclub-copy > a {
+.fanclub-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.fanclub-actions a {
     width: fit-content;
     min-width: 76px;
     height: 28px;
@@ -1279,8 +1285,8 @@ button.year-card:focus-visible {
     transition: background 160ms ease, color 160ms ease;
 }
 
-.fanclub-copy > a:hover,
-.fanclub-copy > a:focus-visible {
+.fanclub-actions a:hover,
+.fanclub-actions a:focus-visible {
     background: var(--pastel-pink);
     color: var(--deep-brown);
 }
