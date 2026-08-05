@@ -125,17 +125,9 @@ button {
 }
 
 .hero-content h1 {
-    width: min(100%, 350px);
-    min-height: 130px;
     margin: 0 0 20px;
-    padding: 28px;
-    display: flex;
-    align-items: flex-start;
-    border: 2px solid var(--deep-brown);
-    border-radius: 22px;
-    background: var(--pastel-pink);
     font-family: "Cormorant Garamond", serif;
-    font-size: 44px;
+    font-size: 64px;
     font-weight: 400;
 }
 
