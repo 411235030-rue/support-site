@@ -246,7 +246,7 @@
                     }
                 </div>
             }
-            else if (SelectedInterview is null)
+            else
             {
                 <div class="materials-calendar-heading interview-list-heading">
                     <button type="button" class="materials-back" @onclick="CloseInterviewMonth">← @(IsEnglish ? "Months" : "返回月份")</button>
@@ -258,35 +258,21 @@
                 <div class="interview-list">
                     @foreach (var item in InterviewsForMonth)
                     {
-                        <button type="button" class="interview-row" @onclick="() => SelectedInterview = item">
+                        <article class="interview-row">
                             <span class="interview-date"><b>@item.Day.ToString("00")</b><small>@InterviewMonthShort(item.Month)</small></span>
                             <span class="interview-row-copy">
                                 <small>@InterviewType(item) · @item.Person</small>
                                 <strong>@InterviewTitle(item)</strong>
-                                <em>@InterviewSources(item)</em>
+                                <span class="interview-row-sources">
+                                    @foreach (var link in item.Links)
+                                    {
+                                        <a href="@link.Url" target="_blank" rel="noopener noreferrer">@link.Platform</a>
+                                    }
+                                </span>
                             </span>
-                            <i aria-hidden="true">↗</i>
-                        </button>
+                        </article>
                     }
                 </div>
-            }
-            else
-            {
-                var item = SelectedInterview!;
-                <article class="interview-detail">
-                    <button type="button" class="materials-back" @onclick="() => SelectedInterview = null">← @(IsEnglish ? "Interviews" : "返回採訪列表")</button>
-                    <div class="interview-detail-date"><b>@item.Day.ToString("00")</b><span>@InterviewMonthName(item.Month)<br />@item.Year</span></div>
-                    <p>@InterviewType(item) · @item.Person</p>
-                    <h1 id="interviews-title">@InterviewTitle(item)</h1>
-                    <div class="interview-detail-rule"></div>
-                    <p class="interview-summary">@InterviewSummary(item)</p>
-                    <div class="interview-sources">
-                        @foreach (var link in item.Links)
-                        {
-                            <a class="interview-source" href="@link.Url" target="_blank" rel="noopener noreferrer">@link.Platform ↗</a>
-                        }
-                    </div>
-                </article>
             }
         </section>
     }
@@ -319,7 +305,6 @@
     private string? ActiveMaterialDay { get; set; }
     private int? SelectedInterviewYear { get; set; }
     private int? SelectedInterviewMonth { get; set; }
-    private InterviewItem? SelectedInterview { get; set; }
     private IEnumerable<int> MaterialMonths => SelectedMaterialYear == 2025
         ? [3, 4, 5, 6, 8, 9, 10, 11, 12]
         : Enumerable.Range(1, 7);
@@ -381,12 +366,10 @@
         : $"{month} 月";
     private string InterviewTitle(InterviewItem item) => IsEnglish ? item.TitleEn : item.TitleZh;
     private string InterviewType(InterviewItem item) => IsEnglish ? item.TypeEn : item.TypeZh;
-    private string InterviewSummary(InterviewItem item) => IsEnglish ? item.SummaryEn : item.SummaryZh;
-    private static string InterviewSources(InterviewItem item) => string.Join(" · ", item.Links.Select(link => link.Platform));
-    private void OpenInterviewYear(int year) { SelectedInterviewYear = year; SelectedInterviewMonth = null; SelectedInterview = null; }
-    private void CloseInterviewYear() { SelectedInterviewYear = null; SelectedInterviewMonth = null; SelectedInterview = null; }
-    private void OpenInterviewMonth(int month) { SelectedInterviewMonth = month; SelectedInterview = null; }
-    private void CloseInterviewMonth() { SelectedInterviewMonth = null; SelectedInterview = null; }
+    private void OpenInterviewYear(int year) { SelectedInterviewYear = year; SelectedInterviewMonth = null; }
+    private void CloseInterviewYear() { SelectedInterviewYear = null; SelectedInterviewMonth = null; }
+    private void OpenInterviewMonth(int month) => SelectedInterviewMonth = month;
+    private void CloseInterviewMonth() => SelectedInterviewMonth = null;
 
     private string MaterialEventTitle(MaterialEvent item) => IsEnglish ? item.TitleEn : item.TitleZh;
     private string MaterialEventNote(MaterialEvent item) => IsEnglish ? item.NoteEn : item.NoteZh;
