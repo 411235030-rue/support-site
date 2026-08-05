@@ -95,6 +95,71 @@
             </p>
         </section>
     }
+    else if (Slug == "materials")
+    {
+        <section class="materials-section" aria-labelledby="materials-title">
+            @if (SelectedMaterialYear is null)
+            {
+                <div class="materials-heading">
+                    <p>@(IsEnglish ? "Archive" : "年份整理")</p>
+                    <h1 id="materials-title">@(IsEnglish ? "Materials" : "物料總覽")</h1>
+                </div>
+
+                <div class="year-card-grid">
+                    <article class="year-card year-card-muted">
+                        <span>2025</span>
+                    </article>
+                    <button type="button" class="year-card" @onclick="() => SelectedMaterialYear = 2026">
+                        <span>2026</span>
+                        <small>@(IsEnglish ? "January — July" : "1 月—7 月")</small>
+                        <i aria-hidden="true">↗</i>
+                    </button>
+                </div>
+            }
+            else
+            {
+                <div class="materials-calendar-heading">
+                    <button type="button" class="materials-back" @onclick="() => SelectedMaterialYear = null">
+                        ← @(IsEnglish ? "Years" : "返回年份")
+                    </button>
+                    <div>
+                        <p>@(IsEnglish ? "Materials archive" : "物料總覽")</p>
+                        <h1 id="materials-title">2026</h1>
+                    </div>
+                </div>
+
+                <div class="month-calendar-grid">
+                    @foreach (var month in MaterialMonths)
+                    {
+                        var daysInMonth = DateTime.DaysInMonth(2026, month);
+                        var firstWeekday = (int)new DateTime(2026, month, 1).DayOfWeek;
+                        <article class="month-calendar">
+                            <header>
+                                <span>@month.ToString("00")</span>
+                                <h2>@MonthName(month)</h2>
+                            </header>
+                            <div class="mini-weekdays" aria-hidden="true">
+                                @foreach (var weekday in MiniWeekdays)
+                                {
+                                    <span>@weekday</span>
+                                }
+                            </div>
+                            <div class="mini-days">
+                                @for (var blank = 0; blank < firstWeekday; blank++)
+                                {
+                                    <span aria-hidden="true"></span>
+                                }
+                                @for (var day = 1; day <= daysInMonth; day++)
+                                {
+                                    <span>@day</span>
+                                }
+                            </div>
+                        </article>
+                    }
+                </div>
+            }
+        </section>
+    }
 </main>
 
 @code {
@@ -120,9 +185,15 @@
     };
 
     private int? ActiveDay { get; set; }
+    private int? SelectedMaterialYear { get; set; }
+    private static IEnumerable<int> MaterialMonths => Enumerable.Range(1, 7);
 
     private string[] Weekdays => IsEnglish
         ? ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        : ["日", "一", "二", "三", "四", "五", "六"];
+
+    private string[] MiniWeekdays => IsEnglish
+        ? ["S", "M", "T", "W", "T", "F", "S"]
         : ["日", "一", "二", "三", "四", "五", "六"];
 
     private IReadOnlyList<ScheduleEvent> Events =>
@@ -149,6 +220,10 @@
     private string DayLabel(int day, ScheduleEvent? item) => item is null
         ? $"8 月 {day} 日"
         : $"8 月 {day} 日，{EventTitle(item)}";
+
+    private string MonthName(int month) => IsEnglish
+        ? new DateTime(2026, month, 1).ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture)
+        : $"{month} 月";
 
     private static string Map(string query) => $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(query)}";
 
