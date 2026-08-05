@@ -98,7 +98,75 @@
     else if (Slug == "materials")
     {
         <section class="materials-section" aria-labelledby="materials-title">
-            @if (SelectedMaterialYear is null)
+            @if (SelectedMaterialDate is not null)
+            {
+                var selectedDate = SelectedMaterialDate.Value;
+                <div class="material-detail-page">
+                    <button type="button" class="materials-back material-detail-back" @onclick="CloseMaterialDay">
+                        ← @(IsEnglish ? "Calendar" : "返回月曆")
+                    </button>
+
+                    <header class="material-detail-heading">
+                        <p>@(IsEnglish ? "Materials archive" : "物料總覽")</p>
+                        <h1 id="materials-title">@selectedDate.ToString("yyyy.MM.dd")</h1>
+                    </header>
+
+                    <div class="material-detail-events">
+                        @foreach (var item in SelectedMaterialEvents)
+                        {
+                            <article class="material-detail-event">
+                                <div class="material-detail-intro">
+                                    <p>@item.Person</p>
+                                    <h2>@MaterialEventTitle(item)</h2>
+                                    <dl>
+                                        @if (!string.IsNullOrWhiteSpace(item.Time))
+                                        {
+                                            <div><dt>@(IsEnglish ? "Time" : "時間")</dt><dd>@item.Time</dd></div>
+                                        }
+                                        @if (!string.IsNullOrWhiteSpace(item.Venue))
+                                        {
+                                            <div><dt>@(IsEnglish ? "Venue" : "地點")</dt><dd>@item.Venue</dd></div>
+                                        }
+                                    </dl>
+                                    @if (!string.IsNullOrWhiteSpace(MaterialEventNote(item)))
+                                    {
+                                        <small>@MaterialEventNote(item)</small>
+                                    }
+                                </div>
+
+                                @if (item.Links is not null && item.Links.Length > 0)
+                                {
+                                    <section class="material-detail-links" aria-label="@(IsEnglish ? "Fan posts" : "相關飯拍")">
+                                        <h3>@(IsEnglish ? "Fan posts" : "相關飯拍")</h3>
+                                        <div>
+                                            @foreach (var link in item.Links)
+                                            {
+                                                <a href="@link.Url" target="_blank" rel="noopener noreferrer">
+                                                    <span>@(IsEnglish ? link.LabelEn : link.LabelZh)</span><i>↗</i>
+                                                </a>
+                                            }
+                                        </div>
+                                    </section>
+                                }
+
+                                @if (item.Tags is not null && item.Tags.Length > 0)
+                                {
+                                    <section class="material-detail-tags" aria-label="Tags">
+                                        <h3>Tags</h3>
+                                        <div>
+                                            @foreach (var tag in item.Tags)
+                                            {
+                                                <a href="@XTagHref(tag)" target="_blank" rel="noopener noreferrer">@tag</a>
+                                            }
+                                        </div>
+                                    </section>
+                                }
+                            </article>
+                        }
+                    </div>
+                </div>
+            }
+            else if (SelectedMaterialYear is null)
             {
                 <div class="materials-heading">
                     <p>@(IsEnglish ? "Archive" : "年份整理")</p>
@@ -162,59 +230,15 @@
                                     }
                                     else
                                     {
-                                        var dayKey = $"{year}-{month}-{currentDay}";
                                         <button type="button"
-                                                class="material-day has-material-event @(ActiveMaterialDay == dayKey ? "is-active" : string.Empty)"
-                                                aria-expanded="@(ActiveMaterialDay == dayKey)"
-                                                @onclick="() => ToggleMaterialDay(dayKey)">
+                                                class="material-day has-material-event"
+                                                aria-label="@(IsEnglish ? $"Open {year}-{month:00}-{currentDay:00}" : $"開啟 {year} 年 {month} 月 {currentDay} 日物料")"
+                                                @onclick="() => OpenMaterialDay(year, month, currentDay)">
                                             <b>@currentDay</b>
                                             <span class="material-day-dots" aria-hidden="true">
                                                 @foreach (var status in dayEvents.SelectMany(item => item.Statuses).Distinct())
                                                 {
                                                     <i class="status-dot @status"></i>
-                                                }
-                                            </span>
-                                            <span class="material-popover" role="status">
-                                                @foreach (var item in dayEvents)
-                                                {
-                                                    <span class="material-event-detail">
-                                                        <strong>@MaterialEventTitle(item)</strong>
-                                                        <em>@item.Person</em>
-                                                        @if (!string.IsNullOrWhiteSpace(item.Time))
-                                                        {
-                                                            <span>@(IsEnglish ? "Time" : "時間")｜@item.Time</span>
-                                                        }
-                                                        @if (!string.IsNullOrWhiteSpace(item.Venue))
-                                                        {
-                                                            <span>@(IsEnglish ? "Venue" : "地點")｜@item.Venue</span>
-                                                        }
-                                                        @if (!string.IsNullOrWhiteSpace(MaterialEventNote(item)))
-                                                        {
-                                                            <small>@MaterialEventNote(item)</small>
-                                                        }
-                                                        @if (item.Links is not null && item.Links.Length > 0)
-                                                        {
-                                                            <span class="material-source-links">
-                                                                <span>@(IsEnglish ? "Fan photos" : "相關飯拍")</span>
-                                                                @foreach (var link in item.Links)
-                                                                {
-                                                                    <a href="@link.Url" target="_blank" rel="noopener noreferrer" @onclick:stopPropagation="true">
-                                                                        @(IsEnglish ? link.LabelEn : link.LabelZh) ↗
-                                                                    </a>
-                                                                }
-                                                            </span>
-                                                        }
-                                                        @if (item.Tags is not null && item.Tags.Length > 0)
-                                                        {
-                                                            <span class="material-tag-links">
-                                                                <span>Tags</span>
-                                                                @foreach (var tag in item.Tags)
-                                                                {
-                                                                    <a href="@XTagHref(tag)" target="_blank" rel="noopener noreferrer" @onclick:stopPropagation="true">@tag</a>
-                                                                }
-                                                            </span>
-                                                        }
-                                                    </span>
                                                 }
                                             </span>
                                         </button>
@@ -324,7 +348,7 @@
 
     private int? ActiveDay { get; set; }
     private int? SelectedMaterialYear { get; set; }
-    private string? ActiveMaterialDay { get; set; }
+    private DateTime? SelectedMaterialDate { get; set; }
     private int? SelectedInterviewYear { get; set; }
     private int? SelectedInterviewMonth { get; set; }
     private IEnumerable<int> MaterialMonths => SelectedMaterialYear == 2025
@@ -372,7 +396,12 @@
         .Where(item => item.Year == year && item.Month == month && item.Day == day)
         .ToList();
 
-    private void ToggleMaterialDay(string dayKey) => ActiveMaterialDay = ActiveMaterialDay == dayKey ? null : dayKey;
+    private IReadOnlyList<MaterialEvent> SelectedMaterialEvents => SelectedMaterialDate is null
+        ? []
+        : MaterialEventsForDay(SelectedMaterialDate.Value.Year, SelectedMaterialDate.Value.Month, SelectedMaterialDate.Value.Day);
+
+    private void OpenMaterialDay(int year, int month, int day) => SelectedMaterialDate = new DateTime(year, month, day);
+    private void CloseMaterialDay() => SelectedMaterialDate = null;
 
     private int[] InterviewYears => [2025, 2026];
     private IEnumerable<int> InterviewMonths => Interviews.Where(item => item.Year == SelectedInterviewYear).Select(item => item.Month).Distinct().Order();
