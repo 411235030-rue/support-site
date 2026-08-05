@@ -16,6 +16,7 @@ html {
 
 body {
     margin: 0;
+    overflow-x: hidden;
     background: var(--white);
     color: var(--deep-brown);
     font-family: "Cormorant Garamond", "Noto Serif TC", serif;
@@ -43,11 +44,23 @@ button {
 }
 
 .site-header {
+    position: relative;
     min-height: 92px;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    border-bottom: 2px solid var(--deep-brown);
+    border-bottom: 0;
+}
+
+.site-header::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    height: 2px;
+    background: var(--deep-brown);
+    transform: translateX(-50%);
 }
 
 .brand,
@@ -169,7 +182,7 @@ button {
     align-items: center;
     gap: 72px;
     padding-top: 36px;
-    padding-bottom: 80px;
+    padding-bottom: 42px;
 }
 
 .gallery-image {
@@ -193,13 +206,13 @@ button {
 }
 
 .service {
-    border-top: 2px solid var(--deep-brown);
+    padding-top: 12px;
 }
 
 .service h2 {
     margin: 0;
-    padding: 44px 24px 28px;
-    border-bottom: 2px solid var(--deep-brown);
+    padding: 18px 24px 22px;
+    border-bottom: 0;
     background: transparent;
     text-align: center;
     font-size: 80px;
