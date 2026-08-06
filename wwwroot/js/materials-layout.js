@@ -72,6 +72,8 @@
 
     intro.querySelectorAll(":scope > small").forEach(note => note.remove());
 
+    if (article.dataset.customMaterialLayout === "true") return;
+
     const tagAnchors = uniqueAnchors(
       [...article.querySelectorAll(".material-detail-tags a, [data-material-group='hashtags'] a")],
       anchor => `${anchor.textContent.trim()}|${anchor.href}`
