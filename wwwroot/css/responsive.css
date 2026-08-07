@@ -1,0 +1,915 @@
+/* Responsive layer: desktop design is preserved above 1023px. */
+
+img,
+svg,
+video,
+canvas {
+    max-width: 100%;
+}
+
+.page-shell,
+.service-page,
+.profile-page,
+.fanclub-page {
+    min-width: 0;
+}
+
+.hero > *,
+.service-row > *,
+.profile-inner > *,
+.profile-links > *,
+.fanclub-card > *,
+.interview-row > *,
+.material-detail-event > * {
+    min-width: 0;
+}
+
+.hero-content,
+.profile-copy,
+.interview-row-copy,
+.material-detail-intro,
+.fanclub-copy {
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 1023px) {
+    .section-wrap,
+    .site-header,
+    .site-footer,
+    .schedule-section,
+    .materials-section {
+        width: min(100% - 40px, 900px);
+    }
+
+    /* Header: keep navigation usable instead of hiding it. */
+    .site-header {
+        min-height: 0;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px 20px;
+        padding: 16px 0 12px;
+    }
+
+    .brand {
+        min-width: 0;
+    }
+
+    .main-nav {
+        grid-column: 1 / -1;
+        display: flex !important;
+        justify-content: flex-start;
+        gap: clamp(20px, 5vw, 38px);
+        width: 100%;
+        padding: 2px 0 4px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        white-space: nowrap;
+        font-size: 18px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .main-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .menu-button {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    /* Home hero */
+    .hero {
+        min-height: 0;
+        grid-template-columns: 1fr;
+        gap: 44px;
+        padding-top: 52px;
+        padding-bottom: 64px;
+    }
+
+    .hero-content {
+        max-width: 720px;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(58px, 10vw, 78px);
+        line-height: .95;
+    }
+
+    .hero-content > p {
+        max-width: 620px;
+    }
+
+    .hero-image {
+        width: min(82vw, 420px);
+    }
+
+    /* Home services */
+    .service {
+        padding-bottom: 70px;
+    }
+
+    .service h2 {
+        padding: 24px 16px 68px;
+        font-size: clamp(58px, 9vw, 74px);
+    }
+
+    .service-row {
+        min-height: 230px;
+    }
+
+    .service-row-two {
+        gap: 28px;
+    }
+
+    .service-item {
+        gap: clamp(18px, 3vw, 30px);
+    }
+
+    .service-item p {
+        font-size: clamp(24px, 3.5vw, 30px);
+    }
+
+    .small-image {
+        width: clamp(130px, 18vw, 170px);
+        height: auto;
+        aspect-ratio: 4 / 3;
+    }
+
+    /* Generic page headings */
+    .schedule-section,
+    .materials-section {
+        padding-top: 58px;
+        padding-bottom: 82px;
+    }
+
+    .schedule-heading h1,
+    .materials-heading h1,
+    .materials-calendar-heading h1 {
+        font-size: clamp(46px, 8vw, 70px);
+    }
+
+    /* Calendar still looks like a calendar, but fits tablets without page overflow. */
+    .schedule-section {
+        overflow-x: visible;
+    }
+
+    .calendar {
+        min-width: 0;
+    }
+
+    .calendar-day {
+        min-height: 108px;
+        padding: 10px;
+    }
+
+    .calendar-date {
+        font-size: 21px;
+    }
+
+    .calendar-event-name {
+        margin-top: 14px;
+        font-size: 12px;
+    }
+
+    /* Cards / archive pages */
+    .year-card-grid,
+    .month-calendar-grid,
+    .fanclub-grid,
+    .interview-month-grid {
+        gap: 28px;
+    }
+
+    .year-card {
+        min-height: 240px;
+    }
+
+    .month-calendar {
+        min-height: 0;
+    }
+
+    /* Profile */
+    .profile-hero {
+        min-height: 0;
+        padding: 48px 28px 88px;
+    }
+
+    .profile-inner {
+        width: min(760px, 100%);
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .profile-image {
+        width: min(72vw, 360px);
+        height: auto;
+        aspect-ratio: 3 / 4;
+        justify-self: center;
+    }
+
+    .profile-copy {
+        text-align: center;
+    }
+
+    .profile-copy h1 {
+        font-size: clamp(52px, 9vw, 72px);
+        white-space: normal;
+    }
+
+    .profile-copy p {
+        max-width: 650px;
+        margin-inline: auto;
+        text-align: left;
+    }
+
+    .profile-links {
+        width: min(100% - 40px, 760px);
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .profile-links p {
+        text-align: center;
+    }
+
+    .profile-links > div {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    /* Fan clubs */
+    .fanclub-page {
+        padding-top: 62px;
+        padding-bottom: 84px;
+    }
+
+    .fanclub-grid {
+        grid-template-columns: 1fr;
+        row-gap: 42px;
+    }
+
+    /* Interviews */
+    .interview-month-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .interview-month-card:nth-child(odd) {
+        border-right: 0;
+    }
+
+    .interview-month-card:nth-child(n + 2) {
+        border-top: 1px solid var(--deep-brown);
+    }
+
+    .interview-row {
+        grid-template-columns: 84px minmax(0, 1fr) auto;
+        gap: 22px;
+        padding-inline: 20px;
+    }
+}
+
+@media (max-width: 599px) {
+    :root {
+        --mobile-gutter: 14px;
+    }
+
+    html {
+        text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .section-wrap,
+    .site-header,
+    .site-footer,
+    .schedule-section,
+    .materials-section {
+        width: calc(100% - (var(--mobile-gutter) * 2));
+    }
+
+    /* Header */
+    .site-header {
+        gap: 8px 12px;
+        padding: 12px 0 10px;
+    }
+
+    .brand {
+        gap: 8px;
+        font-size: 15px;
+    }
+
+    .brand-mark {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+
+    .menu-button {
+        width: 58px;
+        height: 34px;
+        font-size: 15px;
+    }
+
+    .main-nav {
+        gap: 22px;
+        padding-top: 4px;
+        font-size: 16px;
+    }
+
+    .main-nav a {
+        padding: 7px 0 6px;
+    }
+
+    /* Home */
+    .hero {
+        gap: 34px;
+        padding-top: 38px;
+        padding-bottom: 52px;
+    }
+
+    .hero-content h1 {
+        margin-bottom: 16px;
+        font-size: clamp(48px, 15vw, 64px);
+    }
+
+    .hero-content > p {
+        margin-bottom: 20px;
+        font-size: 16px;
+        line-height: 1.7;
+    }
+
+    .hero-image {
+        width: min(86vw, 360px);
+        border-radius: 20px;
+        box-shadow: 10px 10px 0 var(--pastel-pink);
+    }
+
+    /* Gallery override: JS injects its own rules later, so these are intentionally important. */
+    .gallery.section-wrap {
+        width: calc(100% - 28px) !important;
+        min-height: 0 !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        padding-top: 24px !important;
+        padding-bottom: 34px !important;
+    }
+
+    .gallery .gallery-image,
+    .gallery .image-box {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 3 / 4 !important;
+        margin-top: 0 !important;
+    }
+
+    .service {
+        padding-top: 12px;
+        padding-bottom: 54px;
+    }
+
+    .service h2 {
+        padding: 24px 8px 44px;
+        font-size: clamp(48px, 15vw, 60px);
+    }
+
+    .service-row,
+    .service-row-two,
+    .service-row-one {
+        min-height: 0;
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 10px 0;
+    }
+
+    .service-row-two {
+        gap: 0;
+    }
+
+    .service-item {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 18px;
+        padding: 18px 0;
+    }
+
+    .service-item p {
+        max-width: none;
+        font-size: clamp(23px, 7vw, 29px);
+    }
+
+    .small-image {
+        width: 112px;
+        flex-basis: 112px;
+    }
+
+    /* Footer */
+    .site-footer {
+        min-height: 0;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        padding: 22px 0;
+        font-size: 16px;
+    }
+
+    .site-footer p {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    /* Calendar: fit all 7 columns on screen. Event details open like a bottom sheet. */
+    .schedule-section {
+        padding: 42px 0 64px;
+        overflow: visible;
+    }
+
+    .schedule-heading {
+        position: static;
+        width: auto;
+        margin-bottom: 24px;
+    }
+
+    .schedule-heading > p {
+        font-size: 14px;
+    }
+
+    .schedule-heading h1 {
+        font-size: clamp(40px, 13vw, 56px);
+    }
+
+    .schedule-legend {
+        gap: 8px 16px;
+        margin-top: 18px;
+        font-size: 11px;
+    }
+
+    .calendar {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .calendar-weekdays {
+        min-height: 38px;
+        font-size: 11px;
+    }
+
+    .calendar-day {
+        min-height: 62px;
+        padding: 7px 4px;
+    }
+
+    .calendar-date {
+        font-size: 17px;
+    }
+
+    .calendar-event-name {
+        display: none;
+    }
+
+    .calendar-dots {
+        right: 4px;
+        top: 6px;
+        gap: 2px;
+    }
+
+    .calendar-dots .status-dot {
+        width: 5px;
+        height: 5px;
+    }
+
+    .event-popover,
+    .calendar-day:nth-child(7n + 1) .event-popover,
+    .calendar-day:nth-child(7n) .event-popover {
+        position: fixed;
+        z-index: 1000;
+        top: auto;
+        right: 14px;
+        bottom: 14px;
+        left: 14px;
+        width: auto;
+        max-height: min(70vh, 520px);
+        overflow-y: auto;
+        padding: 18px;
+        transform: translateY(12px);
+    }
+
+    .event-popover::after {
+        display: none;
+    }
+
+    .calendar-day.has-event:hover .event-popover,
+    .calendar-day.has-event:focus-visible .event-popover,
+    .calendar-day.has-event.is-active .event-popover,
+    .calendar-day:nth-child(7n + 1).has-event:hover .event-popover,
+    .calendar-day:nth-child(7n + 1).has-event:focus-visible .event-popover,
+    .calendar-day:nth-child(7n + 1).has-event.is-active .event-popover,
+    .calendar-day:nth-child(7n).has-event:hover .event-popover,
+    .calendar-day:nth-child(7n).has-event:focus-visible .event-popover,
+    .calendar-day:nth-child(7n).has-event.is-active .event-popover {
+        transform: translateY(0);
+    }
+
+    /* Materials */
+    .materials-section {
+        padding: 42px 0 68px;
+    }
+
+    .materials-heading {
+        margin-bottom: 34px;
+    }
+
+    .materials-heading h1,
+    .materials-calendar-heading h1 {
+        font-size: clamp(40px, 13vw, 56px);
+    }
+
+    .year-card-grid,
+    .month-calendar-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .year-card {
+        min-height: 175px;
+        padding: 24px;
+    }
+
+    .year-card > span {
+        font-size: clamp(58px, 22vw, 82px);
+    }
+
+    .year-card i {
+        top: 20px;
+        right: 22px;
+    }
+
+    .materials-calendar-heading {
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 34px;
+        text-align: right;
+    }
+
+    .materials-back {
+        position: static;
+        flex: 0 0 auto;
+    }
+
+    .material-detail-back {
+        margin-bottom: 30px;
+    }
+
+    .material-detail-heading {
+        padding-bottom: 28px;
+    }
+
+    .material-detail-heading h1 {
+        font-size: clamp(40px, 13vw, 50px);
+    }
+
+    .material-detail-event {
+        padding-top: 38px;
+    }
+
+    .material-detail-event + .material-detail-event {
+        margin-top: 42px;
+    }
+
+    .material-detail-intro {
+        margin-bottom: 34px;
+    }
+
+    .material-detail-intro h2 {
+        font-size: clamp(29px, 9vw, 36px);
+    }
+
+    .material-detail-intro dl {
+        display: grid;
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    .material-detail-intro dl > div {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 8px 12px;
+    }
+
+    .material-detail-links,
+    .material-detail-tags {
+        margin-top: 34px;
+    }
+
+    .material-detail-links h3,
+    .material-detail-tags h3 {
+        margin-bottom: 14px;
+        font-size: 21px;
+    }
+
+    .material-detail-links > div,
+    .categorized-material-link-grid {
+        grid-template-columns: 1fr !important;
+        column-gap: 0 !important;
+    }
+
+    .material-detail-links a {
+        gap: 12px;
+        padding: 14px 1px;
+        font-size: 14px;
+    }
+
+    .material-detail-links a:nth-last-child(-n + 2) {
+        border-bottom: 0;
+    }
+
+    .material-detail-links a:last-child {
+        border-bottom: 1px solid var(--line);
+    }
+
+    .material-detail-tags > div {
+        gap: 10px 18px;
+    }
+
+    .material-detail-tags a {
+        font-size: 14px;
+        overflow-wrap: anywhere;
+    }
+
+    .month-calendar {
+        min-height: 0;
+        padding: 20px 14px;
+    }
+
+    .month-calendar h2 {
+        font-size: 27px;
+    }
+
+    .mini-weekdays,
+    .mini-days {
+        font-size: 11px;
+    }
+
+    .mini-days > .material-day {
+        min-height: 32px;
+    }
+
+    .material-popover,
+    .mini-days > .material-day:nth-child(7n + 1) .material-popover,
+    .mini-days > .material-day:nth-child(7n) .material-popover {
+        position: fixed;
+        z-index: 1000;
+        top: auto;
+        right: 14px;
+        bottom: 14px;
+        left: 14px;
+        width: auto;
+        max-height: min(70vh, 520px);
+        overflow-y: auto;
+        transform: translateY(12px);
+    }
+
+    .material-popover::after {
+        display: none;
+    }
+
+    .material-day:hover .material-popover,
+    .material-day:focus-visible .material-popover,
+    .mini-days > .material-day:nth-child(7n + 1):hover .material-popover,
+    .mini-days > .material-day:nth-child(7n + 1):focus-visible .material-popover,
+    .mini-days > .material-day:nth-child(7n):hover .material-popover,
+    .mini-days > .material-day:nth-child(7n):focus-visible .material-popover {
+        transform: translateY(0);
+    }
+
+    /* Profiles */
+    .profile-page {
+        padding-bottom: 42px;
+    }
+
+    .profile-hero {
+        padding: 36px 14px 66px;
+    }
+
+    .profile-inner {
+        gap: 28px;
+    }
+
+    .profile-image {
+        width: min(82vw, 330px);
+        min-height: 0;
+        border-width: 5px;
+        border-radius: 20px;
+        box-shadow: -10px 12px 0 rgba(255, 209, 220, .72), 0 18px 34px rgba(62, 29, 10, .18);
+    }
+
+    .profile-copy h1 {
+        margin-bottom: 18px;
+        font-size: clamp(45px, 13vw, 60px);
+    }
+
+    .profile-copy p {
+        font-size: 15px;
+        line-height: 1.75;
+    }
+
+    .profile-links {
+        width: calc(100% - 28px);
+        margin-top: 20px;
+        padding: 16px;
+    }
+
+    .profile-links p {
+        font-size: 22px;
+    }
+
+    .profile-links > div {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .profile-links a {
+        min-height: 42px;
+        height: auto;
+        padding: 8px 6px;
+    }
+
+    /* Fan clubs */
+    .fanclub-page {
+        padding: 46px 0 64px;
+    }
+
+    .fanclub-intro {
+        margin-bottom: 36px;
+    }
+
+    .fanclub-kicker {
+        font-size: 18px;
+    }
+
+    .fanclub-intro h1 {
+        font-size: clamp(42px, 13vw, 56px);
+    }
+
+    .fanclub-intro > p:last-child {
+        font-size: 16px;
+    }
+
+    .fanclub-card {
+        min-height: 0;
+        grid-template-columns: 86px minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .fanclub-avatar {
+        width: 86px;
+        height: 86px;
+        font-size: 19px;
+    }
+
+    .fanclub-card h2 {
+        font-size: 25px;
+    }
+
+    .fanclub-actions a {
+        min-width: 68px;
+        padding-inline: 10px;
+    }
+
+    /* Interviews */
+    .interview-month-grid {
+        margin-top: 38px;
+    }
+
+    .interview-month-card {
+        min-height: 125px;
+        grid-template-columns: 60px minmax(0, 1fr) auto;
+        gap: 14px;
+        padding: 22px 14px;
+    }
+
+    .interview-month-card > span {
+        font-size: 52px;
+    }
+
+    .interview-month-card strong {
+        font-size: 22px;
+    }
+
+    .interview-month-card small {
+        font-size: 13px;
+    }
+
+    .interview-row {
+        min-height: 0;
+        grid-template-columns: 54px minmax(0, 1fr);
+        gap: 14px;
+        padding: 20px 4px;
+    }
+
+    .interview-row > i {
+        display: none;
+    }
+
+    .interview-date b {
+        font-size: 46px;
+    }
+
+    .interview-date small,
+    .interview-row small,
+    .interview-row em {
+        font-size: 12px;
+    }
+
+    .interview-row-copy strong {
+        font-size: clamp(22px, 7vw, 28px);
+    }
+
+    .interview-row-sources {
+        gap: 5px 14px;
+    }
+
+    .interview-row-sources a {
+        font-size: 13px;
+    }
+
+    .interview-detail {
+        min-height: 0;
+        padding: 34px 0 70px;
+    }
+
+    .interview-detail > .materials-back {
+        margin-bottom: 44px;
+    }
+
+    .interview-detail-date {
+        gap: 14px;
+        margin-bottom: 28px;
+    }
+
+    .interview-detail-date b {
+        font-size: 60px;
+    }
+
+    .interview-detail h1 {
+        margin: 12px 0 28px;
+        font-size: clamp(40px, 12vw, 56px);
+    }
+
+    .interview-summary {
+        font-size: 17px;
+        line-height: 1.75;
+    }
+}
+
+@media (max-width: 380px) {
+    :root {
+        --mobile-gutter: 12px;
+    }
+
+    .brand span:not(.brand-mark) {
+        font-size: 14px;
+    }
+
+    .main-nav {
+        gap: 18px;
+        font-size: 15px;
+    }
+
+    .hero-content h1 {
+        font-size: 46px;
+    }
+
+    .service-item {
+        gap: 14px;
+    }
+
+    .small-image {
+        width: 96px;
+        flex-basis: 96px;
+    }
+
+    .calendar-day {
+        min-height: 56px;
+        padding-inline: 3px;
+    }
+
+    .calendar-date {
+        font-size: 15px;
+    }
+
+    .profile-links > div {
+        grid-template-columns: 1fr;
+    }
+
+    .fanclub-card {
+        grid-template-columns: 74px minmax(0, 1fr);
+    }
+
+    .fanclub-avatar {
+        width: 74px;
+        height: 74px;
+        font-size: 17px;
+    }
+}
