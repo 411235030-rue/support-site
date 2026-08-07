@@ -2,31 +2,30 @@
   const items = [2, 3, 4, 5];
   const classNames = { 2: "two", 3: "three", 4: "four", 5: "five" };
 
-  async function loadImage(number) {
+  function loadImage(number) {
     const holder = document.querySelector(`.gallery-image.image-${classNames[number]}`);
     if (!holder || holder.dataset.galleryLoaded === "true" || holder.dataset.galleryLoading === "true") return;
 
     holder.dataset.galleryLoading = "true";
 
-    try {
-      const response = await fetch(`images/home-gallery-${number}-fixed.b64?v=20260807-1`, { cache: "no-store" });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const image = new Image();
+    image.alt = `LenaMiu gallery ${number}`;
+    image.width = 1170;
+    image.height = 1560;
+    image.loading = "eager";
+    image.decoding = "async";
 
-      const base64 = (await response.text()).replace(/\s+/g, "");
-      if (!base64.startsWith("UklGR")) throw new Error("Invalid WebP data");
-
-      const image = new Image();
-      image.alt = `LenaMiu gallery ${number}`;
-      image.loading = "eager";
-      image.decoding = "async";
-      image.src = `data:image/webp;base64,${base64}`;
-
+    image.addEventListener("load", () => {
       holder.replaceChildren(image);
       holder.dataset.galleryLoaded = "true";
       delete holder.dataset.galleryLoading;
-    } catch {
+    }, { once: true });
+
+    image.addEventListener("error", () => {
       delete holder.dataset.galleryLoading;
-    }
+    }, { once: true });
+
+    image.src = `images/home-gallery-${number}.jpeg?v=20260807-1`;
   }
 
   function apply() {
