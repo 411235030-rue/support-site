@@ -40,8 +40,8 @@
 
             <p class="schedule-note">
                 @(IsEnglish
-                    ? "The archive includes checkable formal interviews, Channel 3 Q&As, brand/event media interviews, and clearly dated live or Vlog conversations; each type is labeled separately. The earliest confirmed 2025 interview currently archived is January 20."
-                    : "收錄能核對來源的正式專訪、三台節目問答、品牌／活動媒體訪問，以及有明確日期的直播／Vlog 對談；不同類型會分開標示。目前確認到的 2025 最早採訪為 1 月 20 日。")
+                    ? "The archive includes checkable official pilots and teasers, Channel 3 programmes, interviews, brand and event coverage, Vlogs, livestreams and other related media. Each type is labeled separately."
+                    : "收錄能核對來源的官方 Pilot／預告、三台節目、採訪、品牌／活動紀錄、Vlog、直播與其他相關影音；不同類型會分開標示。")
             </p>
         }
         else if (SelectedInterviewMonth is null)
@@ -49,7 +49,7 @@
             <div class="materials-calendar-heading">
                 <button type="button" class="materials-back" @onclick="CloseInterviewYear">← @(IsEnglish ? "Years" : "返回年份")</button>
                 <div>
-                    <p>@(IsEnglish ? "Interview archive" : "採訪整理")</p>
+                    <p>@(IsEnglish ? "Media archive" : "採訪整理")</p>
                     <h1 id="interviews-title">@SelectedInterviewYear</h1>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                         <span>@month.ToString("00")</span>
                         <div>
                             <strong>@InterviewMonthName(month)</strong>
-                            <small>@(IsEnglish ? $"{count} interviews" : $"{count} 篇採訪")</small>
+                            <small>@(IsEnglish ? $"{count} items" : $"{count} 筆內容")</small>
                         </div>
                         <i aria-hidden="true">↗</i>
                     </button>
@@ -83,8 +83,8 @@
             {
                 <p class="schedule-note">
                     @(IsEnglish
-                        ? "No interview with a sufficiently clear, checkable original or media source has been added for this month yet."
-                        : "這個月目前還沒有找到來源夠明確、可核對的正式採訪；先不拿粉絲搬運或無法確認日期的影片湊數。")
+                        ? "No sufficiently clear, checkable related content has been added for this month yet. Official, media or mirror sources are only included when the date and source can be verified."
+                        : "這個月目前還沒有找到來源夠明確、可核對的相關內容；有日期與來源的官方／媒體／搬運資料才會加入。")
                 </p>
             }
             else
@@ -173,23 +173,35 @@
 
     private static IReadOnlyList<InterviewItem> Interviews =>
     [
-        // 2025 — searched month by month. Empty months remain visible in the UI rather than being filled with weak reposts.
         new(2025, 1, 20, "LENA",
             "首次談《My Safe Zone》與 GL 新挑戰",
             "First My Safe Zone & GL Interview",
             "文字・媒體專訪",
             "Article · Media interview",
-            "Lena 分享終於實現出演 Girls’ Love 作品的目標，也談到面對期待的壓力、與 Miu 相識多年的緣分，以及兩人在表演與溝通上建立信任的過程。",
-            "Lena discusses achieving her goal of starring in a Girls’ Love project, handling expectations, her long history with Miu, and the trust and communication they are building for the roles.",
+            "Lena 分享出演 Girls’ Love 作品的目標、面對期待的壓力，以及與 Miu 建立表演信任的過程。",
+            "Lena discusses her goal of starring in a Girls’ Love project, the pressure of expectations, and building acting trust with Miu.",
             [new("MGR Online", "https://mgronline.com/entertainment/detail/9680000006136")]),
+
+        // February 2025 — rebuilt as a broader related-media archive rather than interview-only.
+        new(2025, 2, 2, "LENAMIU",
+            "《My Safe Zone》Official Pilot",
+            "My Safe Zone Official Pilot",
+            "三台官方・Official Pilot",
+            "Channel 3 official · Pilot",
+            "Channel 3 正式釋出《My Safe Zone》Official Pilot，首次完整展示 Alin 與 Jane 的角色關係與 LenaMiu 的雙人化學反應。",
+            "Channel 3 released the full My Safe Zone Official Pilot, giving the first extended look at Alin and Jane's relationship and LenaMiu's on-screen chemistry.",
+            [
+                new("Ch3Thailand · YouTube", "https://www.youtube.com/watch?v=6b4UnDCGYsI"),
+                new("3Plus", "https://ch3plus.com/special/dramascoop/4933")
+            ]),
 
         new(2025, 2, 4, "LENA",
             "《Kuy Zaab Show》演藝十年與人生訪談",
             "Kuy Zaab Show: 10 Years in Entertainment",
             "電視專訪・影音",
             "TV interview · Video",
-            "Lena 回顧入行約十年的經歷、曾經歷的低潮與工作目標，也分享自己面對感情與人生選擇的想法。",
-            "Lena reflects on nearly ten years in entertainment, career lows and goals, while also sharing her thoughts on relationships and personal choices.",
+            "Lena 回顧入行約十年的經歷、工作低潮與目標，也分享自己面對感情與人生選擇的想法。",
+            "Lena reflects on nearly ten years in entertainment, career lows and goals, while also sharing thoughts on relationships and personal choices.",
             [
                 new("Orange Mama · YouTube", "https://www.youtube.com/watch?v=CYam8hL0X7w"),
                 new("Siamrath", "https://archive.siamrath.co.th/n/598846"),
@@ -197,31 +209,70 @@
                 new("Dailynews", "https://www.dailynews.co.th/news/4367942/")
             ]),
 
+        new(2025, 2, 5, "MIU",
+            "CHANEL COCO CRUSH 活動紀錄",
+            "CHANEL COCO CRUSH Event",
+            "品牌活動・媒體紀錄",
+            "Brand event · Media coverage",
+            "Miu 出席 CHANEL COCO CRUSH 珠寶活動；媒體記錄活動現場，也提到她在活動後透過 Instagram Story 回應粉絲支持。",
+            "Miu attended the CHANEL COCO CRUSH jewelry event; media coverage documented the appearance and her Instagram Story response after the event.",
+            [new("Click News", "https://www.clicknews-tv.net/news/19308")]),
+
         new(2025, 2, 13, "LENAMIU",
             "Channel 3《สีสันบันเทิง》情人節特別問答",
             "Channel 3 Si San Banthoeng Valentine Q&A",
             "三台節目・問答",
             "Channel 3 programme · Q&A",
-            "Lena 與 Miu 在《สีสันบันเทิง》情人節前夕的娛樂單元中，以輕鬆問答聊到兩人的第一個 Valentine 主題與「พรหมลิขิต／命中注定」的趣味互動，節目同時帶到 3Plus 內容。",
-            "Lena and Miu appear in a Si San Banthoeng Valentine segment, chatting through a light Q&A about their first Valentine theme and playful ideas of destiny while pointing viewers to 3Plus.",
+            "Lena 與 Miu 在《สีสันบันเทิง》情人節單元中以輕鬆問答聊到兩人的第一次 Valentine 主題與「พรหมลิขิต／命中注定」的趣味互動。",
+            "Lena and Miu appear in a Si San Banthoeng Valentine segment with a light Q&A about their first Valentine theme and playful ideas of destiny.",
             [new("YouTube（節目搬運）", "https://www.youtube.com/watch?v=BlWhRTNOZ7g")]),
+
+        new(2025, 2, 15, "LENAMIU",
+            "第 75 屆法政—朱拉傳統足球賽",
+            "75th Thammasat–Chula Traditional Football Match",
+            "活動紀錄・媒體",
+            "Event coverage · Media",
+            "Miu 以朱拉大學應援團成員身分參與第 75 屆傳統足球賽，Lena 亦到場支持；媒體留下兩人在大型校園活動中的公開互動紀錄。",
+            "Miu took part in the 75th traditional football match as a Chulalongkorn cheerleader, while Lena attended to support her; media coverage documents their public interaction at the event.",
+            [new("MINT Magazine", "https://www.mintmagth.com/people/lalinalena-mmiunatshaa-cu-tu-ball-75-cheerleader")]),
 
         new(2025, 2, 18, "LENAMIU",
             "雙人直播：即時問答與互動",
             "Duo Live: Q&A and Interaction",
             "直播・問答",
             "Live · Q&A",
-            "雙人直播中以即時問答與聊天形式互動；目前保留可核對日期的 Bilibili 中文字幕版作為來源，並明確區分於正式媒體專訪。",
-            "A dated duo livestream built around live questions and conversation. A Bilibili Chinese-subtitled mirror is kept as the checkable source and is clearly separated from formal media interviews.",
+            "雙人直播以即時問答與聊天為主；目前保留可核對日期的 Bilibili 中文字幕搬運版，與正式媒體專訪分開標示。",
+            "A dated duo livestream built around live questions and conversation. A Bilibili Chinese-subtitled mirror is kept as the checkable source and labeled separately from formal interviews.",
             [new("Bilibili（中字）", "https://www.bilibili.com/video/BV1MpLLzmECM/")]),
+
+        new(2025, 2, 20, "LENAMIU",
+            "第一次情人節 Vlog",
+            "First Valentine Vlog",
+            "Vlog・中字",
+            "Vlog · Chinese subtitles",
+            "情人節企劃 Vlog 中，兩人一起寫卡片並聊天，內容偏向日常相處與情感交流；目前保留 Bilibili 精翻中字版本。",
+            "In this Valentine Vlog, the pair write cards and talk together in a more casual, personal format; a Chinese-subtitled Bilibili mirror is currently archived.",
+            [new("Bilibili（精翻中字）", "https://www.bilibili.com/video/BV1LQEmzZEef/")]),
+
+        new(2025, 2, 27, "LENA",
+            "金天鵝獎：新星女配角獎",
+            "Kinnaree Thong Awards: Rising Supporting Actress",
+            "頒獎典禮・活動紀錄",
+            "Awards · Event coverage",
+            "Lena 憑《โลกหมุนรอบเธอ》獲頒新星女配角獎，收錄頒獎典禮圖文與可回看的短影音紀錄。",
+            "Lena received the Rising Supporting Actress award for Lok Mun Rop Thoe, with event coverage and a short video record archived here.",
+            [
+                new("BTrip News", "https://www.btripnews.net/?p=136457"),
+                new("YouTube Shorts", "https://www.youtube.com/shorts/aS25dvYfyvE")
+            ]),
 
         new(2025, 3, 17, "MIU",
             "VOGUE MORE：個性、自信與 PRADA",
             "VOGUE MORE: Individuality, Confidence & PRADA",
             "文字・時尚專訪",
             "Article · Fashion interview",
-            "Miu 分享對個性、自信與自由表達的看法，也談到第一次登上 Vogue Thailand 數位封面、透過 PRADA 探索不同風格的感受。",
-            "Miu shares her thoughts on individuality, confidence and self-expression, reflecting on her first Vogue Thailand digital cover and exploring new sides of her style through PRADA.",
+            "Miu 分享對個性、自信與自由表達的看法，也談到第一次登上 Vogue Thailand 數位封面的感受。",
+            "Miu shares her thoughts on individuality, confidence and self-expression, reflecting on her first Vogue Thailand digital cover.",
             [new("Vogue Thailand", "https://vogue.co.th/vogue-more/article/vogue-more-mar-2025-prada-miunatsha")]),
 
         new(2025, 3, 21, "MIU",
@@ -229,7 +280,7 @@
             "Vogue: What's in My Bag",
             "影音・時尚問答",
             "Video · Fashion Q&A",
-            "Miu 透過 PRADA 包中的私人物品分享日常習慣、喜好與個人風格，從生活細節認識她。",
+            "Miu 透過 PRADA 包中的私人物品分享日常習慣、喜好與個人風格。",
             "Miu uses the personal items in her PRADA bag to share everyday habits, preferences and details of her personal style.",
             [
                 new("Vogue Thailand", "https://vogue.co.th/article/whats-in-my-bag-with-miu-prada"),
@@ -241,7 +292,7 @@
             "Stepping Beyond the Comfort Zone",
             "文字・雜誌",
             "Article · Magazine",
-            "Lena 與 Miu 分享踏入 Girls’ Love 作品的契機、對角色的理解，以及兩人建立合作默契的過程。",
+            "Lena 與 Miu 分享踏入 Girls’ Love 作品的契機、對角色的理解，以及建立合作默契的過程。",
             "Lena and Miu discuss stepping into Girls’ Love, understanding their roles, and building their on-screen partnership.",
             [new("MINT Magazine", "https://www.mintmagth.com/people/interview-girls-love-lena-miu-mint-vol29-fendi")]),
 
@@ -250,8 +301,8 @@
             "My Safe Zone Pre-Premiere Interview",
             "文字・媒體專訪",
             "Article · Media interview",
-            "Lena 與 Miu 分享劇集即將播出的期待與壓力，也談到從原本熟識的學姊妹調整成表演搭檔、磨合戲劇節奏，以及如何專注當下並一起往前走。",
-            "Lena and Miu discuss their excitement and pressure ahead of the premiere, adjusting from longtime acquaintances to acting partners, and focusing on the present as they move forward together.",
+            "兩人分享劇集即將播出的期待與壓力，也談到從熟識學姊妹調整成表演搭檔的磨合。",
+            "They discuss excitement and pressure ahead of the premiere and adjusting from longtime acquaintances to acting partners.",
             [new("Khaosod", "https://www.khaosod.co.th/update-news/news_9981916")]),
 
         new(2025, 10, 18, "LENAMIU",
@@ -259,8 +310,8 @@
             "Siam Paragon BIFW 2025 Media Interview",
             "活動訪問・影音",
             "Event interview · Video",
-            "兩人在 Siam Paragon Bangkok International Fashion Week 2025 現場接受媒體訪問，分享出席活動與近期工作的感受。",
-            "The pair speak with media at Siam Paragon Bangkok International Fashion Week 2025 about the event and their recent work.",
+            "兩人在 Bangkok International Fashion Week 2025 現場接受媒體訪問，分享出席活動與近期工作的感受。",
+            "The pair speak with media at Bangkok International Fashion Week 2025 about the event and their recent work.",
             [new("The Story News · YouTube", "https://www.youtube.com/watch?v=AAHADFBFuvE")]),
 
         new(2025, 10, 21, "LENAMIU",
@@ -268,7 +319,7 @@
             "Natural Chemistry, Love Scenes & Partnership",
             "文字・媒體專訪",
             "Article · Media interview",
-            "兩人談到彼此自然形成的默契、拍攝現場對親密戲的溝通與調整，以及從熟識朋友成為工作搭檔後更深入理解彼此的過程。",
+            "兩人談彼此自然形成的默契、拍攝親密戲的溝通與調整，以及成為工作搭檔後更深入理解彼此的過程。",
             "They discuss their natural chemistry, communication around intimate scenes, and how becoming acting partners deepened their understanding of one another.",
             [new("Khaosod", "https://www.khaosod.co.th/update-news/news_9986579")]),
 
@@ -286,8 +337,8 @@
             "Time to Talk EP.48: My Safe Zone",
             "影音・英文訪談",
             "Video · English interview",
-            "兩人分享建立信任的過程、拍攝幕後的挑戰、從角色身上學到的事，以及未來還想一起嘗試的角色類型。",
-            "They discuss building trust, behind-the-scenes challenges, lessons from their characters, and the kinds of roles they would like to try together next.",
+            "兩人分享建立信任、拍攝幕後挑戰、從角色學到的事，以及未來想一起嘗試的角色類型。",
+            "They discuss building trust, behind-the-scenes challenges, lessons from their characters, and roles they would like to try together next.",
             [new("Nation Thailand", "https://www.nationthailand.com/vdo/time-to-talk/40058096")]),
 
         new(2025, 11, 16, "LENAMIU",
@@ -304,8 +355,8 @@
             "Dear Myself EP.21: From Growing Up to Becoming Partners",
             "Podcast・深度訪談",
             "Podcast · Long-form interview",
-            "兩人從童年照片與成長回憶聊起，談 Lena 十年的演藝旅程、Miu 的夢想，以及成為表演搭檔後在戲裡戲外累積的感受。",
-            "Starting from childhood photos and memories, they reflect on Lena’s ten-year career, Miu’s dreams, and the feelings built through becoming acting partners on and off screen.",
+            "兩人從童年照片與成長回憶聊起，談 Lena 十年的演藝旅程、Miu 的夢想，以及成為表演搭檔後的感受。",
+            "Starting from childhood photos and memories, they reflect on Lena’s ten-year career, Miu’s dreams, and becoming acting partners.",
             [new("Dear Myself · Apple Podcasts", "https://podcasts.apple.com/mt/podcast/dear-myself-ep-21-%E0%B8%A5-%E0%B8%99-%E0%B8%B2-%E0%B8%AB%E0%B8%A1-%E0%B8%A7-%E0%B9%80%E0%B8%98%E0%B8%AD%E0%B8%84-%E0%B8%AD%E0%B8%84%E0%B8%99%E0%B8%97-%E0%B9%83%E0%B8%8A-%E0%B8%95-%E0%B8%87%E0%B9%81%E0%B8%95-%E0%B8%A7-%E0%B8%99%E0%B9%81%E0%B8%A3%E0%B8%81/id1822195274?i=1000737035491")]),
 
         new(2025, 11, 19, "LENAMIU",
@@ -322,7 +373,7 @@
             "Vogue: 24 Favourites",
             "影音・快問快答",
             "Video · Quick Q&A",
-            "Lena 與 Miu 分享各自喜歡的事物、常用口頭禪、疲累時的休息方式與彼此熟悉的小細節。",
+            "Lena 與 Miu 分享各自喜歡的事物、常用口頭禪、休息方式與彼此熟悉的小細節。",
             "Lena and Miu share their favorite things, common phrases, ways of unwinding, and small details they know about one another.",
             [new("Vogue Thailand", "https://vogue.co.th/article/lena-min-24-fav")]),
 
@@ -331,7 +382,7 @@
             "ELLE Singapore December Cover Interview",
             "文字・封面專訪",
             "Article · Cover interview",
-            "ELLE Singapore 深入聊到女性主導劇集、兩人的表演合作與信任、各自的成長，以及泰國娛樂文化走向國際的影響力。",
+            "ELLE Singapore 深入聊到女性主導劇集、兩人的表演合作與信任、各自成長，以及泰國娛樂文化的國際影響力。",
             "ELLE Singapore explores female-led dramas, their acting partnership and trust, individual growth, and the international reach of Thai entertainment.",
             [new("ELLE Singapore", "https://elle.com.sg/life-culture/lena-schuett-miu-natsha-december-cover-interview-2025/")]),
 
@@ -340,33 +391,32 @@
             "My Safe Zone Final Episode Pre-Event Interview",
             "活動訪問・影音",
             "Event interview · Video",
-            "在《My Safe Zone》Final Episode 活動前，兩人回顧劇集走到最終回的心情、與粉絲一路走來的回憶，並分享首次 Fan Meeting 等後續計畫。",
-            "Before the My Safe Zone Final Episode event, they reflect on reaching the finale, memories with fans, and upcoming plans including their first fan meeting.",
+            "在 Final Episode 活動前，兩人回顧劇集走到最終回的心情、與粉絲的回憶，以及後續計畫。",
+            "Before the Final Episode event, they reflect on reaching the finale, memories with fans, and upcoming plans.",
             [
                 new("Khaosod", "https://www.khaosod.co.th/entertainment/news_10057864"),
                 new("YouTube", "https://www.youtube.com/watch?v=j62ABKn9dUk")
             ]),
 
-        // 2026 — preserve the archive already collected on the site.
         new(2026, 3, 10, "LENAMIU", "Vogue：CHANEL 秋冬 2026 秀後訪問", "Vogue: CHANEL Fall-Winter 2026 Post-Show Interview", "文字・時尚專訪", "Article · Fashion interview", "Vogue 記錄兩人首度共同出席巴黎時裝週 CHANEL 秀場的經歷，並收錄她們對系列造型、細節與現場感受的分享。", "Vogue documents their first Paris Fashion Week appearance together and their thoughts on the CHANEL collection, its details, and the show experience.", [new("Vogue Thailand", "https://vogue.co.th/article/lena-miu-chanel-fw26")]),
-        new(2026, 3, 26, "LENAMIU", "《ข่าวสามสี》頻道 3 與海外粉絲見面會訪問", "Khao Sam See: Channel 3 and Overseas Fan Meetings", "電視訪問・影音", "TV interview · Video", "兩人感謝頻道 3 提供不同工作機會，並分享完成台北與澳門粉絲見面會後的開心心情。", "Lena and Miu thank Channel 3 for new opportunities and reflect on their fan meetings in Taipei and Macau.", [new("Facebook", "https://www.facebook.com/khao3see/videos/1674030323592898/")]),
-        new(2026, 4, 3, "LENAMIU", "《My Safe Zone》第一集特別訪問", "My Safe Zone Episode 1 Special Interview", "短影音・劇集訪問", "Short video · Series interview", "兩人以簡短問答分享《My Safe Zone》角色與合作感受，呈現劇集之外自然輕鬆的互動。", "Lena and Miu share brief thoughts on their My Safe Zone roles and working together in a relaxed Q&A.", [new("Facebook", "https://www.facebook.com/61582172195326/videos/926977803516940/")]),
-        new(2026, 4, 7, "LENAMIU", "Photobook Fansign 完整訪問", "Photobook Fansign Full Interview", "活動專訪・完整影片", "Event interview · Full video", "在官方寫真簽售活動中接受完整訪問，談拍攝、活動準備，以及兩人近期工作的感受。", "A full interview from the official photobook fansign about the shoot, event preparations, and their recent work.", [new("Facebook", "https://www.facebook.com/mayatvofficial/videos/26897925956513345/")]),
+        new(2026, 3, 26, "LENAMIU", "《ข่าวสามสี》頻道 3 與海外粉絲見面會訪問", "Khao Sam See: Channel 3 and Overseas Fan Meetings", "電視訪問・影音", "TV interview · Video", "兩人感謝頻道 3 提供不同工作機會，並分享完成台北與澳門粉絲見面會後的心情。", "Lena and Miu thank Channel 3 for new opportunities and reflect on their fan meetings in Taipei and Macau.", [new("Facebook", "https://www.facebook.com/khao3see/videos/1674030323592898/")]),
+        new(2026, 4, 3, "LENAMIU", "《My Safe Zone》第一集特別訪問", "My Safe Zone Episode 1 Special Interview", "短影音・劇集訪問", "Short video · Series interview", "兩人以簡短問答分享《My Safe Zone》角色與合作感受。", "Lena and Miu share brief thoughts on their My Safe Zone roles and working together.", [new("Facebook", "https://www.facebook.com/61582172195326/videos/926977803516940/")]),
+        new(2026, 4, 7, "LENAMIU", "Photobook Fansign 完整訪問", "Photobook Fansign Full Interview", "活動專訪・完整影片", "Event interview · Full video", "在官方寫真簽售活動中接受完整訪問，談拍攝、活動準備與近期工作。", "A full interview from the official photobook fansign about the shoot, event preparations and recent work.", [new("Facebook", "https://www.facebook.com/mayatvofficial/videos/26897925956513345/")]),
         new(2026, 4, 12, "LENAMIU", "談各自發展與粉絲支持", "On Individual Projects and Fan Support", "媒體訪問・影音", "Media interview · Video", "兩人回應各自參與不同作品的安排，也談到對粉絲理解與支持的信心。", "Lena and Miu discuss taking on separate projects and their confidence that fans will continue supporting them.", [new("Facebook", "https://www.facebook.com/workpointgossip/videos/1669051924107064/")]),
-        new(2026, 4, 15, "LENA", "Lena 談《My Safe Zone》選角歷程", "Lena on the My Safe Zone Casting Journey", "個人訪問・影音", "Solo interview · Video", "Lena 回顧參與《My Safe Zone》的選角與準備過程，分享堅持演員道路及找到合作搭檔的心情。", "Lena reflects on the My Safe Zone casting process, staying committed to acting, and finding the right screen partner.", [new("Facebook", "https://www.facebook.com/mjane.palenzuela.1/videos/1308612387673161/")]),
-        new(2026, 5, 1, "LENAMIU", "Vogue One Day With：CHANEL Cruise 特別篇", "Vogue One Day With: CHANEL Cruise Special", "影音・時尚專訪", "Video · Fashion interview", "Vogue 跟隨兩人前往法國比亞里茨，回顧 CHANEL Cruise 2026/27 秀場、喜愛的造型與旅程中的難忘時刻。", "Vogue follows Lena and Miu in Biarritz as they revisit the CHANEL Cruise 2026/27 show, their favorite looks, and memorable moments from the trip.", [new("Vogue Thailand", "https://vogue.co.th/article/one-day-with-lena-miu")]),
-        new(2026, 5, 9, "LENAMIU", "Marie Claire Taiwan「尋找靈魂伴侶」專訪", "Marie Claire Taiwan: Finding Your Soulmate", "文字・雜誌專訪", "Article · Magazine interview", "兩人從長久友誼談到成為螢幕搭檔的契機，分享彼此信任、陪伴，以及合作關係中的默契。", "Lena and Miu discuss their long friendship, becoming screen partners, and the trust and understanding behind their collaboration.", [new("X", "https://x.com/ti16na6fr6/status/2053075876959445377")]),
-        new(2026, 5, 26, "LENAMIU", "Unang Hirit 完整獨家專訪", "Unang Hirit Full Exclusive Interview", "媒體專訪・完整影片", "Media interview · Full video", "兩人在菲律賓晨間節目 Unang Hirit 接受完整訪問，談首次馬尼拉粉絲見面會、合作關係與對當地粉絲的印象。", "In a full Unang Hirit interview, Lena and Miu discuss their first Manila fan meeting, their partnership, and their impressions of Filipino fans.", [new("Facebook", "https://www.facebook.com/Unang.Hirit/videos/2036527343926340/")]),
-        new(2026, 5, 28, "LENAMIU", "Lena 與 Miu 談雙人默契與演員之路", "Lena and Miu on Their Chemistry and Acting", "文字・英文", "Article · English", "英文專訪從表演經歷談到兩人的相處與默契，也分享她們如何在工作中支持彼此。", "An English-language interview about their acting journeys, their chemistry, and how they support one another through their work.", [new("Sweety High", "https://www.sweetyhigh.com/read/thai-actresses-lena-and-miu-my-safe-zone-interview-052826")]),
-        new(2026, 5, 28, "LENAMIU", "PeopleAsia 馬尼拉獨家訪問", "PeopleAsia Manila Exclusive Interview", "媒體專訪・影音", "Media interview · Video", "PeopleAsia 在馬尼拉訪問兩人，從作品在當地受到的關注，談到與菲律賓粉絲見面的感受。", "PeopleAsia speaks with Lena and Miu in Manila about the local response to their work and meeting Filipino fans.", [new("Facebook", "https://www.facebook.com/PeopleAsia/videos/1284392266749999/")]),
+        new(2026, 4, 15, "LENA", "Lena 談《My Safe Zone》選角歷程", "Lena on the My Safe Zone Casting Journey", "個人訪問・影音", "Solo interview · Video", "Lena 回顧參與《My Safe Zone》的選角與準備過程。", "Lena reflects on the My Safe Zone casting process and preparation.", [new("Facebook", "https://www.facebook.com/mjane.palenzuela.1/videos/1308612387673161/")]),
+        new(2026, 5, 1, "LENAMIU", "Vogue One Day With：CHANEL Cruise 特別篇", "Vogue One Day With: CHANEL Cruise Special", "影音・時尚專訪", "Video · Fashion interview", "Vogue 跟隨兩人前往法國比亞里茨，回顧 CHANEL Cruise 2026/27 秀場、喜愛造型與旅程時刻。", "Vogue follows Lena and Miu in Biarritz as they revisit the CHANEL Cruise 2026/27 show, favorite looks and memorable moments.", [new("Vogue Thailand", "https://vogue.co.th/article/one-day-with-lena-miu")]),
+        new(2026, 5, 9, "LENAMIU", "Marie Claire Taiwan「尋找靈魂伴侶」專訪", "Marie Claire Taiwan: Finding Your Soulmate", "文字・雜誌專訪", "Article · Magazine interview", "兩人從長久友誼談到成為螢幕搭檔的契機，分享彼此信任與陪伴。", "Lena and Miu discuss their long friendship, becoming screen partners, trust and companionship.", [new("X", "https://x.com/ti16na6fr6/status/2053075876959445377")]),
+        new(2026, 5, 26, "LENAMIU", "Unang Hirit 完整獨家專訪", "Unang Hirit Full Exclusive Interview", "媒體專訪・完整影片", "Media interview · Full video", "兩人在菲律賓晨間節目 Unang Hirit 接受完整訪問。", "Lena and Miu sit for a full interview on the Philippine morning programme Unang Hirit.", [new("Facebook", "https://www.facebook.com/Unang.Hirit/videos/2036527343926340/")]),
+        new(2026, 5, 28, "LENAMIU", "Lena 與 Miu 談雙人默契與演員之路", "Lena and Miu on Their Chemistry and Acting", "文字・英文", "Article · English", "英文專訪從表演經歷談到兩人的相處與默契。", "An English-language interview about their acting journeys and chemistry.", [new("Sweety High", "https://www.sweetyhigh.com/read/thai-actresses-lena-and-miu-my-safe-zone-interview-052826")]),
+        new(2026, 5, 28, "LENAMIU", "PeopleAsia 馬尼拉獨家訪問", "PeopleAsia Manila Exclusive Interview", "媒體專訪・影音", "Media interview · Video", "PeopleAsia 在馬尼拉訪問兩人，談作品與菲律賓粉絲。", "PeopleAsia speaks with Lena and Miu in Manila about their work and Filipino fans.", [new("Facebook", "https://www.facebook.com/PeopleAsia/videos/1284392266749999/")]),
         new(2026, 5, 28, "LENAMIU", "Grand Grand Sale 2026 完整訪問", "Grand Grand Sale 2026 Full Interview", "活動專訪・完整影片", "Event interview · Full video", "收錄兩人在 Grand Grand Sale 2026 活動中的完整訪問與互動。", "A complete interview and event segment from Grand Grand Sale 2026.", [new("YouTube", "https://www.youtube.com/watch?v=0TVapzutLAQ")]),
-        new(2026, 6, 1, "LENAMIU", "ELLE Taiwan 雙人封面專訪", "ELLE Taiwan Cover Interview", "雜誌專訪・影音", "Magazine interview · Video", "兩人談彼此的第一印象、一路以來的合作關係，以及如何在工作與生活中陪伴、理解對方。", "Lena and Miu discuss their first impressions, their partnership, and how they support and understand one another in work and life.", [new("X", "https://x.com/ti16na6fr6/status/2061434742847767042")]),
-        new(2026, 6, 3, "LENAMIU", "LenaMiu 雙人短訪", "LenaMiu Short Interview", "影音・短訪", "Video · Short interview", "以簡短問答呈現兩人的自然互動與默契，適合快速觀看。", "A short Q&A capturing Lena and Miu's natural interaction and chemistry.", [new("YouTube", "https://www.youtube.com/watch?v=iFwzD_Pj7F8")]),
-        new(2026, 6, 5, "LENAMIU", "馬尼拉粉絲見面會訪問", "Manila Fan Meeting Interview", "活動訪問・短影音", "Event interview · Short video", "在馬尼拉粉絲見面會期間接受輕鬆提問，從即時回答中看見兩人的幽默與熟悉感。", "A light interview from the Manila fan meeting, highlighting their humor and easy familiarity.", [new("Instagram", "https://www.instagram.com/reel/DZM1mF2xg2E/")]),
-        new(2026, 6, 22, "LENAMIU", "Unang Hirit 完整訪談（英文字幕）", "Unang Hirit Full Interview (English Subtitles)", "影音・英字", "Video · English subtitles", "完整收錄兩人在菲律賓節目 Unang Hirit 的訪談內容，包含粉絲見面會、合作關係與對當地粉絲的感受。", "The full Unang Hirit interview with English subtitles, covering their fan meeting, partnership, and thoughts on Filipino fans.", [new("YouTube", "https://www.youtube.com/watch?v=JsXqEQAddrk")]),
-        new(2026, 7, 14, "LENAMIU", "LenaMiu 快問快答", "Rapid Fire Questions with LenaMiu", "短影音・快問快答", "Short video · Rapid fire", "以快問快答認識兩人的直覺選擇與互動反應，內容短而集中。", "A quick rapid-fire interview highlighting their instinctive choices and natural chemistry.", [new("Instagram", "https://www.instagram.com/reel/DYyTl4JDPfL/")]),
-        new(2026, 7, 16, "LENA", "《Her in Frame》媒體專訪", "Her in Frame Media Exclusive Interview", "媒體專訪", "Media interview", "Lena 為首部電影《Her in Frame》接受媒體訪問，分享拍攝準備與面對新角色的心情。", "Lena discusses preparing for her first film, Her in Frame, and taking on a new role.", [new("Instagram", "https://www.instagram.com/p/DbHz2A-z9aK/")]),
-        new(2026, 7, 18, "LENAMIU", "Our Journey to Aura 現場問答", "Our Journey to Aura Event Q&A", "活動問答・短影音", "Event Q&A · Short video", "兩人在活動現場回答角色與個性相關問題，呈現輕鬆自然的即時互動。", "A short event Q&A about their personalities and characters, featuring their relaxed on-stage interaction.", [new("Instagram", "https://www.instagram.com/reel/Da7h8Ohxa7b/")])
+        new(2026, 6, 1, "LENAMIU", "ELLE Taiwan 雙人封面專訪", "ELLE Taiwan Cover Interview", "雜誌專訪・影音", "Magazine interview · Video", "兩人談彼此第一印象、合作關係，以及如何在工作與生活中陪伴對方。", "Lena and Miu discuss first impressions, their partnership and how they support one another.", [new("X", "https://x.com/ti16na6fr6/status/2061434742847767042")]),
+        new(2026, 6, 3, "LENAMIU", "LenaMiu 雙人短訪", "LenaMiu Short Interview", "影音・短訪", "Video · Short interview", "以簡短問答呈現兩人的自然互動與默契。", "A short Q&A capturing Lena and Miu's natural interaction and chemistry.", [new("YouTube", "https://www.youtube.com/watch?v=iFwzD_Pj7F8")]),
+        new(2026, 6, 5, "LENAMIU", "馬尼拉粉絲見面會訪問", "Manila Fan Meeting Interview", "活動訪問・短影音", "Event interview · Short video", "在馬尼拉粉絲見面會期間接受輕鬆提問。", "A light interview from the Manila fan meeting.", [new("Instagram", "https://www.instagram.com/reel/DZM1mF2xg2E/")]),
+        new(2026, 6, 22, "LENAMIU", "Unang Hirit 完整訪談（英文字幕）", "Unang Hirit Full Interview (English Subtitles)", "影音・英字", "Video · English subtitles", "完整收錄兩人在菲律賓節目 Unang Hirit 的訪談內容。", "The full Unang Hirit interview with English subtitles.", [new("YouTube", "https://www.youtube.com/watch?v=JsXqEQAddrk")]),
+        new(2026, 7, 14, "LENAMIU", "LenaMiu 快問快答", "Rapid Fire Questions with LenaMiu", "短影音・快問快答", "Short video · Rapid fire", "以快問快答認識兩人的直覺選擇與互動反應。", "A rapid-fire interview highlighting their instinctive choices and natural chemistry.", [new("Instagram", "https://www.instagram.com/reel/DYyTl4JDPfL/")]),
+        new(2026, 7, 16, "LENA", "《Her in Frame》媒體專訪", "Her in Frame Media Exclusive Interview", "媒體專訪", "Media interview", "Lena 為《Her in Frame》接受媒體訪問，分享拍攝準備與新角色。", "Lena discusses preparing for Her in Frame and taking on a new role.", [new("Instagram", "https://www.instagram.com/p/DbHz2A-z9aK/")]),
+        new(2026, 7, 18, "LENAMIU", "Our Journey to Aura 現場問答", "Our Journey to Aura Event Q&A", "活動問答・短影音", "Event Q&A · Short video", "兩人在活動現場回答角色與個性相關問題。", "A short event Q&A about their personalities and characters.", [new("Instagram", "https://www.instagram.com/reel/Da7h8Ohxa7b/")])
     ];
 
     private sealed record InterviewItem(
