@@ -29,6 +29,7 @@
     const style = document.createElement("style");
     style.id = "home-gallery-image-style";
     style.textContent = `
+      .hero-image img{object-position:center top !important}
       .gallery-image{overflow:hidden;padding:0;background:#f4eeea}
       .gallery-image img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
       .gallery-image.image-two img{object-position:center 34%}
