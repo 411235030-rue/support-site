@@ -40,8 +40,8 @@
 
             <p class="schedule-note">
                 @(IsEnglish
-                    ? "Only interviews, media Q&As and programmes with a source that can be checked are included. The earliest confirmed 2025 interview currently archived is January 20."
-                    : "只收錄能核對來源的專訪、媒體問答與節目訪談；目前確認到的 2025 最早採訪為 1 月 20 日。")
+                    ? "The archive includes checkable formal interviews, Channel 3 Q&As, brand/event media interviews, and clearly dated live or Vlog conversations; each type is labeled separately. The earliest confirmed 2025 interview currently archived is January 20."
+                    : "收錄能核對來源的正式專訪、三台節目問答、品牌／活動媒體訪問，以及有明確日期的直播／Vlog 對談；不同類型會分開標示。目前確認到的 2025 最早採訪為 1 月 20 日。")
             </p>
         }
         else if (SelectedInterviewMonth is null)
@@ -191,9 +191,29 @@
             "Lena 回顧入行約十年的經歷、曾經歷的低潮與工作目標，也分享自己面對感情與人生選擇的想法。",
             "Lena reflects on nearly ten years in entertainment, career lows and goals, while also sharing her thoughts on relationships and personal choices.",
             [
-                new("Kuy Zaab Show · YouTube", "https://www.youtube.com/watch?v=B0fSu16zk80"),
-                new("Naewna", "https://www.naewna.com/entertain/858625")
+                new("Orange Mama · YouTube", "https://www.youtube.com/watch?v=CYam8hL0X7w"),
+                new("Siamrath", "https://archive.siamrath.co.th/n/598846"),
+                new("Naewna", "https://www.naewna.com/entertain/858625"),
+                new("Dailynews", "https://www.dailynews.co.th/news/4367942/")
             ]),
+
+        new(2025, 2, 13, "LENAMIU",
+            "Channel 3《สีสันบันเทิง》情人節特別問答",
+            "Channel 3 Si San Banthoeng Valentine Q&A",
+            "三台節目・問答",
+            "Channel 3 programme · Q&A",
+            "Lena 與 Miu 在《สีสันบันเทิง》情人節前夕的娛樂單元中，以輕鬆問答聊到兩人的第一個 Valentine 主題與「พรหมลิขิต／命中注定」的趣味互動，節目同時帶到 3Plus 內容。",
+            "Lena and Miu appear in a Si San Banthoeng Valentine segment, chatting through a light Q&A about their first Valentine theme and playful ideas of destiny while pointing viewers to 3Plus.",
+            [new("YouTube（節目搬運）", "https://www.youtube.com/watch?v=BlWhRTNOZ7g")]),
+
+        new(2025, 2, 18, "LENAMIU",
+            "雙人直播：即時問答與互動",
+            "Duo Live: Q&A and Interaction",
+            "直播・問答",
+            "Live · Q&A",
+            "雙人直播中以即時問答與聊天形式互動；目前保留可核對日期的 Bilibili 中文字幕版作為來源，並明確區分於正式媒體專訪。",
+            "A dated duo livestream built around live questions and conversation. A Bilibili Chinese-subtitled mirror is kept as the checkable source and is clearly separated from formal media interviews.",
+            [new("Bilibili（中字）", "https://www.bilibili.com/video/BV1MpLLzmECM/")]),
 
         new(2025, 3, 17, "MIU",
             "VOGUE MORE：個性、自信與 PRADA",
