@@ -268,77 +268,6 @@
             }
         </section>
     }
-    else if (Slug == "interviews")
-    {
-        <section class="materials-section interviews-section" aria-labelledby="interviews-title">
-            @if (SelectedInterviewYear is null)
-            {
-                <div class="materials-heading">
-                    <p>@(IsEnglish ? "Archive" : "年份整理")</p>
-                    <h1 id="interviews-title">@(IsEnglish ? "Interviews" : "採訪整理")</h1>
-                </div>
-                <div class="year-card-grid">
-                    @foreach (var year in InterviewYears)
-                    {
-                        <button type="button" class="year-card @(year == 2025 ? "year-card-muted" : string.Empty)" @onclick="() => OpenInterviewYear(year)">
-                            <span>@year</span>
-                            <small>@InterviewYearRange(year)</small>
-                            <i aria-hidden="true">↗</i>
-                        </button>
-                    }
-                </div>
-            }
-            else if (SelectedInterviewMonth is null)
-            {
-                <div class="materials-calendar-heading">
-                    <button type="button" class="materials-back" @onclick="CloseInterviewYear">← @(IsEnglish ? "Years" : "返回年份")</button>
-                    <div>
-                        <p>@(IsEnglish ? "Interview archive" : "採訪整理")</p>
-                        <h1 id="interviews-title">@SelectedInterviewYear</h1>
-                    </div>
-                </div>
-                <div class="interview-month-grid">
-                    @foreach (var month in InterviewMonths)
-                    {
-                        var count = Interviews.Count(item => item.Year == SelectedInterviewYear && item.Month == month);
-                        <button type="button" class="interview-month-card" @onclick="() => OpenInterviewMonth(month)">
-                            <span>@month.ToString("00")</span>
-                            <div><strong>@InterviewMonthName(month)</strong><small>@(IsEnglish ? $"{count} interviews" : $"{count} 篇採訪")</small></div>
-                            <i aria-hidden="true">↗</i>
-                        </button>
-                    }
-                </div>
-            }
-            else
-            {
-                <div class="materials-calendar-heading interview-list-heading">
-                    <button type="button" class="materials-back" @onclick="CloseInterviewMonth">← @(IsEnglish ? "Months" : "返回月份")</button>
-                    <div>
-                        <p>@SelectedInterviewYear</p>
-                        <h1 id="interviews-title">@InterviewMonthName(SelectedInterviewMonth.Value)</h1>
-                    </div>
-                </div>
-                <div class="interview-list">
-                    @foreach (var item in InterviewsForMonth)
-                    {
-                        <article class="interview-row">
-                            <span class="interview-date"><b>@item.Day.ToString("00")</b><small>@InterviewMonthShort(item.Month)</small></span>
-                            <span class="interview-row-copy">
-                                <small>@InterviewType(item) · @item.Person</small>
-                                <strong>@InterviewTitle(item)</strong>
-                                <span class="interview-row-sources">
-                                    @foreach (var link in item.Links)
-                                    {
-                                        <a href="@link.Url" target="_blank" rel="noopener noreferrer">@link.Platform</a>
-                                    }
-                                </span>
-                            </span>
-                        </article>
-                    }
-                </div>
-            }
-        </section>
-    }
 </main>
 
 @code {
@@ -357,7 +286,6 @@
     {
         "schedule" => IsEnglish ? "Upcoming Events" : "近期行程",
         "materials" => IsEnglish ? "Materials" : "物料總覽",
-        "interviews" => IsEnglish ? "Interviews" : "採訪整理",
         "fanfiction" => IsEnglish ? "Fanfiction Collection" : "同人文合集",
         "live-videos" => IsEnglish ? "Live Videos" : "直播影片",
         _ => "LenaMiu 應援網站"
@@ -366,8 +294,6 @@
     private int? ActiveDay { get; set; }
     private int? SelectedMaterialYear { get; set; }
     private DateTime? SelectedMaterialDate { get; set; }
-    private int? SelectedInterviewYear { get; set; }
-    private int? SelectedInterviewMonth { get; set; }
     private IEnumerable<int> MaterialMonths => SelectedMaterialYear == 2025
         ? [2, 3, 4, 5, 6, 8, 9, 10, 11, 12]
         : Enumerable.Range(1, 7);
@@ -419,25 +345,6 @@
 
     private void OpenMaterialDay(int year, int month, int day) => SelectedMaterialDate = new DateTime(year, month, day);
     private void CloseMaterialDay() => SelectedMaterialDate = null;
-
-    private int[] InterviewYears => [2025, 2026];
-    private IEnumerable<int> InterviewMonths => Interviews.Where(item => item.Year == SelectedInterviewYear).Select(item => item.Month).Distinct().Order();
-    private IEnumerable<InterviewItem> InterviewsForMonth => Interviews.Where(item => item.Year == SelectedInterviewYear && item.Month == SelectedInterviewMonth).OrderBy(item => item.Day);
-    private string InterviewYearRange(int year) => year == 2025
-        ? (IsEnglish ? "August — November" : "8 月—11 月")
-        : (IsEnglish ? "May" : "5 月");
-    private string InterviewMonthName(int month) => IsEnglish
-        ? new DateTime(2026, month, 1).ToString("MMMM", System.Globalization.CultureInfo.InvariantCulture)
-        : $"{month} 月";
-    private string InterviewMonthShort(int month) => IsEnglish
-        ? new DateTime(2026, month, 1).ToString("MMM", System.Globalization.CultureInfo.InvariantCulture).ToUpperInvariant()
-        : $"{month} 月";
-    private string InterviewTitle(InterviewItem item) => IsEnglish ? item.TitleEn : item.TitleZh;
-    private string InterviewType(InterviewItem item) => IsEnglish ? item.TypeEn : item.TypeZh;
-    private void OpenInterviewYear(int year) { SelectedInterviewYear = year; SelectedInterviewMonth = null; }
-    private void CloseInterviewYear() { SelectedInterviewYear = null; SelectedInterviewMonth = null; }
-    private void OpenInterviewMonth(int month) => SelectedInterviewMonth = month;
-    private void CloseInterviewMonth() => SelectedInterviewMonth = null;
 
     private string MaterialEventTitle(MaterialEvent item) => IsEnglish ? item.TitleEn : item.TitleZh;
     private string MaterialEventNote(MaterialEvent item) => IsEnglish ? item.NoteEn : item.NoteZh;
@@ -677,33 +584,6 @@
         new(2026, 7, 23, "LENA", "《Her in Frame》媒體專訪", "Her in Frame Media Exclusive Interview", "", "", "私人活動", "Private event", ["private"])
     ];
 
-    private static IReadOnlyList<InterviewItem> Interviews =>
-    [
-        new(2025, 8, 1, "LENAMIU", "跨出舒適圈，開啟 Girls’ Love 新角色", "Stepping Beyond the Comfort Zone", "文字・雜誌", "Article · Magazine", "Lena 與 Miu 分享踏入 Girls’ Love 作品的契機、對角色的理解，以及兩人建立合作默契的過程。", "Lena and Miu discuss stepping into Girls’ Love, understanding their roles, and building their on-screen partnership.", [new("MINT Magazine", "https://www.mintmagth.com/people/interview-girls-love-lena-miu-mint-vol29-fendi")]),
-        new(2025, 11, 11, "LENAMIU", "《My Safe Zone》宣傳訪談", "My Safe Zone Interview", "影音・英字", "Video · English subtitles", "兩人以輕鬆問答分享合作中的相處方式、角色關係，以及宣傳期間的有趣片段。", "A relaxed conversation about their working relationship, their characters, and memorable moments from the promotional period.", [new("YouTube", "https://www.youtube.com/watch?v=IILmacEhgzU")]),
-        new(2025, 11, 16, "LENAMIU", "尋找 Miu 成為搭檔的故事", "How Lena Found Miu as Her Partner", "影音・英字", "Video · English subtitles", "Lena 分享找到 Miu 成為合作搭檔的過程，也談到兩人初次認識及逐漸建立信任的故事。", "Lena shares how Miu became her partner, from their first meeting to the trust they gradually built together.", [new("YouTube", "https://www.youtube.com/watch?v=pGdZwQsjGFQ")]),
-        new(2025, 11, 19, "LENAMIU", "LenaMiu 特別訪談", "LenaMiu Special Interview", "影音", "Video", "透過專訪問答認識兩人的合作默契、彼此印象，以及面對近期工作的心情。", "A special Q&A about their chemistry, impressions of one another, and thoughts on their recent work.", [new("YouTube", "https://www.youtube.com/watch?v=ms73nsj90qg")]),
-        new(2026, 3, 10, "LENAMIU", "Vogue：CHANEL 秋冬 2026 秀後訪問", "Vogue: CHANEL Fall-Winter 2026 Post-Show Interview", "文字・時尚專訪", "Article · Fashion interview", "Vogue 記錄兩人首度共同出席巴黎時裝週 CHANEL 秀場的經歷，並收錄她們對系列造型、細節與現場感受的分享。", "Vogue documents their first Paris Fashion Week appearance together and their thoughts on the CHANEL collection, its details, and the show experience.", [new("Vogue Thailand", "https://vogue.co.th/article/lena-miu-chanel-fw26")]),
-        new(2026, 3, 26, "LENAMIU", "《ข่าวสามสี》頻道 3 與海外粉絲見面會訪問", "Khao Sam See: Channel 3 and Overseas Fan Meetings", "電視訪問・影音", "TV interview · Video", "兩人感謝頻道 3 提供不同工作機會，並分享完成台北與澳門粉絲見面會後的開心心情。", "Lena and Miu thank Channel 3 for new opportunities and reflect on their fan meetings in Taipei and Macau.", [new("Facebook", "https://www.facebook.com/khao3see/videos/1674030323592898/")]),
-        new(2026, 4, 3, "LENAMIU", "《My Safe Zone》第一集特別訪問", "My Safe Zone Episode 1 Special Interview", "短影音・劇集訪問", "Short video · Series interview", "兩人以簡短問答分享《My Safe Zone》角色與合作感受，呈現劇集之外自然輕鬆的互動。", "Lena and Miu share brief thoughts on their My Safe Zone roles and working together in a relaxed Q&A.", [new("Facebook", "https://www.facebook.com/61582172195326/videos/926977803516940/")]),
-        new(2026, 4, 7, "LENAMIU", "Photobook Fansign 完整訪問", "Photobook Fansign Full Interview", "活動專訪・完整影片", "Event interview · Full video", "在官方寫真簽售活動中接受完整訪問，談拍攝、活動準備，以及兩人近期工作的感受。", "A full interview from the official photobook fansign about the shoot, event preparations, and their recent work.", [new("Facebook", "https://www.facebook.com/mayatvofficial/videos/26897925956513345/")]),
-        new(2026, 4, 12, "LENAMIU", "談各自發展與粉絲支持", "On Individual Projects and Fan Support", "媒體訪問・影音", "Media interview · Video", "兩人回應各自參與不同作品的安排，也談到對粉絲理解與支持的信心。", "Lena and Miu discuss taking on separate projects and their confidence that fans will continue supporting them.", [new("Facebook", "https://www.facebook.com/workpointgossip/videos/1669051924107064/")]),
-        new(2026, 4, 15, "LENA", "Lena 談《My Safe Zone》選角歷程", "Lena on the My Safe Zone Casting Journey", "個人訪問・影音", "Solo interview · Video", "Lena 回顧參與《My Safe Zone》的選角與準備過程，分享堅持演員道路及找到合作搭檔的心情。", "Lena reflects on the My Safe Zone casting process, staying committed to acting, and finding the right screen partner.", [new("Facebook", "https://www.facebook.com/mjane.palenzuela.1/videos/1308612387673161/")]),
-        new(2026, 5, 1, "LENAMIU", "Vogue One Day With：CHANEL Cruise 特別篇", "Vogue One Day With: CHANEL Cruise Special", "影音・時尚專訪", "Video · Fashion interview", "Vogue 跟隨兩人前往法國比亞里茨，回顧 CHANEL Cruise 2026/27 秀場、喜愛的造型與旅程中的難忘時刻。", "Vogue follows Lena and Miu in Biarritz as they revisit the CHANEL Cruise 2026/27 show, their favorite looks, and memorable moments from the trip.", [new("Vogue Thailand", "https://vogue.co.th/article/one-day-with-lena-miu")]),
-        new(2026, 5, 9, "LENAMIU", "Marie Claire Taiwan「尋找靈魂伴侶」專訪", "Marie Claire Taiwan: Finding Your Soulmate", "文字・雜誌專訪", "Article · Magazine interview", "兩人從長久友誼談到成為螢幕搭檔的契機，分享彼此信任、陪伴，以及合作關係中的默契。", "Lena and Miu discuss their long friendship, becoming screen partners, and the trust and understanding behind their collaboration.", [new("X", "https://x.com/ti16na6fr6/status/2053075876959445377")]),
-        new(2026, 5, 26, "LENAMIU", "Unang Hirit 完整獨家專訪", "Unang Hirit Full Exclusive Interview", "媒體專訪・完整影片", "Media interview · Full video", "兩人在菲律賓晨間節目 Unang Hirit 接受完整訪問，談首次馬尼拉粉絲見面會、合作關係與對當地粉絲的印象。", "In a full Unang Hirit interview, Lena and Miu discuss their first Manila fan meeting, their partnership, and their impressions of Filipino fans.", [new("Facebook", "https://www.facebook.com/Unang.Hirit/videos/2036527343926340/")]),
-        new(2026, 5, 28, "LENAMIU", "Lena 與 Miu 談雙人默契與演員之路", "Lena and Miu on Their Chemistry and Acting", "文字・英文", "Article · English", "英文專訪從表演經歷談到兩人的相處與默契，也分享她們如何在工作中支持彼此。", "An English-language interview about their acting journeys, their chemistry, and how they support one another through their work.", [new("Sweety High", "https://www.sweetyhigh.com/read/thai-actresses-lena-and-miu-my-safe-zone-interview-052826")]),
-        new(2026, 5, 28, "LENAMIU", "PeopleAsia 馬尼拉獨家訪問", "PeopleAsia Manila Exclusive Interview", "媒體專訪・影音", "Media interview · Video", "PeopleAsia 在馬尼拉訪問兩人，從作品在當地受到的關注，談到與菲律賓粉絲見面的感受。", "PeopleAsia speaks with Lena and Miu in Manila about the local response to their work and meeting Filipino fans.", [new("Facebook", "https://www.facebook.com/PeopleAsia/videos/1284392266749999/")]),
-        new(2026, 5, 28, "LENAMIU", "Grand Grand Sale 2026 完整訪問", "Grand Grand Sale 2026 Full Interview", "活動專訪・完整影片", "Event interview · Full video", "收錄兩人在 Grand Grand Sale 2026 活動中的完整訪問與互動。", "A complete interview and event segment from Grand Grand Sale 2026.", [new("YouTube", "https://www.youtube.com/watch?v=0TVapzutLAQ")]),
-        new(2026, 6, 1, "LENAMIU", "ELLE Taiwan 雙人封面專訪", "ELLE Taiwan Cover Interview", "雜誌專訪・影音", "Magazine interview · Video", "兩人談彼此的第一印象、一路以來的合作關係，以及如何在工作與生活中陪伴、理解對方。", "Lena and Miu discuss their first impressions, their partnership, and how they support and understand one another in work and life.", [new("X", "https://x.com/ti16na6fr6/status/2061434742847767042")]),
-        new(2026, 6, 3, "LENAMIU", "LenaMiu 雙人短訪", "LenaMiu Short Interview", "影音・短訪", "Video · Short interview", "以簡短問答呈現兩人的自然互動與默契，適合快速觀看。", "A short Q&A capturing Lena and Miu's natural interaction and chemistry.", [new("YouTube", "https://www.youtube.com/watch?v=iFwzD_Pj7F8")]),
-        new(2026, 6, 5, "LENAMIU", "馬尼拉粉絲見面會訪問", "Manila Fan Meeting Interview", "活動訪問・短影音", "Event interview · Short video", "在馬尼拉粉絲見面會期間接受輕鬆提問，從即時回答中看見兩人的幽默與熟悉感。", "A light interview from the Manila fan meeting, highlighting their humor and easy familiarity.", [new("Instagram", "https://www.instagram.com/reel/DZM1mF2xg2E/")]),
-        new(2026, 6, 22, "LENAMIU", "Unang Hirit 完整訪談（英文字幕）", "Unang Hirit Full Interview (English Subtitles)", "影音・英字", "Video · English subtitles", "完整收錄兩人在菲律賓節目 Unang Hirit 的訪談內容，包含粉絲見面會、合作關係與對當地粉絲的感受。", "The full Unang Hirit interview with English subtitles, covering their fan meeting, partnership, and thoughts on Filipino fans.", [new("YouTube", "https://www.youtube.com/watch?v=JsXqEQAddrk")]),
-        new(2026, 7, 14, "LENAMIU", "LenaMiu 快問快答", "Rapid Fire Questions with LenaMiu", "短影音・快問快答", "Short video · Rapid fire", "以快問快答認識兩人的直覺選擇與互動反應，內容短而集中。", "A quick rapid-fire interview highlighting their instinctive choices and natural chemistry.", [new("Instagram", "https://www.instagram.com/reel/DYyTl4JDPfL/")]),
-        new(2026, 7, 16, "LENA", "《Her in Frame》媒體專訪", "Her in Frame Media Exclusive Interview", "媒體專訪", "Media interview", "Lena 為首部電影《Her in Frame》接受媒體訪問，分享拍攝準備與面對新角色的心情。", "Lena discusses preparing for her first film, Her in Frame, and taking on a new role.", [new("Instagram", "https://www.instagram.com/p/DbHz2A-z9aK/")]),
-        new(2026, 7, 18, "LENAMIU", "Our Journey to Aura 現場問答", "Our Journey to Aura Event Q&A", "活動問答・短影音", "Event Q&A · Short video", "兩人在活動現場回答角色與個性相關問題，呈現輕鬆自然的即時互動。", "A short event Q&A about their personalities and characters, featuring their relaxed on-stage interaction.", [new("Instagram", "https://www.instagram.com/reel/Da7h8Ohxa7b/")])
-    ];
-
     private static string Map(string query) => $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(query)}";
 
     private sealed record ScheduleEvent(
@@ -734,18 +614,4 @@
 
     private sealed record MaterialLink(string LabelZh, string LabelEn, string Url);
 
-    private sealed record InterviewItem(
-        int Year,
-        int Month,
-        int Day,
-        string Person,
-        string TitleZh,
-        string TitleEn,
-        string TypeZh,
-        string TypeEn,
-        string SummaryZh,
-        string SummaryEn,
-        InterviewLink[] Links);
-
-    private sealed record InterviewLink(string Platform, string Url);
 }
