@@ -82,6 +82,11 @@
         pointer-events:none;
       }
 
+      .gallery .image-three::after,
+      .gallery .image-five::after{
+        background:#b08c76;
+      }
+
       .gallery .image-two,
       .gallery .image-four{
         margin-top:72px;
