@@ -190,8 +190,14 @@
     }
 
     function patchJanuaryList(english) {
-        if (!isJanuary2026Open(english)) return;
-        if (document.querySelector('[data-january2026-archive="true"]')) return;
+        const existingList = document.querySelector('[data-january2026-archive="true"]');
+
+        if (!isJanuary2026Open(english)) {
+            if (existingList) existingList.remove();
+            return;
+        }
+
+        if (existingList) return;
 
         const section = document.querySelector(".interviews-section");
         if (!section) return;
